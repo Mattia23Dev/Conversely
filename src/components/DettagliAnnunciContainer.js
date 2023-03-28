@@ -190,8 +190,10 @@ export const DettagliAnnunciContainerAzienda = (props) => {
                   <div className="popup-text">
                     <h3>Sei sicuro di voler eliminare il tuo annuncio?</h3>
                   </div>
-                  <a className="button" href="/profilo">NO</a>
-                  <a onClick={handleSure} >Si</a>
+                  <div className='link-delete'>
+                    <a className="button" href="/profilo">NO</a>
+                    <a onClick={handleSure} >Si</a>
+                  </div>
                 </div>
               )}
                {sureDelete && (
