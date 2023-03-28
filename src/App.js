@@ -1,0 +1,69 @@
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import HomeAzienda from './pages/HomeAzienda';
+import Candidato from './pages/Candidato';
+import Registrati from './pages/Registrati';
+import Accedi from './pages/Accedi';
+import { createContext, useState } from "react";
+import MessagePopup from './components/MessagePopup';
+import { ErrorPage } from './pages/Error';
+import RegistratiAzienda from './pages/RegistratiAzienda';
+import AccediAzienda from './pages/AccediAzienda';
+import Annunci from './pages/candidato/Annunci';
+import DettagliAnnuncio from './pages/candidato/DettagliAnnuncio';
+import Profilo from './pages/candidato/Profilo';
+import TuoiAnnunci from './pages/azienda/TuoiAnnunci';
+import CreaAnnuncio from './pages/azienda/CreaAnnuncio';
+import Database from './pages/azienda/Database';
+import DettagliAnnunciTuoi from './pages/azienda/DettagliAnnunciTuoi';
+
+export const SetPopupContext = createContext();
+
+function App() {
+
+  const [popup, setPopup] = useState({
+    open: false,
+    severity: "",
+    message: "",
+  });
+
+  return (
+    <Router>
+      <SetPopupContext.Provider value={setPopup}>
+      <div className="App">
+        <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/homeAzienda" element={<HomeAzienda />} />
+            <Route path="/candidato" element={<Candidato />} />
+            <Route path='/registrati' element={<Registrati />} />
+            <Route path='/registratiAzienda' element={<RegistratiAzienda />} />
+            <Route path='/profilo' element={<Profilo />} />
+            <Route path='/accediAzienda' element={<AccediAzienda />} />
+            <Route path='/accedi' element={<Accedi />} />
+            <Route path='/cerca' element={<Annunci />} />
+            <Route path='/cerca/dettagli-annuncio' element={<DettagliAnnuncio />} />
+            <Route path='/dashboard' element={<TuoiAnnunci />} />
+            <Route path='/creaAnnuncio' element={<CreaAnnuncio />} />
+            <Route path='/database' element={<Database />} />
+            <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
+            <Route path='*' element={<ErrorPage />} />
+        </Routes>
+      </div>
+      <MessagePopup
+              open={popup.open}
+              setOpen={(status) =>
+                setPopup({
+                  ...popup,
+                  open: status,
+                })
+              }
+              severity={popup.severity}
+              message={popup.message}
+            />
+      </SetPopupContext.Provider>
+    </Router>
+  );
+}
+
+export default App;
