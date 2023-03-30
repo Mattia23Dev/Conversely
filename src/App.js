@@ -17,6 +17,8 @@ import TuoiAnnunci from './pages/azienda/TuoiAnnunci';
 import CreaAnnuncio from './pages/azienda/CreaAnnuncio';
 import Database from './pages/azienda/Database';
 import DettagliAnnunciTuoi from './pages/azienda/DettagliAnnunciTuoi';
+import CandidatiAnnunci from './pages/azienda/CandidatiAnnunci';
+import ProfiloCandidato from './pages/azienda/ProfiloCandidato';
 
 export const SetPopupContext = createContext();
 
@@ -48,6 +50,8 @@ function App() {
             <Route path='/database' element={<Database />} />
             <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
             <Route path='*' element={<ErrorPage />} />
+            <Route path='/dashboard/annuncioId/candidati' element={<CandidatiAnnunci />} />
+            <Route path='/dashboard/annuncioId/candidati/profiloId' element={<ProfiloCandidato />} />
         </Routes>
       </div>
       <MessagePopup

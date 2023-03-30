@@ -1,0 +1,36 @@
+.candidato-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 25px;
+    gap: 15px;
+    width: 100%;
+    background: #FFFFFF;
+    border: 0.2px solid #BFBEBE;
+    box-shadow: 0px 30px 84px rgba(0, 0, 0, 0.06);
+    border-radius: 35px;
+    position: relative;
+}
+.button-candidato{
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: #293479;
+    border-radius: 50px;
+    width: 15%;
+    color: white;
+    text-align: center;
+}
+.candidato-middle-azienda{
+    padding: 5px 0;
+}
+.candidato-middle-azienda > h3 {
+    font-size: 15px;
+}
+.candidato-middle-azienda > h3 > span {
+    color: #C4C4C4;
+    font-size: 13px;
+}
