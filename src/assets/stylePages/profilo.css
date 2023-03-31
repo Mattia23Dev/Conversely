@@ -22,7 +22,8 @@
     justify-content: center;
 
 }
-.round-top > p{
+.round-top > p,
+.round-top-a > p{
     font-style: normal;
     font-weight: 700;
     font-size: 35px;
@@ -161,13 +162,15 @@
     border-radius: 35px;
     flex-basis: 57%;
 }
-.profilo-item-competenze > h4{
+.profilo-item-competenze > h4,
+.profilo-item-competenze-a > h4{
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 20px;
 }
-.profilo-item-competenze > div {
+.profilo-item-competenze > div,
+.profilo-item-competenze-a > div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -235,3 +238,117 @@
     color: white;
     font-size: 15px;
 }
+
+/*PROFILO CANDIDATO DALL'AZIENDA*/
+.round-top-a{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(180deg, #293479 0%, #1B0C4B 100%);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    color : white;
+}
+.profilo-item-competenze-a{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 55px;
+    gap: 12px;
+    background: #FFFFFF;
+    border: 0.2px solid #BFBEBE;
+    box-shadow: 0px 30px 84px rgba(0, 0, 0, 0.06);
+    border-radius: 35px;
+    flex-basis: 50%;
+}
+.profilo-item-play-a{
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding: 35px 45px;
+    gap: 20px;
+    border: 0.2px solid #BFBEBE;
+    box-shadow: 0px 30px 84px rgba(0, 0, 0, 0.06);
+    border-radius: 35px;
+    flex-basis: 50%;
+    position: relative;
+}
+.profilo-item > a > div > p:first-of-type {
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+.profilo-item > a > div > p:last-of-type {
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+.pdf-download{
+    color: black;
+    text-decoration: none;
+}
+.profilo-item-competenze-a > div > div{
+    width: 29px;
+    height: 29px;
+    background: #A9ED74;
+    border-radius: 50%;
+}
+.item-play{
+    flex-basis: 50%;
+}
+.item-play:first-of-type > p{
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+}
+.item-play:last-of-type{
+    margin-top: 30px;
+}
+.item-play:last-of-type > ul > li {
+    margin: 20px 0;
+    padding: 20px 0;
+    border-bottom: 0.5px solid #E5E5E5;
+    list-style: none;
+    font-size: 14px;
+}
+.item-play:last-of-type > ul > li::before{
+        content: '';
+        display: inline-block; 
+        width: 0.5em; 
+        height: 0.5em; 
+        border-radius: 50%;
+        position: relative;
+        right: 10px;
+        top: 2px;
+}
+.item-play:last-of-type > ul > li:first-of-type::before{
+    border: 3.47649px solid #FF708B;
+}
+.item-play:last-of-type > ul > li:nth-of-type(2):before{
+    border: 3.47649px solid #FFBA69;
+}
+.item-play:last-of-type > ul > li:nth-of-type(3):before{
+    border: 3.47649px solid #01F1E3;
+}
+.item-play:last-of-type > ul > li:nth-of-type(4):before{
+    border: 3.47649px solid #8676FF;
+}
+.item-play:last-of-type > ul > li:nth-of-type(5):before{
+    border: 3.47649px solid #7517F8;
+}
+
