@@ -68,7 +68,7 @@ export const AnnunciContainerAzienda = (props) => {
     } = props
   return (
     <>
-    <div className='annunci-container' key={id}>
+    <div className='annunci-container mobile-azienda' key={id}>
         <a href='/dashboard/tuoAnnuncio' style={{textDecoration: 'none'}}>
         <div className='annuncio-top'>
             <img alt='immagine azienda' src={imgAzienda} />

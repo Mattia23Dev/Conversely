@@ -125,3 +125,63 @@
 .header-button{
     margin-top: 0;
 }
+
+
+@media screen and (max-width: 600px) {
+    .left-header > img{
+        width: 88%;
+        margin-left: 20px;
+        margin-top: 40px;
+    }
+    .right-header{
+        margin-right: 20px;
+    }
+    .reg-button{
+        margin: 0 10px 0 20px;
+        padding: 4px 19px;
+    }
+    .azienda-button{
+        padding: 4px 25px;
+    }
+    .acc-button{
+        display: none;
+    }
+    .acc-button > span{
+        margin-right: 5px;
+    }
+    .icon-home{
+        width: 20px;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    /*WHITE CANDIDATO*/
+    .left-header-white > img{
+        width: 62%;
+        margin-left: 20px;
+        margin-top: 30px;
+    }
+    .right-header-white{
+        margin-top: 0px;
+        margin-right: 20px;
+    }
+
+    /*AZIENDA WHITE LOGIN*/
+    .left-header-white-azienda > img{
+        display: none;
+    }
+    .left-header-white-azienda{
+        gap: 10px;
+        margin-left: 15px;
+        margin-top: 5px;
+    }
+    .right-header-white-azienda{
+        margin-right: 10px;
+        gap: 10px;
+    }
+    .header-button{
+        margin-top: 0;
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+}

@@ -352,3 +352,57 @@
     border: 3.47649px solid #7517F8;
 }
 
+@media screen and (max-width: 600px) {
+    .profile-container{
+        width: 95%;
+    }
+    .left-top{
+        gap: 20px;
+    }
+    .round-top{
+        height: 90px;
+    }
+    .round-top > p,
+    .round-top-a > p{
+        font-size: 25px;
+    }
+    .name-top > h4{
+        font-size: 30px;
+    }
+    .profilo-middle-item{
+        flex-direction: column;
+    }
+    .profilo-item{
+        width: 75%;
+    }
+    .profilo-middle-item2{
+        flex-direction: column;
+    }
+    .profilo-item2{
+        width: 75%;
+    }
+    .profilo-item2 > div > p:last-of-type {
+        font-size: 16px;
+    }
+    .profilo-bottom-item{
+        flex-direction: column;
+    }
+    .profilo-item-competenze{
+        flex-basis: 75%;
+    }
+    .profilo-item-play{
+        padding: 105px 25px;
+        flex-basis: 75%;
+    }
+    .profilo-item-play > div{
+        position: absolute;
+        bottom: 50%;
+        margin-top: -20px;
+    }
+    .profilo-bottom-item-edit{
+        flex-direction: column;
+    }
+    .button-save{
+        margin-top: 70px;
+    }
+}

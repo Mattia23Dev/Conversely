@@ -34,3 +34,23 @@
     color: #C4C4C4;
     font-size: 13px;
 }
+
+@media screen and (max-width: 600px) {
+    .candidato-container{
+        width: 85%;
+        flex-direction: column;
+    }
+    .button-candidato{
+        padding: 14px;
+        width: 50%;
+    }
+    .candidato-middle-azienda{
+        padding: 5px 0;
+    }
+    .candidato-middle-azienda > h3 {
+        font-size: 18px;
+    }
+    .candidato-middle-azienda > h3 > span {
+        font-size: 16px;
+    }
+}

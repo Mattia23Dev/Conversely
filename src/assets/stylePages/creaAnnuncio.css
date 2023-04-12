@@ -23,3 +23,18 @@
     margin-top: 3.5em;
     width: 50%;
 }
+
+@media screen and (max-width: 600px) {
+    .creaAnnuncio-container{
+        flex-direction: column;
+    }
+    .creaAnnuncio-left > div:first-of-type {
+        padding: 1em 2em;
+    }
+    .creaAnnuncio-left > div:nth-of-type(2) {
+        padding: 1em 2em;
+    }
+    .creaAnnuncio-right{
+        width: 100%;
+    }
+}

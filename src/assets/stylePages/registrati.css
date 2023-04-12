@@ -59,3 +59,13 @@
     color: #F75F24;
 
 }
+
+@media screen and (max-width: 600px) {
+    .popup{
+        left: 5px;
+        width: 85%;
+    }
+    .popup > img {
+        width: 30%;
+    }
+}
