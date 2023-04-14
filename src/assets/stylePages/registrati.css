@@ -69,3 +69,16 @@
         width: 30%;
     }
 }
+
+@media screen and (min-width: 601px) and (max-width: 950px){
+    .popup{
+        left: 2.5em;
+        width: 85%;
+    }
+    .popup > img {
+        width: 30%;
+    }
+    .registrati-input-container{
+        width: 90%;
+    }
+}

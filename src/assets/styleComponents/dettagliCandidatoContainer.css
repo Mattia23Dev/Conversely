@@ -54,3 +54,27 @@
         font-size: 16px;
     }
 }
+
+@media screen and (min-width: 601px) and (max-width: 950px){
+    .candidato-container{
+        width: 95%;
+    }
+    .annuncio-top > img{
+        width: 50%;
+    }
+    .top-text {
+        font-size: 0.8em;
+    }
+    .button-candidato{
+        padding: 14px;
+    }
+    .candidato-middle-azienda{
+        padding: 5px 0;
+    }
+    .candidato-middle-azienda > h3 {
+        font-size: 16px;
+    }
+    .candidato-middle-azienda > h3 > span {
+        font-size: 14px;
+    }
+}
