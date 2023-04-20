@@ -24,6 +24,7 @@ import { SetPopupContext } from "../App";
 import successImage from '../assets/images/fireworks 1.png';
 import apiList from "../components/apiList";
 import isAuth from "../components/isAuth";
+import { Redirect } from "react-router-dom";
 import { HeaderCandidatoWhite } from "../components/Header";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,27 +48,16 @@ const Registrati = (props) => {
   const [loggedin, setLoggedin] = useState(isAuth());
 
   const [signupDetails, setSignupDetails] = useState({
-    type: "applicant",
     email: "",
     password: "",
-    name: "",
-    education: [],
-    skills: [],
-    resume: "",
-    profile: "",
-    bio: "",
-    contactNumber: "",
+    nome: "",
+    cognome: "",
+    city: "",
+    role: "worker",
   });
 
-  const [phone, setPhone] = useState("");
+const [numero, setPhone] = useState("")
 
-  const [education, setEducation] = useState([
-    {
-      institutionName: "",
-      startYear: "",
-      endYear: "",
-    },
-  ]);
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
@@ -124,21 +114,13 @@ const Registrati = (props) => {
       }
     });
 
-    console.log(education);
-
     let updatedDetails = {
       ...signupDetails,
-      education: education
-        .filter((obj) => obj.institutionName.trim() !== "")
-        .map((obj) => {
-          if (obj["endYear"] === "") {
-            delete obj["endYear"];
-          }
-          return obj;
-        }),
+         numero,
     };
 
     setSignupDetails(updatedDetails);
+    console.log(updatedDetails);
 
     const verified = !Object.keys(tmpErrorHandler).some((obj) => {
       return tmpErrorHandler[obj].error;
@@ -149,7 +131,7 @@ const Registrati = (props) => {
         .post(apiList.signup, updatedDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("type", response.data.type);
+          localStorage.setItem("role", response.data.role);
           setLoggedin(isAuth());
           setPopup({
             open: true,
@@ -157,15 +139,16 @@ const Registrati = (props) => {
             message: "Logged in successfully",
           });
           setIsRegistrationComplete(true);
-          console.log(response);
+          console.log(response.data.token);
+          console.log(response.data.role);
         })
         .catch((err) => {
           setPopup({
             open: true,
             severity: "error",
-            message: err.response.data.message,
+            message: err.message,
           });
-          console.log(err.response);
+          console.log(err);
         });
     } else {
       setInputErrorHandler(tmpErrorHandler);
@@ -182,7 +165,7 @@ const Registrati = (props) => {
     setIsRegistrationComplete(true);
   }
 
-   return (
+  return (
     <div className={isRegistrationComplete ? "dark-overlay" : "registrati"}>
     <HeaderCandidatoWhite />
       <Grid container direction="column" spacing={4} alignItems="center" className="main-registrati-azienda">
@@ -198,13 +181,13 @@ const Registrati = (props) => {
           <Grid item>
             <TextField
               label="Nome"
-              value={signupDetails.name}
-              onChange={(event) => handleInput("name", event.target.value)}
+              value={signupDetails.nome}
+              onChange={(event) => handleInput("nome", event.target.value)}
               error={inputErrorHandler.name.error}
               helperText={inputErrorHandler.name.message}
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("name", true, "Il nome è obbligatorio");
+                  handleInputError("name", true, "Name is required");
                 } else {
                   handleInputError("name", false, "");
                 }
@@ -229,19 +212,19 @@ const Registrati = (props) => {
           <Grid item>
             <TextField
               label="Cognome"
-              value={signupDetails.name}
-              onChange={(event) => handleInput("surname", event.target.value)}
+              value={signupDetails.cognome}
+              onChange={(event) => handleInput("cognome", event.target.value)}
               className={classes.inputBox}
               error={inputErrorHandler.name.error}
               helperText={inputErrorHandler.name.message}
+              variant="outlined"
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("surname", true, "Il cognome è obbligatorio");
+                  handleInputError("name", true, "Name is required");
                 } else {
-                  handleInputError("surname", false, "");
+                  handleInputError("name", false, "");
                 }
               }}
-              variant="outlined"
             
             />
           </Grid>
@@ -250,9 +233,11 @@ const Registrati = (props) => {
         <Grid container direction="row" spacing={4} className="registrati-input-container">
           <Grid item>
               <PhoneInput
+                label="phone"
                 country={"it"}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
+                onChange={(numero) => setPhone(numero)}
+                error={inputErrorHandler.name.error}
+                helperText={inputErrorHandler.name.message}
                 style={{
                   backgroundColor: "white",
                   fontFamily: 'Comfortaa, cursive',
@@ -267,16 +252,16 @@ const Registrati = (props) => {
           <Grid item>
             <TextField
                 label="Città"
-                value={signupDetails.name}
+                value={signupDetails.city}
                 onChange={(event) => handleInput("city", event.target.value)}
                 className={classes.inputBox}
                 error={inputErrorHandler.name.error}
                 helperText={inputErrorHandler.name.message}
                 onBlur={(event) => {
                   if (event.target.value === "") {
-                    handleInputError("city", true, "Inserisci la città");
+                    handleInputError("name", true, "Name is required");
                   } else {
-                    handleInputError("city", false, "");
+                    handleInputError("name", false, "");
                   }
                 }}
                 variant="outlined"

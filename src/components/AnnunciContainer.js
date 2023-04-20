@@ -20,7 +20,6 @@ const AnnunciContainer = (props) => {
     } = props
   return (
     <div className='annunci-container' key={id}>
-        <a href='/cerca/dettagli-annuncio' style={{textDecoration: 'none'}}>
         <div className='annuncio-top'>
             <img alt='immagine azienda' src={img} />
             <div className='top-text'>
@@ -28,7 +27,6 @@ const AnnunciContainer = (props) => {
                 <p>{città}</p>
             </div>
         </div>
-        </a>
         <div className='annuncio-middle'>
             <h3>{ruolo}</h3>
             <p>{desc}</p>

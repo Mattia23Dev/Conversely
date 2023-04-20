@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { HeaderAziendaWhiteLogin } from '../../components/Header';
 import imageAzienda from '../../assets/images/Ellipse 2.png';
 import { AnnunciContainerAzienda } from '../../components/AnnunciContainer';
-
+import axios from 'axios';
+import apiList from '../../components/apiList';
 const dataAnnuncio = [
     {
         id: 1,
@@ -49,6 +50,44 @@ const dataAnnuncio = [
 ]
 
 const TuoiAnnunci = () => {
+
+    const [job, setJob] = useState([]);
+    const [agency, setAgency] = useState();
+    const token = localStorage.getItem("token");
+
+  const handleGetAgency = () => {
+        axios.post(apiList.getAgency, null, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+        .then(response => {
+          const agency = response.data;
+          console.log(agency);
+          setAgency(agency);
+          localStorage.setItem("id", response.data.id);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
+   const handleGetJobs = () => {
+        axios.post(apiList.getJobs, localStorage.getItem("id"))
+        .then(response => {
+          const jobsArray = response.data;
+          console.log(jobsArray);
+          setJob(jobsArray);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
+    useEffect(() => {
+        handleGetAgency();
+    }, [])
+
   return (
     <div>
         <HeaderAziendaWhiteLogin />

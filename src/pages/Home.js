@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {HeaderCandidato} from '../components/Header';
 import '../assets/stylePages/home.css';
 import fotoHome from '../assets/images/visual 1.png';
-import { useState } from "react";
 import { FaSearch, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
+import axios from 'axios';
+import apiList from '../components/apiList';
+import { Navigate } from 'react-router-dom';
+
 const Home = () => {
 
-  const [jobTitle, setJobTitle] = useState("");
-  const [jobLocation, setJobLocation] = useState("");
+  const [query, setJobTitle] = useState("");
+  const [city, setJobLocation] = useState("");
+  const token = localStorage.getItem("token");
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const handleJobTitleChange = (event) => {
     setJobTitle(event.target.value);
@@ -17,13 +22,56 @@ const Home = () => {
     setJobLocation(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(`Searching for ${jobTitle} jobs in ${jobLocation}`);
+  let searchDetail = {
+    city,
+    query,
+  }
+
+  const handleGetprofile = () => {
+    axios.post(apiList.getWorker, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+    .then(response => {
+      const profile = response.data;
+      localStorage.setItem("id", response.data.id);
+      localStorage.setItem("profile", JSON.stringify(profile));
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+useEffect(() => {
+  handleGetprofile();
+}, [])
+
+  const handleSubmit = () => {
+    console.log(searchDetail);
+    const handleSearchJob = () => {
+        axios.post(apiList.searchJob, searchDetail, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+        .then(response => {
+            const job = response.data.list;
+            console.log(response.data.list);
+            localStorage.setItem('annunci', JSON.stringify(job));
+            setShouldNavigate(true);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    handleSearchJob();
     // Aggiungi qui la logica per la ricerca effettiva
   };
 
-  return (
+  return shouldNavigate ? (
+    <Navigate to="/cerca" />
+  ) : (
     <div className='home'>
         <HeaderCandidato />
         <div className='main'>
@@ -39,7 +87,7 @@ const Home = () => {
                     type="text"
                     id="jobTitleInput"
                     placeholder="Che lavoro cerchi?"
-                    value={jobTitle}
+                    value={query}
                     onChange={handleJobTitleChange}
                   />
                 </div>
@@ -51,11 +99,11 @@ const Home = () => {
                     type="text"
                     id="jobLocationInput"
                     placeholder="Dove stai cercando?"
-                    value={jobLocation}
+                    value={city}
                     onChange={handleJobLocationChange}
                   />
                 </div>
-                <a className='search-button' type="submit" href='/cerca'>
+                <a className='search-button' type="submit" onClick={handleSubmit}>
                   TROVA LAVORO <FaArrowRight color='#FFFFFF' />
                 </a>
               </form>

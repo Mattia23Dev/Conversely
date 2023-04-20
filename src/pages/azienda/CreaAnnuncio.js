@@ -8,9 +8,10 @@ import {
   makeStyles,
   TextField,
   MenuItem,
+  Select,
 } from "@material-ui/core";
 import axios from "axios";
-import ChipInput from "material-ui-chip-input";
+import Chip from "material-ui-chip-input";
 import '../../assets/stylePages/creaAnnuncio.css'
 import { SetPopupContext } from "../../App";
 
@@ -33,22 +34,53 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/*                      <ChipInput
+                        className={classes.inputBox}
+                        label="Skills"
+                        variant="outlined"
+                        helperText="Press enter to add skills"
+                        value={jobDetails.skillsets}
+                        onAdd={(chip) =>
+                          setJobDetails({
+                            ...jobDetails,
+                            skillsets: [...jobDetails.skillsets, chip],
+                          })
+                        }
+                        onDelete={(chip, index) => {
+                          let skillsets = jobDetails.skillsets;
+                          skillsets.splice(index, 1);
+                          setJobDetails({
+                            ...jobDetails,
+                            skillsets: skillsets,
+                          });
+                        }}
+                        fullWidth
+                      /> */
+
 
 const CreaAnnuncio = (props) => {
   const classes = useStyles();
   const setPopup = useContext(SetPopupContext);
 
   const [jobDetails, setJobDetails] = useState({
-    title: "",
-    maxApplicants: 100,
-    maxPositions: 30,
-    deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
+    titolo: "",
+    city: "",
+    descrizione: "",
+    contratto: "Determinato",
+    competenze: ["competenza1",],
+    turnazione: "Orario notturno",
+    esperienza: 1,
+    mansioni: "",
+    benefit: "",
+    protetto: false,
+    tempoLavoro: "Full-time",
+    studio: "",
+    ranger: 100,
+    rangel: 0,
+    durataAnnuncio: new Date(new Date())
       .toISOString()
       .substr(0, 16),
-    skillsets: [],
-    jobType: "Full Time",
-    duration: 0,
-    salary: 0,
+    skills: ["skill1","skill2"], 
   });
 
   const handleInput = (key, value) => {
@@ -60,10 +92,12 @@ const CreaAnnuncio = (props) => {
 
   const handleUpdate = () => {
     console.log(jobDetails);
+    const token = localStorage.getItem("token");
+    console.log(token);
     axios
       .post(apiList.jobs, jobDetails, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Token ${token}`,
         },
       })
       .then((response) => {
@@ -73,16 +107,10 @@ const CreaAnnuncio = (props) => {
           message: response.data.message,
         });
         setJobDetails({
-          title: "",
-          maxApplicants: 100,
-          maxPositions: 30,
-          deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
+          titolo: "",
+          durataAnnuncio: new Date(new Date())
             .toISOString()
             .substr(0, 16),
-          skillsets: [],
-          jobType: "Full Time",
-          duration: 0,
-          salary: 0,
         });
       })
       .catch((err) => {
@@ -110,10 +138,10 @@ const CreaAnnuncio = (props) => {
           <Grid item style={{paddingTop:'3em'}}>
                     <TextField
                       label="Durata annuncio"
-                      type="datetime-local"
-                      value={jobDetails.deadline}
+                      type="date"
+                      value={jobDetails.durataAnnuncio}
                       onChange={(event) => {
-                        handleInput("deadline", event.target.value);
+                        handleInput("durataAnnuncio", event.target.value);
                       }}
                       InputLabelProps={{
                         shrink: true,
@@ -153,100 +181,66 @@ const CreaAnnuncio = (props) => {
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
-                        label="Title"
-                        value={jobDetails.title}
+                        label="Titolo"
+                        value={jobDetails.titolo}
                         onChange={(event) =>
-                          handleInput("title", event.target.value)
+                          handleInput("titolo", event.target.value)
                         }
                         variant="outlined"
                         fullWidth
                       />
                     </Grid>
                     <Grid item>
-                      <ChipInput
+                      <TextField
+                        label="Città"
+                        value={jobDetails.city}
+                        onChange={(event) => handleInput("city", event.target.value)}
                         className={classes.inputBox}
-                        label="Skills"
                         variant="outlined"
-                        helperText="Press enter to add skills"
-                        value={jobDetails.skillsets}
-                        onAdd={(chip) =>
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: [...jobDetails.skillsets, chip],
-                          })
-                        }
-                        onDelete={(chip, index) => {
-                          let skillsets = jobDetails.skillsets;
-                          skillsets.splice(index, 1);
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: skillsets,
-                          });
+                        style={{
+                          backgroundColor: "white",
+                          fontFamily: 'Comfortaa, cursive',
+                          borderRadius: '15px',
+                          color: 'black',
+                          border: 'none',
+                          marginBottom: '20px',
+                          width: '400px'
                         }}
-                        fullWidth
                       />
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
-                        select
-                        label="Job Type"
-                        variant="outlined"
-                        value={jobDetails.jobType}
-                        onChange={(event) => {
-                          handleInput("jobType", event.target.value);
-                        }}
-                        fullWidth
-                      >
-                        <MenuItem value="Full Time">Full Time</MenuItem>
-                        <MenuItem value="Part Time">Part Time</MenuItem>
-                        <MenuItem value="Work From Home">Work From Home</MenuItem>
-                      </TextField>
+                          label="Mansioni"
+                          value={jobDetails.mansioni}
+                          onChange={(event) =>
+                            handleInput("mansioni", event.target.value)
+                          }
+                          variant="outlined"
+                          fullWidth
+                        />
                     </Grid>
-                    <Grid item>
-                      <TextField
-                        select
-                        label="Duration"
-                        variant="outlined"
-                        value={jobDetails.duration}
-                        onChange={(event) => {
-                          handleInput("duration", event.target.value);
-                        }}
-                        fullWidth
-                      >
-                        <MenuItem value={0}>Flexible</MenuItem>
-                        <MenuItem value={1}>1 Month</MenuItem>
-                        <MenuItem value={2}>2 Months</MenuItem>
-                        <MenuItem value={3}>3 Months</MenuItem>
-                        <MenuItem value={4}>4 Months</MenuItem>
-                        <MenuItem value={5}>5 Months</MenuItem>
-                        <MenuItem value={6}>6 Months</MenuItem>
-                      </TextField>
-                    </Grid>
-                  </Grid>
-                  <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
-                    <Grid item>
-                      <TextField
-                        label="Salary"
+                    <Grid direction="row" item spacing={3}>
+                    <TextField
+                        label="Range retributivo minimo"
                         type="number"
                         variant="outlined"
-                        value={jobDetails.salary}
+                        value={jobDetails.rangel}
                         onChange={(event) => {
-                          handleInput("salary", event.target.value);
+                          handleInput("rangel", parseInt(event.target.value));
                         }}
                         InputProps={{ inputProps: { min: 0 } }}
                         fullWidth
+                        style={{margin: "20px 0"}}
                       />
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        label="Maximum Number Of Applicants"
+                       <TextField
+                        label="Range retributivo massimo"
                         type="number"
                         variant="outlined"
-                        value={jobDetails.maxApplicants}
+                        value={jobDetails.ranger}
                         onChange={(event) => {
-                          handleInput("maxApplicants", event.target.value);
+                          handleInput("ranger", parseInt(event.target.value));
                         }}
                         InputProps={{ inputProps: { min: 1 } }}
                         fullWidth
@@ -255,130 +249,171 @@ const CreaAnnuncio = (props) => {
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
-                      <TextField
-                        label="Title"
-                        value={jobDetails.title}
-                        onChange={(event) =>
-                          handleInput("title", event.target.value)
-                        }
+                      <Select
+                        multiple
+                        label="Competenze"
                         variant="outlined"
+                        value={jobDetails.competenze || []}
+                        onChange={(event) => {
+                          handleInput("competenze", event.target.value);
+                        }}
                         fullWidth
-                      />
-                    </Grid>
-                    <Grid item>
-                      <ChipInput
-                        className={classes.inputBox}
-                        label="Skills"
-                        variant="outlined"
-                        helperText="Press enter to add skills"
-                        value={jobDetails.skillsets}
+                        renderValue={(selected) => (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', maxHeight: '180px', overflow: 'hidden' }}>
+                          {selected.map((value) => (
+                            <Chip key={value} label={value} style={{ margin: '2px' }} />
+                          ))}
+                        </div>
+                        )}
                         onAdd={(chip) =>
                           setJobDetails({
                             ...jobDetails,
-                            skillsets: [...jobDetails.skillsets, chip],
+                            competenze: [...jobDetails.competenze, chip],
                           })
                         }
                         onDelete={(chip, index) => {
-                          let skillsets = jobDetails.skillsets;
-                          skillsets.splice(index, 1);
+                          let competenze = jobDetails.competenze;
+                          competenze.splice(index, 1);
                           setJobDetails({
                             ...jobDetails,
-                            skillsets: skillsets,
+                            competenze: competenze,
                           });
                         }}
-                        fullWidth
-                      />
+                        style={{ height: 'fit-content' }}
+                      >
+                        <MenuItem value="Gestione dello stress">Gestione dello stress</MenuItem>
+                        <MenuItem value="competenza1">competenza1</MenuItem>
+                        <MenuItem value="competenza2">competenza2</MenuItem>
+                        <MenuItem value="Proattività">Proattività</MenuItem>
+                        <MenuItem value="Team work">Team work</MenuItem>
+                        <MenuItem value="Creatività">Creatività</MenuItem>
+                        <MenuItem value="Ascolto">Ascolto</MenuItem>
+                        <MenuItem value="Apprendimento">Apprendimento</MenuItem>
+                      </Select>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                          select
+                          label="Turnazione"
+                          variant="outlined"
+                          value={jobDetails.turnazione}
+                          className={classes.inputBox}
+                          onChange={(event) => {
+                            handleInput("turnazione", event.target.value);
+                          }}
+                          fullWidth
+                        >
+                          <MenuItem value="Orario notturno">Orario Notturno</MenuItem>
+                          <MenuItem value="Turni nel weekend">Turni nel Weekend</MenuItem>
+                          <MenuItem value="Normale">Turno Normale</MenuItem>
+                        </TextField>
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
-                        label="Title"
-                        value={jobDetails.title}
-                        onChange={(event) =>
-                          handleInput("title", event.target.value)
-                        }
-                        variant="outlined"
-                        fullWidth
-                      />
+                          label="Esperienza minima"
+                          className={classes.inputBox}
+                          type="number"
+                          variant="outlined"
+                          value={jobDetails.esperienza}
+                          onChange={(event) => {
+                            handleInput("esperienza", parseInt(event.target.value));
+                          }}
+                          InputProps={{ inputProps: { min: 0 } }}
+                          fullWidth
+                        />
                     </Grid>
                     <Grid item>
-                      <ChipInput
-                        className={classes.inputBox}
-                        label="Skills"
-                        variant="outlined"
-                        helperText="Press enter to add skills"
-                        value={jobDetails.skillsets}
-                        onAdd={(chip) =>
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: [...jobDetails.skillsets, chip],
-                          })
-                        }
-                        onDelete={(chip, index) => {
-                          let skillsets = jobDetails.skillsets;
-                          skillsets.splice(index, 1);
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: skillsets,
-                          });
-                        }}
-                        fullWidth
-                      />
+                      <TextField
+                          label="Benefit"
+                          value={jobDetails.benefit}
+                          onChange={(event) =>
+                            handleInput("benefit", event.target.value)
+                          }
+                          variant="outlined"
+                          fullWidth
+                        />
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
-                        label="Title"
-                        value={jobDetails.title}
-                        onChange={(event) =>
-                          handleInput("title", event.target.value)
-                        }
-                        variant="outlined"
-                        fullWidth
-                      />
+                          select
+                          label="Categoria protetta"
+                          variant="outlined"
+                          value={jobDetails.protetto}
+                          className={classes.inputBox}
+                          onChange={(event) => {
+                            handleInput("protetto", event.target.value);
+                          }}
+                          fullWidth
+                        >
+                          <MenuItem value={false}>NO</MenuItem>
+                          <MenuItem value={true}>SI</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item>
-                      <ChipInput
-                        className={classes.inputBox}
-                        label="Skills"
-                        variant="outlined"
-                        helperText="Press enter to add skills"
-                        value={jobDetails.skillsets}
-                        onAdd={(chip) =>
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: [...jobDetails.skillsets, chip],
-                          })
-                        }
-                        onDelete={(chip, index) => {
-                          let skillsets = jobDetails.skillsets;
-                          skillsets.splice(index, 1);
-                          setJobDetails({
-                            ...jobDetails,
-                            skillsets: skillsets,
-                          });
-                        }}
-                        fullWidth
-                      />
+                      <TextField
+                          select
+                          label="Orari"
+                          variant="outlined"
+                          value={jobDetails.tempoLavoro}
+                          onChange={(event) => {
+                            handleInput("tempoLavoro", event.target.value);
+                          }}
+                          fullWidth
+                        >
+                          <MenuItem value="Full-time">Full-time</MenuItem>
+                          <MenuItem value="Part-time">Part-time</MenuItem>
+                        </TextField>
+                    </Grid>
+                  </Grid>
+                  <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
+                    <Grid item>
+                      <TextField
+                          label="Titolo di studio"
+                          value={jobDetails.studio}
+                          onChange={(event) =>
+                            handleInput("studio", event.target.value)
+                          }
+                          variant="outlined"
+                          fullWidth
+                        />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                          select
+                          label="Contratto"
+                          variant="outlined"
+                          value={jobDetails.contratto}
+                          onChange={(event) => {
+                            handleInput("contratto", event.target.value);
+                          }}
+                          fullWidth
+                        >
+                          <MenuItem value="Determinato">Determinato</MenuItem>
+                          <MenuItem value="Indeterminato">Indeterminato</MenuItem>
+                          <MenuItem value="Stage">Stage</MenuItem>
+                          <MenuItem value="Apprendistato">Apprendistato</MenuItem>
+                        </TextField>
                     </Grid>
                   </Grid>
                   <Grid item style={{ width: "100%" }}>
                     <TextField
-                      label="Bio (upto 250 words)"
+                      label="Descrizione (max 500 caratteri)"
                       multiline
                       rows={8}
                       style={{ width: "100%" }}
                       variant="outlined"
-                      value={jobDetails.bio}
+                      value={jobDetails.descrizione}
                       onChange={(event) => {
                         if (
                           event.target.value.split(" ").filter(function (n) {
                             return n != "";
-                          }).length <= 250
+                          }).length <= 500
                         ) {
-                          handleInput("bio", event.target.value);
+                          handleInput("descrizione", event.target.value);
                         }
                       }}
                     />

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import cuore from '../assets/images/heart-icon.png'
 import document from '../assets/images/document-icon.png'
 import linkedin from '../assets/images/linkedin-icon.png'
@@ -6,6 +6,8 @@ import candidatura from '../assets/images/candidature-icon.png'
 import esperienza from '../assets/images/esperienza-icon.png'
 import gioca from '../assets/images/gioca-icon.png';
 import {EditProfileCandidato} from './EditProfileCandidato'
+import axios from 'axios'
+import apiList from './apiList'
 
 const dataProfilo = {
     nomeUtente:'Lucia Frinzi',
@@ -25,33 +27,50 @@ const dataProfilo = {
 }
 
 
-const ProfileContainer = (props) => {
-    const {
-        nomeUtente,
-        ruoloUtente,
-        città,
-        offerteSalvate,
-        candidatureInoltrate,
-        documentiCaricati,
-        linkedinUrl,
-        anniEsperienza,
-        competenze,
-    } = props
+const ProfileContainer = () => {
+  const token = localStorage.getItem("token")
+  const profile = JSON.parse(localStorage.getItem('profile'));
+  
+  const handleGetSavedJob = () => {
+    axios.post(apiList.getSavedJob, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+    .then(response => {
+      const savedJob = response.data.list;
+      localStorage.setItem("savedJob", JSON.stringify(savedJob));
+      console.log(savedJob);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+handleGetSavedJob();
+const savedJob = JSON.parse(localStorage.getItem("savedJob"));
+const saveJobLenght = savedJob.length;
+
+const initial1 = profile.nome.charAt(0);
+const initial2 = profile.cognome.charAt(0);
+
     const handleEdit = () => {
         setEdit(!edit);
     }
+
     const [edit, setEdit] = useState(true);
+
   return (
     <div>
         <div className='profilo-top-item'>
            <div className='left-top'>
              <div className='round-top'>
-               <p>LF</p>
+               <p>{initial1 + initial2}</p>
              </div>
              <div className='name-top'>
-               <h4>{dataProfilo.nomeUtente}</h4>
+               <h4>{profile.nome + " " + profile.cognome}</h4>
                <p>{dataProfilo.ruoloUtente}</p>
-               <p>{dataProfilo.città}</p>
+               <p>{profile.city}</p>
              </div>
            </div>
            <div>
@@ -60,10 +79,12 @@ const ProfileContainer = (props) => {
          </div>
          <div className='profilo-middle-item'>
            <div className='profilo-item'>
+             <a href='/offerte-salvate'>
              <img src={cuore} alt='profilo-icone' className='img-icon-profilo' />
+             </a>
              <div>
                <p>Offerte di lavoro salvate</p>
-               <p>{dataProfilo.offerteSalvate}</p>
+               <p>{saveJobLenght}</p>
              </div>
            </div>
            <div className='profilo-item'>
@@ -88,21 +109,21 @@ const ProfileContainer = (props) => {
             <img src={linkedin} alt='profilo-icone' className='img-icon-profilo' />
             <div>
                 <p>Linkedin</p>
-                <p>{dataProfilo.linkedinUrl}</p>
+                <p>{profile.linkedin}</p>
             </div>
             </div>
             <div className='profilo-item2'>
             <img src={esperienza} alt='profilo-icone' className='img-icon-profilo' />
             <div>
                 <p>Anni di esperienza</p>
-                <p>{dataProfilo.anniEsperienza}</p>
+                <p>{profile.esperienza}</p>
             </div>
             </div>
         </div>
         <div className='profilo-bottom-item'>
             <div className='profilo-item-competenze'>
             <h4>Competenze</h4>
-            {dataProfilo.competenze.map((competenza) => (
+            {profile.competenze.map((competenza) => (
                 <div>
                     <div></div>  
                     <p>{competenza}</p>

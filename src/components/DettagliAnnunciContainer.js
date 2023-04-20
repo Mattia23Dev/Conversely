@@ -24,7 +24,10 @@ const DettagliAnnunciContainer = (props) => {
         competenze,
         esperienza,
         titoloStudio,
-        contratto
+        contratto,
+        handleCandidate,
+        handleSave,
+        colorSave
     } = props
   return (
     <div className='dettagli-annunci-container' key={id}>
@@ -37,8 +40,8 @@ const DettagliAnnunciContainer = (props) => {
                 </div>
             </div>
             <div className='top2'>
-                <a>Salva offerta <FaHeart color='#F75F24' /></a>
-                <a className='button'>Candidati <FaArrowRight color='#FFFFFF' /></a>
+                <a onClick={handleSave}>Salva offerta <FaHeart color={colorSave} /></a>
+                <a className='button' onClick={handleCandidate}>Candidati <FaArrowRight color='#FFFFFF' /></a>
             </div>
         </div>
         <div className='dettagli-annuncio-middle1'>

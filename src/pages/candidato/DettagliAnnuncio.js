@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useContext, useState} from 'react'
 import { HeaderCandidatoWhite } from '../../components/Header'
 import '../../assets/stylePages/cerca.css';
 import DettagliAnnunciContainer from '../../components/DettagliAnnunciContainer';
 import imageAzienda from '../../assets/images/Ellipse 1.png';
+import moment from 'moment';
+import axios from 'axios';
+import apiList from '../../components/apiList';
+import { SetPopupContext } from '../../App';
+import successImage from '../../assets/images/fireworks 1.png';
+
 
 const dettagliAnnuncio =
   {
@@ -25,6 +31,79 @@ const dettagliAnnuncio =
 
 
 const DettagliAnnuncio = () => {
+  const setPopup = useContext(SetPopupContext);
+  const [candidate, setCandidate] = useState(false);
+  const [colorSave, setColorSave] = useState("#FFF");
+
+  const id = parseInt(localStorage.getItem("idCliccato"));
+  function getAnnuncioById(id) {
+    const annunci = JSON.parse(localStorage.getItem('annunci'));
+    return annunci.find((annuncio) => annuncio.id === id);
+  }
+  
+  const annuncioCliccato = getAnnuncioById(id);
+
+  const createdAt = annuncioCliccato.creatoIl;
+  const now = moment();
+  const daysAgo = now.diff(createdAt, 'days');
+  const formattedDate = `${daysAgo} giorni fa`;
+
+  const handleCandidate = () => {
+    const token = localStorage.getItem("token");
+    const idRequest = {id: id}
+    console.log(token);
+    axios
+      .post(apiList.applicationsCandidate, idRequest, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        setPopup({
+          open: true,
+          severity: "success",
+          message: response.data.message,
+        });
+        setCandidate(true);
+      })
+      .catch((err) => {
+        setPopup({
+          open: true,
+          severity: "error",
+          message: err.response.data.message,
+        });
+        console.log(err.response);
+      });
+  };
+
+  const handleSave = () => {
+    const token = localStorage.getItem("token");
+    const idRequest = {id: id}
+    console.log(id);
+    axios
+     .post(apiList.applicationsSave, idRequest, {
+      headers: {
+        Authorization: `Token ${token}`,
+      }
+     })
+     .then((response) => {
+      setPopup({
+        open: true,
+        severity: "success",
+        message: response.data.message,
+      });
+      setColorSave("#F75F24");
+     })
+     .catch((err) => {
+      setPopup({
+        open: true,
+        severity: "error",
+        message: err.response.data.message,
+      });
+      console.log(err.response);
+    });
+  };
+
   return (
     <div className='dettagli-annuncio'>
         <HeaderCandidatoWhite />
@@ -32,24 +111,37 @@ const DettagliAnnuncio = () => {
             <h3>Dettagli della posizione</h3>
             <div className='dettagli-annunci'>
                 <DettagliAnnunciContainer
-                        id={dettagliAnnuncio.id}
+                        id={annuncioCliccato.id}
                         img={dettagliAnnuncio.imgAziendale}
-                        nomeAzienda={dettagliAnnuncio.azienda}
-                        città={dettagliAnnuncio.città}
-                        ruolo={dettagliAnnuncio.ruolo}
-                        desc={dettagliAnnuncio.desc}
-                        salario={dettagliAnnuncio.salario}
-                        tempistica={dettagliAnnuncio.tempistica}
-                        quando={dettagliAnnuncio.quando}
-                        benefit={dettagliAnnuncio.benefit}
-                        mansioni={dettagliAnnuncio.mansioni}
-                        competenze={dettagliAnnuncio.competenze}
-                        esperienza={dettagliAnnuncio.esperienza}
-                        titoloStudio={dettagliAnnuncio.titoloStudio}
-                        contratto={dettagliAnnuncio.contratto}
+                        nomeAzienda={annuncioCliccato.azienda}
+                        città={annuncioCliccato.city}
+                        ruolo={annuncioCliccato.titolo}
+                        desc={annuncioCliccato.descrizione}
+                        salario={annuncioCliccato.ranger}
+                        tempistica={annuncioCliccato.tempoLavoro}
+                        quando={formattedDate}
+                        benefit={annuncioCliccato.benefit}
+                        mansioni={annuncioCliccato.mansioni}
+                        competenze={annuncioCliccato.competenze}
+                        esperienza={annuncioCliccato.esperienza}
+                        titoloStudio={annuncioCliccato.studio}
+                        contratto={annuncioCliccato.contratto}
+                        handleCandidate={handleCandidate}
+                        handleSave={handleSave}
+                        colorSave={colorSave}
                  />
             </div>
         </div>
+        {candidate && (
+        <div className="popup">
+          <img alt="registrazione avvenuta con successo" src={successImage} />
+          <div className="popup-text">
+            <h3>Congratulazioni!</h3>
+            <p>Ti sei candidato con successo</p>
+          </div>
+          <a className="button" href="/cerca" style={{color: 'white'}}>Torna agli annunci</a>
+        </div>
+      )}
     </div>
   )
 }

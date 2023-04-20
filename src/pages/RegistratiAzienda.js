@@ -44,16 +44,12 @@ const RegistratiAzienda = (props) => {
   const [loggedin, setLoggedin] = useState(isAuth());
 
   const [signupDetails, setSignupDetails] = useState({
-    type: "applicant",
+    role: "agency",
     email: "",
     password: "",
-    name: "",
-    education: [],
-    skills: [],
-    resume: "",
-    profile: "",
-    bio: "",
-    contactNumber: "",
+    nome: "",
+    cognome: "",
+    city: "",
   });
 
   const [phone, setPhone] = useState("");
@@ -149,14 +145,13 @@ const RegistratiAzienda = (props) => {
         .post(apiList.signup, updatedDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("type", response.data.type);
+          localStorage.setItem("role", response.data.role);
           setLoggedin(isAuth());
           setPopup({
             open: true,
             severity: "success",
             message: "Logged in successfully",
           });
-          setIsRegistrationComplete(true);
           console.log(response);
         })
         .catch((err) => {
@@ -182,7 +177,9 @@ const RegistratiAzienda = (props) => {
     setIsRegistrationComplete(true);
   }
 
-   return (
+   return loggedin ? (
+    <Navigate to="/dashboard" />
+  ) : (
     <div className="registrati">
     <HeaderAziendaWhite />
       <Grid container direction="column" spacing={4} alignItems="center" className="main-registrati-azienda">
@@ -198,8 +195,8 @@ const RegistratiAzienda = (props) => {
           <Grid item>
             <TextField
               label="Nome"
-              value={signupDetails.name}
-              onChange={(event) => handleInput("name", event.target.value)}
+              value={signupDetails.nome}
+              onChange={(event) => handleInput("nome", event.target.value)}
               error={inputErrorHandler.name.error}
               helperText={inputErrorHandler.name.message}
               onBlur={(event) => {
@@ -229,8 +226,8 @@ const RegistratiAzienda = (props) => {
           <Grid item>
             <TextField
               label="Cognome"
-              value={signupDetails.name}
-              onChange={(event) => handleInput("surname", event.target.value)}
+              value={signupDetails.cognome}
+              onChange={(event) => handleInput("cognome", event.target.value)}
               className={classes.inputBox}
               error={inputErrorHandler.name.error}
               helperText={inputErrorHandler.name.message}
@@ -267,7 +264,7 @@ const RegistratiAzienda = (props) => {
           <Grid item>
             <TextField
                 label="Città"
-                value={signupDetails.name}
+                value={signupDetails.city}
                 onChange={(event) => handleInput("city", event.target.value)}
                 className={classes.inputBox}
                 error={inputErrorHandler.name.error}

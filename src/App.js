@@ -19,7 +19,8 @@ import Database from './pages/azienda/Database';
 import DettagliAnnunciTuoi from './pages/azienda/DettagliAnnunciTuoi';
 import CandidatiAnnunci from './pages/azienda/CandidatiAnnunci';
 import ProfiloCandidato from './pages/azienda/ProfiloCandidato';
-
+import isAuth, { userType } from './components/isAuth';
+import OfferteSalvate from './pages/candidato/OfferteSalvate';
 export const SetPopupContext = createContext();
 
 function App() {
@@ -29,29 +30,41 @@ function App() {
     severity: "",
     message: "",
   });
+  const userRole = localStorage.getItem("role");
 
   return (
     <Router>
       <SetPopupContext.Provider value={setPopup}>
       <div className="App">
         <Routes>
+              {isAuth() &&
+                <>
+                {userRole === "worker" ? 
+                  <>
+                  <Route path='/profilo' element={<Profilo />} />
+                  <Route path="/candidato" element={<Candidato />} />
+                  <Route path='/dettagli-annuncio/:id' element={<DettagliAnnuncio />} />
+                  <Route path='/offerte-salvate' element={<OfferteSalvate />} />
+                  </>
+                 : 
+                  <>
+                  <Route path='/dashboard' element={<TuoiAnnunci />} />
+                  <Route path='/creaAnnuncio' element={<CreaAnnuncio />} />
+                  <Route path='/database' element={<Database />} />
+                  <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
+                  <Route path='/dashboard/annuncioId/candidati' element={<CandidatiAnnunci />} />
+                  <Route path='/dashboard/annuncioId/candidati/profiloId' element={<ProfiloCandidato />} />
+                  </>
+                }
+               </>}
             <Route exact path="/" element={<Home />} />
             <Route path="/homeAzienda" element={<HomeAzienda />} />
-            <Route path="/candidato" element={<Candidato />} />
             <Route path='/registrati' element={<Registrati />} />
             <Route path='/registratiAzienda' element={<RegistratiAzienda />} />
-            <Route path='/profilo' element={<Profilo />} />
             <Route path='/accediAzienda' element={<AccediAzienda />} />
             <Route path='/accedi' element={<Accedi />} />
             <Route path='/cerca' element={<Annunci />} />
-            <Route path='/cerca/dettagli-annuncio' element={<DettagliAnnuncio />} />
-            <Route path='/dashboard' element={<TuoiAnnunci />} />
-            <Route path='/creaAnnuncio' element={<CreaAnnuncio />} />
-            <Route path='/database' element={<Database />} />
-            <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
             <Route path='*' element={<ErrorPage />} />
-            <Route path='/dashboard/annuncioId/candidati' element={<CandidatiAnnunci />} />
-            <Route path='/dashboard/annuncioId/candidati/profiloId' element={<ProfiloCandidato />} />
         </Routes>
       </div>
       <MessagePopup

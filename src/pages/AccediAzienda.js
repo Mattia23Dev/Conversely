@@ -10,16 +10,18 @@ import '../assets/stylePages/accedi.css'
 import PasswordInput from "../components/PasswordInput";
 import EmailInput from "../components/EmailInput";
 import { SetPopupContext } from "../App";
-
+import isAuth from "../components/isAuth";
 import apiList from "../components/apiList";
 import { HeaderAziendaWhite } from "../components/Header";
 
 const AccediAzienda = (props) => {
   const setPopup = useContext(SetPopupContext);
+  const [loggedin, setLoggedin] = useState(isAuth());
 
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
+    role: "agency",
   });
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
@@ -59,13 +61,14 @@ const AccediAzienda = (props) => {
         .post(apiList.login, loginDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("type", response.data.type);
+          localStorage.setItem("role", response.data.role);
           setPopup({
             open: true,
             severity: "success",
             message: "Logged in successfully",
           });
           console.log(response);
+          setLoggedin(isAuth());
         })
         .catch((err) => {
           setPopup({
@@ -83,7 +86,9 @@ const AccediAzienda = (props) => {
       });
     }
   };
-  return (
+  return loggedin ? (
+    <Navigate to="/dashboard" />
+  ) : (
     <div className="accedi">
     <HeaderAziendaWhite />
     <Grid container direction="column" alignItems="center" justifyContent="center" className="main-accedi-azienda">

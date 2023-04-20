@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import { HeaderCandidatoWhite } from '../../components/Header'
 import '../../assets/stylePages/cerca.css';
 import imageAzienda from '../../assets/images/Ellipse 1.png';
 import AnnunciContainer from '../../components/AnnunciContainer';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const dataAnnuncio = [
     {
@@ -39,7 +41,7 @@ const dataAnnuncio = [
         quando: '2 giorni fa',
     },
     {
-        id: 1,
+        id: 4,
         imgAziendale: imageAzienda ,
         azienda: 'Prima azienda',
         città: 'Roma',
@@ -50,7 +52,7 @@ const dataAnnuncio = [
         quando: '2 giorni fa',
     },
     {
-        id: 2,
+        id: 5,
         imgAziendale: imageAzienda ,
         azienda: 'Prima azienda',
         città: 'Roma',
@@ -61,7 +63,7 @@ const dataAnnuncio = [
         quando: '2 giorni fa',
     },
     {
-        id: 3,
+        id: 6,
         imgAziendale: imageAzienda ,
         azienda: 'Prima azienda',
         città: 'Roma',
@@ -74,24 +76,38 @@ const dataAnnuncio = [
 ]
 
 const Annunci = () => {
+    const [annunciCercati, setAnnunciCercati] = useState([]);
+    useEffect(() => {
+        const annunci = JSON.parse(localStorage.getItem('annunci'));
+        if (annunci) {
+          setAnnunciCercati(annunci);
+        }
+      }, []);
+
+    const createdAt = annunciCercati.creatoIl;
+    const now = moment();
+    const daysAgo = now.diff(createdAt, 'days');
+    const formattedDate = `${daysAgo} giorni fa`;
   return (
     <div>
         <HeaderCandidatoWhite />
         <div className='cerca-container'>
             <h3>Ecco i tuoi risultati</h3>
             <div className='annunci'>
-                {dataAnnuncio.map((annunci) => (
+                {annunciCercati.map((annunci) => (
+                    <Link to={`/dettagli-annuncio/${annunci.id}`} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
                     <AnnunciContainer
                     key={annunci.id}
-                    img={annunci.imgAziendale}
+                    img={dataAnnuncio[0].imgAziendale}
                     nomeAzienda={annunci.azienda}
-                    città={annunci.città}
-                    ruolo={annunci.ruolo}
-                    desc={annunci.desc}
-                    salario={annunci.salario}
-                    tempistica={annunci.tempistica}
-                    quando={annunci.quando}
+                    città={annunci.city}
+                    ruolo={annunci.titolo}
+                    desc={annunci.desccrizione}
+                    salario={annunci.ranger}
+                    tempistica={annunci.tempoLavoro}
+                    quando={formattedDate}
                      />
+                     </Link>
                 ))}
             </div>
         </div>
