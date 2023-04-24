@@ -12,8 +12,10 @@ import isAuth from './isAuth';
 import axios from 'axios';
 import apiList from './apiList';
 import { SetPopupContext } from '../App';
+import {useNavigate} from 'react-router-dom'
 
 export const HeaderCandidato = () => {
+  const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
@@ -34,7 +36,7 @@ export const HeaderCandidato = () => {
         message: "Logout con successo",
       });
       console.log(response);
-      window.location.reload();
+      history("/");
     })
     .catch((err) => {
       setPopup({
@@ -86,6 +88,7 @@ export const HeaderCandidato = () => {
 }
 
 export const HeaderAzienda = () => {
+  const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
@@ -106,7 +109,7 @@ export const HeaderAzienda = () => {
         message: "Logout con successo",
       });
       console.log(response);
-      window.location.reload();
+      history("/homeAzienda");
     })
     .catch((err) => {
       setPopup({
@@ -155,6 +158,7 @@ export const HeaderAzienda = () => {
   }
 
 export const HeaderCandidatoWhite = () => {
+  const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
@@ -174,7 +178,7 @@ export const HeaderCandidatoWhite = () => {
         message: "Logout con successo",
       });
       console.log(response);
-      window.location.reload();
+      history("/");
     })
     .catch((err) => {
       setPopup({
@@ -216,6 +220,7 @@ export const HeaderCandidatoWhite = () => {
   } 
 
   export const HeaderAziendaWhite = () => {
+    const history = useNavigate();
     const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
@@ -235,7 +240,7 @@ export const HeaderCandidatoWhite = () => {
         message: "Logout con successo",
       });
       console.log(response);
-      window.location.reload();
+      history("/");
     })
     .catch((err) => {
       setPopup({
@@ -261,6 +266,7 @@ export const HeaderCandidatoWhite = () => {
   } 
 
   export const HeaderAziendaWhiteLogin = () => {
+    const history = useNavigate();
     const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
@@ -280,7 +286,7 @@ export const HeaderCandidatoWhite = () => {
         message: "Logout con successo",
       });
       console.log(response);
-      window.location.reload();
+      history("/");
     })
     .catch((err) => {
       setPopup({

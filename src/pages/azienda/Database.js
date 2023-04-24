@@ -45,7 +45,7 @@ const Database = () => {
     <div className='candidatiAnnuncio'>
       <HeaderAziendaWhiteLogin />
       <div className='dettagli-annuncio-container'>
-            <h3>Le persone interessate al tuo annuncio</h3>
+            <h3>Database</h3>
             <div style={{display:'flex', flexDirection: 'column', gap: 30}}>
               {dettagliCandidato.map((candidato) => (
                   <DatabaseContainer

@@ -44,7 +44,9 @@ const Home = () => {
 }
 
 useEffect(() => {
-  handleGetprofile();
+  if(token) {
+    handleGetprofile();
+  }
 }, [])
 
   const handleSubmit = () => {
