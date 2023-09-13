@@ -70,12 +70,18 @@ const TuoiAnnunci = () => {
         .catch(error => {
           console.log(error);
         });
-    }
+    };
+
+    const requestData = { id: localStorage.getItem("idAzienda") };
 
    const handleGetJobs = () => {
-        axios.post(apiList.getJobs, localStorage.getItem("id"))
+        axios.post(apiList.getJobs, requestData, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
         .then(response => {
-          const jobsArray = response.data;
+          const jobsArray = response.data.list;
           console.log(jobsArray);
           setJob(jobsArray);
         })
@@ -85,6 +91,7 @@ const TuoiAnnunci = () => {
     }
 
     useEffect(() => {
+        handleGetJobs();
         handleGetAgency();
     }, [])
 
@@ -94,12 +101,12 @@ const TuoiAnnunci = () => {
         <div className='cerca-container'>
             <h3>Ecco i tuoi annunci pubblicati</h3>
             <div className='annunci'>
-                {dataAnnuncio.map((annunci) => (
+                {job && job.length > 0 && job.map((annunci) => (
                     <>                    
                     <AnnunciContainerAzienda
                     key={annunci.id}
-                    imgAzienda={annunci.imgAziendale}
-                    nomeAzienda={annunci.azienda}
+                    imgAzienda={annunci.azienda.logo}
+                    nomeAzienda={annunci.azienda.nome}
                     città={annunci.città}
                     ruolo={annunci.ruolo}
                     desc={annunci.desc}
@@ -108,7 +115,7 @@ const TuoiAnnunci = () => {
                     quando={annunci.quando}
                     views={annunci.views}
                     candidati={annunci.candidati}
-                    link={annunci.link}
+                    link={`/dashboard/${annunci.id}/candidati`}
                      />
                      </>
                 ))}

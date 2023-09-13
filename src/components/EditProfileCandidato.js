@@ -15,13 +15,18 @@ const saveProfileCandidato = () => {
 
 }
 
-export const EditProfileCandidato = () => {
+export const EditProfileCandidato = ({setEdit}) => {
   const profileNow = JSON.parse(localStorage.getItem('profile'));
   console.log(profileNow)
   const token = localStorage.getItem("token")
   const [addExLink, setAddExLink] = useState({
     linkedin: profileNow.linkedin,
     esperienza: profileNow.esperienza,
+    competenze: profileNow.competenze,
+    cv: profileNow.cv ? profileNow.cv : false,
+    cvDoc: profileNow.cv ? profileNow.cv : '',
+    portfolio: profileNow.portfolio ? profileNow.portfolio : false,
+    portfolioDoc: profileNow.portfolio ? profileNow.portfolio : '', 
   });
 
   const [competenze, setCompetenze] = useState([]);
@@ -34,6 +39,7 @@ export const EditProfileCandidato = () => {
       })
     .then(response => {
       const profile = response.data;
+      console.log(profile);
       localStorage.setItem("id", response.data.id);
       localStorage.setItem("profile", JSON.stringify(profile));
     })
@@ -59,27 +65,37 @@ export const EditProfileCandidato = () => {
      .then((response) => {
       console.log(response)
       handleGetprofile();
+      localStorage.setItem("profile", JSON.stringify(response));
+      setEdit();
      })
      .catch((error) => {
       console.log(error)
      })
   }
 
-  const handleAddCompetenze = () => {
-    axios
-     .post(apiList.addCompetenze, addExLink, {
-      headers: {
-        Authorization: `Token ${token}`,
-      }
-     })
-     .then((response) => {
-      console.log(response)
-      handleGetprofile();
-     })
-     .catch((error) => {
-      console.log(error)
-     })
-  }
+  const handleCVUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log('File selezionato:', file);
+      setAddExLink({
+        ...addExLink,
+        cvDoc: file,
+        cv: true,
+      });
+    }
+  };
+  
+  const handlePortfolioUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log('File selezionato:', file);
+      setAddExLink({
+        ...addExLink,
+        porffolioDoc: file,
+        portfolioDoc: true,
+      });
+    }
+  };
 
   return (
     <>
@@ -118,16 +134,18 @@ export const EditProfileCandidato = () => {
     </div>
     <div className='profilo-middle-item2'>
         <div className='profilo-item2'>
-          <img src={cv} alt='profilo-icone' className='img-icon-profilo' />
+          <img src={addExLink.cvDoc} alt='profilo-icone' className='img-icon-profilo' />
           <div>
             <p>Carica il tuo cv</p>
+            <input type="file" accept=".pdf" onChange={handleCVUpload} />
           </div>
           <a><FaArrowRight color='#ffffff' /></a>
         </div>
         <div className='profilo-item2'>
-          <img src={porfolio} alt='profilo-icone' className='img-icon-profilo' />
+          <img src={addExLink.portfolioDoc} alt='profilo-icone' className='img-icon-profilo' />
           <div>
             <p>Carica il tuo portfolio</p>
+            <input type="file" accept=".pdf" onChange={handlePortfolioUpload} />
           </div>
           <a><FaArrowRight color='#ffffff' /></a>
         </div>
@@ -135,38 +153,35 @@ export const EditProfileCandidato = () => {
    <div className='profilo-bottom-item-edit'>
         <div className='profilo-item-competenze'>
           <label htmlFor='inserisci-competenze'>Inserisci le tue competenze</label>
-              <ChipInput
-                        style={{padding: '10px 40px', width: '100%'}}
-                        label="Inserisci le tue competenze"
-                        variant="outlined"
-                        helperText="Premi invio per aggiungere una competenza"
-                        value={competenze}
-                  onAdd={(chip) =>
-                    setCompetenze({
-                      competenze: [...competenze, chip],
-                    })
-                  }
-                  onDelete={(chip, index) => {
-                    let competenze1 = competenze;
-                    competenze1.splice(index, 1);
-                    setCompetenze({
-                      competenze: competenze,
-                    });
-                  }}
-                  fullWidth
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault();
-                      setCompetenze({
-                        competenze: [...competenze, event.target.value],
-                      });
-                      event.target.value = '';
-                    }
-                  }}
-                      />
-              {competenze.map((competenza) => (
-                <div key={competenza}>{competenza}</div>
-              ))}
+          <input
+            type="text"
+            style={{ padding: '10px 40px', width: '70%' }}
+            placeholder="Inserisci una competenza e premi Invio"
+            value={addExLink.newCompetenza}
+            onChange={(event) => {
+              setAddExLink({
+                ...addExLink,
+                newCompetenza: event.target.value,
+              });
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                if (addExLink.newCompetenza.trim() !== '') {
+                  setAddExLink({
+                    ...addExLink,
+                    competenze: [...addExLink.competenze, addExLink.newCompetenza],
+                    newCompetenza: '',
+                  });
+                }
+              }
+            }}
+          />
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center'}}>
+            {addExLink.competenze.map((competenza, index) => (
+              <div key={index}><p style={{margin: '5px 40px 0 40px'}}>{competenza}</p></div>
+            ))}
+          </div>
         </div>
         <div className='profilo-item-play'>
           <img src={gioca} alt='profilo-icone' className='img-icon-profilo' />
@@ -178,7 +193,7 @@ export const EditProfileCandidato = () => {
         </div>
     </div>
    </form>
-  <button className='button-save' onClick={handleAddExLink}>Salva</button>
+  <button className='button-save' style={{cursor:'pointer'}} onClick={handleAddExLink}>Salva</button>
   </>
   )
 }

@@ -29,7 +29,30 @@ const dataProfilo = {
 
 const ProfileContainer = () => {
   const token = localStorage.getItem("token")
-  const profile = JSON.parse(localStorage.getItem('profile'));
+  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [savedJob, setSavedJob] = useState();
+
+  const handleGetprofile = () => {
+    axios.post(apiList.getWorker, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+    .then(response => {
+      const profile = response.data;
+      console.log(profile);
+      localStorage.setItem("id", response.data.id);
+      localStorage.setItem("profile", JSON.stringify(profile));
+      setProfile(profile);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
+useEffect(() => {
+  handleGetprofile();
+}, []);
   
   const handleGetSavedJob = () => {
     axios.post(apiList.getSavedJob, null, {
@@ -41,6 +64,8 @@ const ProfileContainer = () => {
       const savedJob = response.data.list;
       localStorage.setItem("savedJob", JSON.stringify(savedJob));
       console.log(savedJob);
+      const saveJobLenght = savedJob.length > 0 ? savedJob.length : 0;
+      setSavedJob(saveJobLenght);
     })
     .catch(error => {
       console.log(error);
@@ -48,8 +73,6 @@ const ProfileContainer = () => {
 }
 
 handleGetSavedJob();
-const savedJob = JSON.parse(localStorage.getItem("savedJob"));
-const saveJobLenght = savedJob.length;
 
 const initial1 = profile.nome.charAt(0);
 const initial2 = profile.cognome.charAt(0);
@@ -84,21 +107,21 @@ const initial2 = profile.cognome.charAt(0);
              </a>
              <div>
                <p>Offerte di lavoro salvate</p>
-               <p>{saveJobLenght}</p>
+               <p>{savedJob && savedJob}</p>
              </div>
            </div>
            <div className='profilo-item'>
              <img src={candidatura} alt='profilo-icone' className='img-icon-profilo' />
              <div>
                <p>Candidature inoltrate</p>
-               <p>{dataProfilo.candidatureInoltrate}</p>
+               <p>{profile.candidature}</p>
              </div>
            </div>
            <div className='profilo-item'>
              <img src={document} alt='profilo-icone' className='img-icon-profilo' />
              <div>
                <p>Documenti caricati</p>
-               <p>{dataProfilo.documentiCaricati}</p>
+               <p>{profile.allegati}</p>
              </div>
            </div>
          </div>
@@ -140,7 +163,7 @@ const initial2 = profile.cognome.charAt(0);
             </div>
         </div>
         </div> :
-     <EditProfileCandidato />}
+     <EditProfileCandidato setEdit={handleEdit} />}
      </div>
     
   )

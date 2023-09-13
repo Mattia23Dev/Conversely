@@ -5,6 +5,7 @@ import candidatura from '../assets/images/candidature-icon.png'
 import gioca from '../assets/images/gioca-icon.png';
 import scarica from '../assets/images/download-icon.png';
 import pdf from 'file:///C:/Users/matti/Downloads/2023%20-%20sistema%20di%20prenotazione%20(1).pdf'
+import { useParams } from 'react-router-dom';
 
 const dataProfilo = {
     nomeUtente:'Lucia Frinzi',
@@ -32,6 +33,7 @@ const dataProfilo = {
 
 
 const ProfileContainerAzienda = (props) => {
+    const {id} = useParams();
 
     const handleEdit = () => {
         setEdit(!edit);

@@ -46,10 +46,14 @@ export const HeaderCandidato = () => {
       });
       console.log(err.response);
     });
-  }
+  };
+
+  const navigateChoose = () => {
+    history("/choose");
+  };
   return (
     <div className='header'>
-        <div className='left-header'>
+        <div onClick={navigateChoose} className='left-header'>
             <img alt='logo-conversely' src={logo} />
         </div>
         <div className='right-header'>
@@ -92,6 +96,10 @@ export const HeaderAzienda = () => {
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
 
+  const navigateChoose = () => {
+    history("/choose");
+  };
+
   const handleLogout = () => {
     const token = localStorage.getItem("token");
     console.log(token);
@@ -122,7 +130,7 @@ export const HeaderAzienda = () => {
   }
     return (
       <div className='header-azienda'>
-          <div className='left-header'>
+          <div onClick={navigateChoose} className='left-header'>
               <img alt='logo-conversely' src={logo} />
           </div>
           <div className='right-header'>
@@ -319,4 +327,19 @@ export const HeaderCandidatoWhite = () => {
           </div>
       </div>
     )
-  } 
+  }
+  
+  
+  export const HeaderChoose = () => {
+  
+    return (
+      <div className='header-white'>
+          <div className='left-header-white'>
+              <img alt='logo-conversely' src={logo3} />
+          </div>
+          <div className='right-header'>
+
+          </div>
+      </div>
+    )
+  }

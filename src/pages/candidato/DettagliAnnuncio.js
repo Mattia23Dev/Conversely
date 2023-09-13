@@ -112,8 +112,8 @@ const DettagliAnnuncio = () => {
             <div className='dettagli-annunci'>
                 <DettagliAnnunciContainer
                         id={annuncioCliccato.id}
-                        img={dettagliAnnuncio.imgAziendale}
-                        nomeAzienda={annuncioCliccato.azienda}
+                        img={annuncioCliccato.azienda.logo}
+                        nomeAzienda={annuncioCliccato.azienda.nome}
                         città={annuncioCliccato.city}
                         ruolo={annuncioCliccato.titolo}
                         desc={annuncioCliccato.descrizione}

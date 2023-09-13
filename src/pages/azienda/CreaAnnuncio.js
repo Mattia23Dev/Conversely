@@ -67,7 +67,7 @@ const CreaAnnuncio = (props) => {
     city: "",
     descrizione: "",
     contratto: "Determinato",
-    competenze: ["competenza1",],
+    competenze: ["Organizzazione",],
     turnazione: "Orario notturno",
     esperienza: 1,
     mansioni: "",
@@ -80,7 +80,7 @@ const CreaAnnuncio = (props) => {
     durataAnnuncio: new Date(new Date())
       .toISOString()
       .substr(0, 16),
-    skills: ["skill1","skill2"], 
+    skills: [], 
   });
 
   const handleInput = (key, value) => {
@@ -106,12 +106,26 @@ const CreaAnnuncio = (props) => {
           severity: "success",
           message: response.data.message,
         });
-        setJobDetails({
-          titolo: "",
-          durataAnnuncio: new Date(new Date())
-            .toISOString()
-            .substr(0, 16),
-        });
+       setJobDetails({
+        titolo: "",
+        city: "",
+        descrizione: "",
+        contratto: "Determinato",
+        competenze: ["Organizzazione",],
+        turnazione: "Orario notturno",
+        esperienza: 1,
+        mansioni: "",
+        benefit: "",
+        protetto: false,
+        tempoLavoro: "Full-time",
+        studio: "",
+        ranger: 100,
+        rangel: 0,
+        durataAnnuncio: new Date(new Date())
+          .toISOString()
+          .substr(0, 16),
+        skills: ["skill1","skill2"], 
+      }) 
       })
       .catch((err) => {
         setPopup({
@@ -282,8 +296,8 @@ const CreaAnnuncio = (props) => {
                         style={{ height: 'fit-content' }}
                       >
                         <MenuItem value="Gestione dello stress">Gestione dello stress</MenuItem>
-                        <MenuItem value="competenza1">competenza1</MenuItem>
-                        <MenuItem value="competenza2">competenza2</MenuItem>
+                        <MenuItem value="Empatia">Empatia</MenuItem>
+                        <MenuItem value="Organizzazione">Organizzazione</MenuItem>
                         <MenuItem value="Proattività">Proattività</MenuItem>
                         <MenuItem value="Team work">Team work</MenuItem>
                         <MenuItem value="Creatività">Creatività</MenuItem>

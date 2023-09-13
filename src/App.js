@@ -21,6 +21,7 @@ import CandidatiAnnunci from './pages/azienda/CandidatiAnnunci';
 import ProfiloCandidato from './pages/azienda/ProfiloCandidato';
 import isAuth, { userType } from './components/isAuth';
 import OfferteSalvate from './pages/candidato/OfferteSalvate';
+import ChoosePage from './pages/ChoosePage';
 export const SetPopupContext = createContext();
 
 function App() {
@@ -52,8 +53,8 @@ function App() {
                   <Route path='/creaAnnuncio' element={<CreaAnnuncio />} />
                   <Route path='/database' element={<Database />} />
                   <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
-                  <Route path='/dashboard/annuncioId/candidati' element={<CandidatiAnnunci />} />
-                  <Route path='/dashboard/annuncioId/candidati/profiloId' element={<ProfiloCandidato />} />
+                  <Route path='/dashboard/:id/candidati' element={<CandidatiAnnunci />} />
+                  <Route path='/dashboard/:id/candidati/:id' element={<ProfiloCandidato />} />
                   </>
                 }
                </>}
@@ -65,6 +66,7 @@ function App() {
             <Route path='/accedi' element={<Accedi />} />
             <Route path='/cerca' element={<Annunci />} />
             <Route path='*' element={<ErrorPage />} />
+            <Route path='/choose' element={<ChoosePage />} />
         </Routes>
       </div>
       <MessagePopup

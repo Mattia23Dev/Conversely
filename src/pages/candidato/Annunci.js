@@ -79,27 +79,28 @@ const Annunci = () => {
     const [annunciCercati, setAnnunciCercati] = useState([]);
     useEffect(() => {
         const annunci = JSON.parse(localStorage.getItem('annunci'));
-        if (annunci) {
-          setAnnunciCercati(annunci);
-        }
+        setAnnunciCercati(annunci);
       }, []);
 
-    const createdAt = annunciCercati.creatoIl;
-    const now = moment();
-    const daysAgo = now.diff(createdAt, 'days');
-    const formattedDate = `${daysAgo} giorni fa`;
+      console.log(annunciCercati);
+
   return (
     <div>
         <HeaderCandidatoWhite />
         <div className='cerca-container'>
             <h3>Ecco i tuoi risultati</h3>
             <div className='annunci'>
-                {annunciCercati.map((annunci) => (
+                {annunciCercati && annunciCercati.map((annunci) => {
+                    const createdAt = annunci.creatoIl;
+                    const now = moment();
+                    const daysAgo = now.diff(createdAt, 'days');
+                    const formattedDate = `${daysAgo} giorni fa`;
+                    return (
                     <Link to={`/dettagli-annuncio/${annunci.id}`} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
                     <AnnunciContainer
                     key={annunci.id}
-                    img={dataAnnuncio[0].imgAziendale}
-                    nomeAzienda={annunci.azienda}
+                    img={annunci.azienda.logo}
+                    nomeAzienda={annunci.azienda.nome}
                     città={annunci.city}
                     ruolo={annunci.titolo}
                     desc={annunci.desccrizione}
@@ -108,7 +109,9 @@ const Annunci = () => {
                     quando={formattedDate}
                      />
                      </Link>
-                ))}
+                )
+                }
+                )}
             </div>
         </div>
     </div>

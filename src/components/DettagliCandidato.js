@@ -88,7 +88,7 @@ export const DatabaseContainer = (props) => {
             <h3>Allegati: <span>{allegati}</span></h3>
         </div>
         <span><AiFillLock fontSize='large' /></span>
-        <a href={link} className='button' style={{marginTop: '-5px'}}>
+        <a href={null} className='button' style={{marginTop: '-5px'}}>
             Dettagli candidato
         </a>
     </div>

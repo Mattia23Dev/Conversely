@@ -40,7 +40,7 @@ const DettagliAnnunciContainer = (props) => {
                 </div>
             </div>
             <div className='top2'>
-                <a onClick={handleSave}>Salva offerta <FaHeart color={colorSave} /></a>
+                <a style={{cursor: 'pointer'}} onClick={handleSave}>Salva offerta <FaHeart color={colorSave} /></a>
                 <a className='button' onClick={handleCandidate}>Candidati <FaArrowRight color='#FFFFFF' /></a>
             </div>
         </div>

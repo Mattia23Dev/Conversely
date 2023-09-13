@@ -67,8 +67,7 @@ const Accedi = (props) => {
             severity: "success",
             message: "Logged in successfully",
           });
-          console.log(response.data.token);
-          console.log(response.data.role);
+          console.log(response.data);
           setLoggedin(isAuth());
         })
         .catch((err) => {

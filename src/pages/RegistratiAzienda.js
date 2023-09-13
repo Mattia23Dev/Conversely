@@ -146,6 +146,7 @@ const RegistratiAzienda = (props) => {
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
+          localStorage.setItem("idAzienda", response.data.id);
           setLoggedin(isAuth());
           setPopup({
             open: true,

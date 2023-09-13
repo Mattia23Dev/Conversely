@@ -60,14 +60,15 @@ const AccediAzienda = (props) => {
       axios
         .post(apiList.login, loginDetails)
         .then((response) => {
+          console.log(response.data);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
+          localStorage.setItem("idAzienda", response.data.id);
           setPopup({
             open: true,
             severity: "success",
             message: "Logged in successfully",
           });
-          console.log(response);
           setLoggedin(isAuth());
         })
         .catch((err) => {

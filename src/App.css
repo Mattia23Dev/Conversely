@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;700&display=swap');
 :root {
   --primary-color: #0077FF;
+  --colorProva: #182568;
   --secondary-color: #F75F24;
   --gradient-orange: linear-gradient(180deg, #F75F24 0%, #FF285C 100%);
   --text-black: #000000;
