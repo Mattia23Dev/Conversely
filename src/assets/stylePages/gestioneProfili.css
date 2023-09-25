@@ -1,0 +1,36 @@
+.gestione-profili-container{
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    width: 95%;
+    height: 70vh;
+    gap: 2rem;
+}
+.left-gestione-profili{
+    width: 25%;
+    border: 1px solid black;
+}
+.left-gestione-profili > select {
+    border: none;
+    padding: 10px 30px;
+    width: 100%;
+    font-size: 17px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+.right-gestione-profili{
+    width: 65%;
+    border: 1px solid black;
+}
+.scheda-profili-item{
+    text-decoration: none;
+    color: black;
+}
+.scheda-profili-item:hover{
+    text-decoration: underline;
+}
+.scheda-profili-item > p {
+    padding: 10px;
+    margin-left: 20px;
+    background-color: white;
+}

@@ -22,6 +22,7 @@ import ProfiloCandidato from './pages/azienda/ProfiloCandidato';
 import isAuth, { userType } from './components/isAuth';
 import OfferteSalvate from './pages/candidato/OfferteSalvate';
 import ChoosePage from './pages/ChoosePage';
+import GestioneProfili from './pages/azienda/GestioneProfili';
 export const SetPopupContext = createContext();
 
 function App() {
@@ -55,6 +56,8 @@ function App() {
                   <Route path='/dashboard/tuoAnnuncio' element={<DettagliAnnunciTuoi />} />
                   <Route path='/dashboard/:id/candidati' element={<CandidatiAnnunci />} />
                   <Route path='/dashboard/:id/candidati/:id' element={<ProfiloCandidato />} />
+                  <Route path='/gestione-profili/candidati/:id' element={<ProfiloCandidato />} />
+                  <Route path='/gestione-profili' element={<GestioneProfili />} />
                   </>
                 }
                </>}

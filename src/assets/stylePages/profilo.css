@@ -11,6 +11,20 @@
     display: flex;
     gap: 30px;
 }
+.right-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+.right-top > button {
+    padding: 6px 16px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+}
 .round-top{
     border-radius: 50%;
     width: 100px;

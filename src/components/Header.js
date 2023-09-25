@@ -310,10 +310,13 @@ export const HeaderCandidatoWhite = () => {
           <div className='left-header-white-azienda'>
               <img alt='logo-conversely' src={logo3} />
               <Link to={'/dashboard'} className='link-header-azienda'>
-                DASHBOARD
+                Dashboard
               </Link>
               <Link to={'/database'} className='link-header-azienda'>
-                DATABASE
+                Database
+              </Link>
+              <Link to={'/gestione-profili'} className='link-header-azienda'>
+                Gestione profili
               </Link>
           </div>
           <div className='right-header-white-azienda'>

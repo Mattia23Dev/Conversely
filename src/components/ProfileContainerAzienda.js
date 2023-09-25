@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import cuore from '../assets/images/heart-icon.png'
 import document from '../assets/images/document-icon.png'
 import candidatura from '../assets/images/candidature-icon.png'
@@ -6,6 +6,9 @@ import gioca from '../assets/images/gioca-icon.png';
 import scarica from '../assets/images/download-icon.png';
 import pdf from 'file:///C:/Users/matti/Downloads/2023%20-%20sistema%20di%20prenotazione%20(1).pdf'
 import { useParams } from 'react-router-dom';
+import apiList from './apiList';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const dataProfilo = {
     nomeUtente:'Lucia Frinzi',
@@ -32,25 +35,73 @@ const dataProfilo = {
 }
 
 
-const ProfileContainerAzienda = (props) => {
+const ProfileContainerAzienda = () => {
     const {id} = useParams();
+    const token = localStorage.getItem("token");
+    const [profile, setProfile] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    
+    const handleGetprofile = () => {
+      axios.post(apiList.getWorker, {id:id}, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+      .then(response => {
+        const profile = response.data;
+        console.log(profile);
+        setProfile(profile);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  
+  useEffect(() => {
+    setIsLoading(true);
+    handleGetprofile();
+  }, []);
 
-    const handleEdit = () => {
-        setEdit(!edit);
-    }
-    const [edit, setEdit] = useState(true);
+  const handleSetWorker = (status) => {
+    axios.post(apiList.setWorkerStatus, {id:id, type: status}, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+  .then(response => {
+    console.log(response);
+    toast.success('Hai cambiato lo stato in:', status)
+  })
+  .catch(error => {
+    console.log(error);
+  });
+  }
+
   return (
+    <>
+    {isLoading ? (
+      <div className='loading-page'>
+        ...
+      </div>
+    ) : (
     <div>
         <div className='profilo-top-item'>
            <div className='left-top'>
              <div className='round-top-a'>
-               <p>LF</p>
+               <p>{profile.nome.charAt(0) + profile.cognome.charAt(0)}</p>
              </div>
              <div className='name-top'>
-               <h4>{dataProfilo.nomeUtente}</h4>
+               <h4>{profile.nome + ' ' + profile.cognome}</h4>
                <p>{dataProfilo.ruoloUtente}</p>
-               <p>{dataProfilo.città}</p>
+               <p>{profile.city}</p>
              </div>
+           </div>
+           <div className='right-top'>
+            {profile.linkedin == "Non impostato" ? <a>Linkedin Non impostato</a> : <a href={profile.linkedin}>Linkedin</a>}
+            <button onClick={() => handleSetWorker('interview')}>Colloquia</button>
+            <button onClick={() => handleSetWorker('standby')}>Standby</button>
+            <button onClick={() => handleSetWorker('discarded')}>Scarta</button>
            </div>
          </div>
          <div className='profilo-middle-item'>
@@ -65,30 +116,43 @@ const ProfileContainerAzienda = (props) => {
            </div>
            <div className='profilo-item'>
              <img src={scarica} alt='profilo-icone' className='img-icon-profilo' />
-             <a href={dataProfilo.portfolio} className='pdf-download'>
+             {profile.portfolio == "Non caricato" ? (
+              <div>
+                <p>Non caricato</p>
+                <p>Portfolio</p>
+            </div>
+             ) : (
+             <a href={profile.portfolio} className='pdf-download'>
                 <div>
                     <p>Download</p>
                     <p>Portfolio</p>
                 </div>
              </a>
+             )}
+
            </div>
            <div className='profilo-item'>
              <img src={document} alt='profilo-icone' className='img-icon-profilo' />
              <div>
                <p>Altri documenti caricati</p>
-               <p>{dataProfilo.documentiCaricati}</p>
+               <p>{profile.allegati}</p>
              </div>
            </div>
          </div>
         <div className='profilo-bottom-item'>
             <div className='profilo-item-competenze-a'>
             <h4>Competenze</h4>
-            {dataProfilo.competenze.map((competenza) => (
+            {profile.competenze && profile.competenze.length ? profile.competenze.map((competenza) => (
                 <div>
                     <div></div>  
                     <p>{competenza}</p>
                 </div>
-            ))}
+            )) : (
+              <div>
+                <div></div>  
+                <p>Nessuna competenza</p>
+              </div>
+            )}
             </div>
             <div className='profilo-item-play-a'>
                 <div className='item-play'>
@@ -109,6 +173,9 @@ const ProfileContainerAzienda = (props) => {
             </div>
         </div>
      </div>
+    )}
+    </>
+    
     
   )
 }

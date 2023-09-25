@@ -1,6 +1,6 @@
-export const server = process.env.SERVER_URL || "http://82.55.115.103:8001";
+export const server = process.env.SERVER_URL || "http://127.0.0.1:8000";
 //https://hr-production-d58f.up.railway.app
-
+//http://82.55.115.103:8001
 //http://127.0.0.1:8000
 
 const apiList = {
@@ -16,6 +16,8 @@ const apiList = {
   applicationsSave: `${server}/offer/saveOffer/`,
   getSavedJob: `${server}/offer/getSavedOffers/`,
   getWorker: `${server}/stats/getWorker/`,
+  getInterview: `${server}/profile_managment/getInterviews/`,
+  setWorkerStatus: `${server}/profile_managment/setWorkerStatus/`,
   getAgency: `${server}/stats/getAgency/`,
   uploadResume: `${server}/upload/resume`,
   uploadProfileImage: `${server}/upload/profile`,

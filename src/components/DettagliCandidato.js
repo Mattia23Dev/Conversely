@@ -9,19 +9,25 @@ export const DettagliCandidatoContainer = (props) => {
         img,
         nome,
         città,
+        cognome,
         ruolo,
         competenze,
         titoloStudio,
         allegati,
         link,
     } = props
+    const initial1 = nome.charAt(0);
+    const initial2 = cognome.charAt(0);
   return (
     <>
     <div className='candidato-container' key={id}>
         <div className='annuncio-top'>
-            <img alt='immagine azienda' src={img} />
+            {/*<img alt='immagine azienda' src={img} />*/}
+            <div className='round-top'>
+               <p>{initial1 + initial2}</p>
+             </div>
             <div className='top-text-azienda'>
-                <h4>{nome}</h4>
+                <h4>{nome + ' ' + cognome}</h4>
                 <p>{ruolo}</p>
             </div>
         </div>
@@ -52,6 +58,7 @@ export const DatabaseContainer = (props) => {
         id,
         img,
         nome,
+        cognome,
         città,
         ruolo,
         competenze,
@@ -59,6 +66,8 @@ export const DatabaseContainer = (props) => {
         allegati,
         link,
     } = props
+    const initial1 = nome.charAt(0);
+    const initial2 = cognome.charAt(0);
   return (
     <>
     <div className='candidato-container' key={id}>
@@ -66,7 +75,10 @@ export const DatabaseContainer = (props) => {
             <h3>#{id}</h3>
         </div>
         <div className='annuncio-top'>
-            <img alt='immagine azienda' src={img} />
+            {/*<img alt='immagine azienda' src={img} />*/}
+            <div className='round-top'>
+               <p>{initial1 + initial2}</p>
+             </div>
             <div className='top-text-azienda'>
                 <h4>{nome}</h4>
                 <p>{ruolo}</p>

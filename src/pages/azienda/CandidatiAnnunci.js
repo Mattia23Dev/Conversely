@@ -79,7 +79,8 @@ const CandidatiAnnunci = () => {
                   key={candidato.id}
                   id={candidato.id}
                   img={candidato.imgPersona ? candidato.imgPersona : null}
-                  nome={candidato.nome + ' ' + candidato.cognome}
+                  nome={candidato.nome}
+                  cognome={candidato.cognome}
                   città={candidato.city}
                   ruolo={candidato.ruolo}
                   competenze={candidato.competenze}
