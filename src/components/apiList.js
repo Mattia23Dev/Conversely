@@ -18,6 +18,7 @@ const apiList = {
   getWorker: `${server}/stats/getWorker/`,
   getInterview: `${server}/profile_managment/getInterviews/`,
   setWorkerStatus: `${server}/profile_managment/setWorkerStatus/`,
+  setInterviewDate: `${server}/profile_managment/setInterviewDate/`,
   getAgency: `${server}/stats/getAgency/`,
   uploadResume: `${server}/upload/resume`,
   uploadProfileImage: `${server}/upload/profile`,
@@ -25,6 +26,8 @@ const apiList = {
   rating: `${server}/api/rating`,
   user: `${server}/api/user`,
   applicants: `${server}/api/applicants`,
+  subscribe: `${server}/payments/subscribePremium/`,
+  cancelSubscribe: `${server}/payments/cancelPremium/`,
 };
 
 export default apiList;

@@ -63,6 +63,7 @@ export const AnnunciContainerAzienda = (props) => {
         views,
         candidati,
         link,
+        key,
     } = props
   return (
     <>

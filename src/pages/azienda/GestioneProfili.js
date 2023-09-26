@@ -4,6 +4,10 @@ import '../../assets/stylePages/gestioneProfili.css';
 import apiList from '../../components/apiList';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import it from 'date-fns/locale/it';
+import toast from 'react-hot-toast';
 
 const GestioneProfili = () => {
     const token = localStorage.getItem("token");
@@ -12,6 +16,17 @@ const GestioneProfili = () => {
     const [proStand, setProStand] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('interviews');
+    const [selectWorker, setSelectWorker] = useState(null);
+    const [selectWork, setSelectWork] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
+
+    const handleTodayClick = () => {
+      setSelectedDate(new Date());
+    };
 
     const handleChange = (event) => {
       setSelectedOption(event.target.value);
@@ -57,6 +72,36 @@ const GestioneProfili = () => {
 
   const profilesToShow = selectedProfileArray();
 
+  const handleSetDate = (id) => {
+    const isoDate = new Date(selectedDate);
+    const formattedDate = isoDate.toISOString().split('T')[0];
+    if(isoDate){
+          axios.post(apiList.setInterviewDate, {date: formattedDate, id:id}, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+    .then(response => {
+      console.log(response);
+      toast.success('Data assegnata correttamente');
+      setSelectWork(false);
+      window.location.reload();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    }
+
+  };
+
+  const handleSelectWork = () => {
+    if(selectWork == true){
+      setSelectWork(false)
+    } else {
+      setSelectWork(true);
+    }
+  }
+
   return (
     <>
     {isLoading ? (
@@ -77,13 +122,38 @@ const GestioneProfili = () => {
                 return (
                 <Link to={`/gestione-profili/candidati/${pro.profile.id}`} className='scheda-profili-item' key={pro.profile.id}>
                     <p>{pro.profile.nome + ' ' + pro.profile.cognome}</p>
+                    <span>|</span>
+                    {pro.date && pro.date !== null && <p>{pro.date}</p>}
                 </Link>
                 );
             })}
         </div>
         </div>
-        <div className='right-gestione-profili'>
-
+        <div className='right-gestione-profili' style={{position: 'relative'}}>
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            todayButton="Oggi"
+            showYearDropdown
+            showMonthDropdown
+            customInput={<CustomInput handleSelectWork={handleSelectWork} />}
+            open={true}
+            wrapperClassName="custom-datepicker"
+            dateFormat="dd/MM/yyyy"
+            locale={it}
+          />
+          {selectWork && (
+            <div className='select-users'>
+              <select onChange={(e) => handleSetDate(e.target.value)}>
+              <option value="">Seleziona un utente</option>
+              {profilesToShow && profilesToShow.map((user) => (
+                <option key={user.profile.id} value={user.profile.id}>
+                  {user.profile.nome + ' ' + user.profile.cognome}
+                </option>
+              ))}
+            </select>
+          </div>
+          )}
         </div>
       </div>
    </div> 
@@ -91,6 +161,14 @@ const GestioneProfili = () => {
     </>
 
   )
+};
+
+function CustomInput({ value, handleSelectWork }) {
+  return (
+    <button className="custom-input" onClick={handleSelectWork}>
+      {value}
+    </button>
+  );
 }
 
 export default GestioneProfili

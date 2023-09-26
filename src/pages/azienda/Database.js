@@ -4,47 +4,45 @@ import { DatabaseContainer, DettagliCandidatoContainer } from '../../components/
 import imageAzienda from '../../assets/images/Ellipse 3.png';
 import axios from 'axios';
 import apiList from '../../components/apiList';
+import '../../assets/stylePages/database.css';
 
 const Database = () => {
 
-  const dettagliCandidato = [
-    {
-        id: 1,
-        imgPersona: imageAzienda ,
-        nome: 'Lucia Frinzi',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        competenze: 2,
-        allegati: 2,
-        titoloStudio: 1,
-        link: '/dashboard/annuncioId/candidati/profiloId'
-    },
-    {
-        id: 2,
-        imgPersona: imageAzienda ,
-        nome: 'Lucia Frinzi',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        competenze: 2,
-        allegati: 2,
-        titoloStudio: 1,
-        link: '/dashboard/annuncioId/candidati/profiloId'
-    },
-    {
-        id: 3,
-        imgPersona: imageAzienda ,
-        nome: 'Lucia Frinzi',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        competenze: 2,
-        allegati: 2,
-        titoloStudio: 1,
-        link: '/dashboard/annuncioId/candidati/profiloId'
-    },
-  ]
-
   const token = localStorage.getItem("token");
   const [worker, setWorker] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [premium, setPremium] = useState(false);
+
+  const handleGetAgency = () => {
+    axios.post(apiList.getAgency, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+    .then(response => {
+      const agency = response.data;
+      console.log(agency);
+      setPremium(agency.premium);
+      setIsLoading(false);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
+const cancelPremium = () => {
+  axios.post(apiList.cancelSubscribe, null, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+}
 
   const handleGetOffer = () => {
     axios.post(apiList.getAllWorkers, null, {
@@ -63,32 +61,85 @@ const Database = () => {
 };
 
     useEffect(() => {
+      setIsLoading(true)
+      handleGetAgency();
       handleGetOffer();
-    }, [])
+    }, []);
+
+    const handleGetSub = () => {
+      axios.post(apiList.subscribe, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        window.open(response.data.payment_url);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    };
+
+    const cancelSub = () => {
+      axios.post(apiList.cancelSubscribe, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        //window.open(response.data.payment_url);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }
 
   return (
+    <>
+    {isLoading ? (
+      <div>...</div>
+    ) : (
     <div className='candidatiAnnuncio'>
       <HeaderAziendaWhiteLogin />
-      <div className='dettagli-annuncio-container'>
+      <div className='dettagli-annuncio-container' style={{position: 'relative'}}>
             <h3>Database</h3>
-            <div style={{display:'flex', flexDirection: 'column', gap: 30}}>
-              {worker && worker.map((candidato) => (
-                  <DatabaseContainer
-                  id={candidato.id}
-                  img={candidato.imgPersona ? candidato.imgPersona : null}
-                  nome={candidato.nome}
-                  cognome={candidato.cognome}
-                  città={candidato.city}
-                  ruolo={candidato.ruolo ? candidato.ruolo : ''}
-                  competenze={candidato.competenze}
-                  titoloStudio={candidato.titoloStudio ? candidato.titoloStudio : ''}
-                  allegati={candidato.allegati}
-                  link={candidato.link ? candidato.link : null}
-           />
-              ))}
-            </div>
+            {premium && <button onClick={cancelSub} className='cancel-sub'>Annulla iscrizione</button>}
+            <button className='cancel-sub' onClick={cancelSub}>Annulla iscrizione</button>
+            <>
+            {premium == true ? (
+              <div style={{display:'flex', flexDirection: 'column', gap: 30}}>
+                {worker && worker.map((candidato) => (
+                    <DatabaseContainer
+                    key={candidato.id}
+                    id={candidato.id}
+                    img={candidato.imgPersona ? candidato.imgPersona : null}
+                    nome={candidato.nome}
+                    cognome={candidato.cognome}
+                    città={candidato.city}
+                    ruolo={candidato.ruolo ? candidato.ruolo : ''}
+                    competenze={candidato.competenze}
+                    titoloStudio={candidato.titoloStudio ? candidato.titoloStudio : ''}
+                    allegati={candidato.allegati}
+                    link={candidato.link ? candidato.link : null}
+            />
+                ))}
+              </div>
+            ) : (
+              <div className='popup-premium'>
+                <h2>Non hai l'abbonamento</h2>
+                <p>Per poter vedere tutti gli utenti iscritti alla piattaforma devi effettuare l'iscrizione al premium</p>
+                <button onClick={handleGetSub}>Abbonati</button>
+              </div>
+            )}
+            </>
+
         </div>
     </div>
+    )}
+    </>
+
   )
 }
 

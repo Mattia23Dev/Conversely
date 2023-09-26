@@ -8,29 +8,62 @@
 }
 .left-gestione-profili{
     width: 25%;
-    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px rgb(74, 74, 74);
 }
 .left-gestione-profili > select {
     border: none;
     padding: 10px 30px;
     width: 100%;
     font-size: 17px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(30, 30, 30);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     cursor: pointer;
 }
 .right-gestione-profili{
     width: 65%;
-    border: 1px solid black;
 }
 .scheda-profili-item{
     text-decoration: none;
     color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0rem;
 }
 .scheda-profili-item:hover{
     text-decoration: underline;
 }
 .scheda-profili-item > p {
-    padding: 10px;
-    margin-left: 20px;
+    padding: 3px;
+    margin-left: 0px;
     background-color: white;
+}
+.custom-datepicker {
+    width: 500px !important; 
+    margin-top: 50px;
+}
+.custom-input{
+    border-radius: 30px;
+    border: none;
+    padding: 20px 40px;
+    font-size: 18px;
+    position: relative;
+    bottom: 40px;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    color: white;
+}
+.select-users{
+    width: 90%;
+    z-index: 10;
+    background-color: white;
+    height: 60%;
+    position: absolute;
+    padding: 20px;
+}
+.select-users > select {
+    padding: 10px 20px;
+    z-index: 10;
 }

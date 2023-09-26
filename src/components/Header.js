@@ -18,6 +18,7 @@ export const HeaderCandidato = () => {
   const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
+  const userRole = localStorage.getItem("role");
 
   const handleLogout = () => {
     const token = localStorage.getItem("token");
@@ -57,7 +58,7 @@ export const HeaderCandidato = () => {
             <img alt='logo-conversely' src={logo} />
         </div>
         <div className='right-header'>
-          {loggedin ? 
+          {loggedin && userRole == 'worker' ? 
           <>
             <Link to={'/profilo'} className='reg-button'>
               Profilo
@@ -95,6 +96,7 @@ export const HeaderAzienda = () => {
   const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const setPopup = useContext(SetPopupContext);
+  const userRole = localStorage.getItem("role");
 
   const navigateChoose = () => {
     history("/choose");
@@ -134,7 +136,7 @@ export const HeaderAzienda = () => {
               <img alt='logo-conversely' src={logo} />
           </div>
           <div className='right-header'>
-          {loggedin ? 
+          {loggedin && userRole == 'agency' ? 
           <>
             <Link to={'/dashboard'} className='reg-button'>
               Dashboard

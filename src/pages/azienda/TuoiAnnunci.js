@@ -105,6 +105,7 @@ const TuoiAnnunci = () => {
                     <>                    
                     <AnnunciContainerAzienda
                     key={annunci.id}
+                    id={annunci.id}
                     imgAzienda={annunci.azienda.logo}
                     nomeAzienda={annunci.azienda.nome}
                     città={annunci.città}
