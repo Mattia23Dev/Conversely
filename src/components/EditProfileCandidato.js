@@ -17,16 +17,15 @@ const saveProfileCandidato = () => {
 
 export const EditProfileCandidato = ({setEdit}) => {
   const profileNow = JSON.parse(localStorage.getItem('profile'));
-  console.log(profileNow)
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   const [addExLink, setAddExLink] = useState({
     linkedin: profileNow.linkedin,
     esperienza: profileNow.esperienza,
     competenze: profileNow.competenze,
     cv: profileNow.cv ? profileNow.cv : false,
-    cvDoc: profileNow.cv ? profileNow.cv : '',
+    cvDoc: {},
     portfolio: profileNow.portfolio ? profileNow.portfolio : false,
-    portfolioDoc: profileNow.portfolio ? profileNow.portfolio : '', 
+    portfolioDoc: {}, 
   });
 
   const [competenze, setCompetenze] = useState([]);
@@ -63,7 +62,6 @@ export const EditProfileCandidato = ({setEdit}) => {
       }
      })
      .then((response) => {
-      console.log(response)
       handleGetprofile();
       localStorage.setItem("profile", JSON.stringify(response));
       setEdit();

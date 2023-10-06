@@ -1,7 +1,10 @@
-export const server = process.env.SERVER_URL || "http://127.0.0.1:8000";
+export const server = process.env.SERVER_URL || "https://converselybackend-production.up.railway.app";
 //https://hr-production-d58f.up.railway.app
 //http://82.55.115.103:8001
 //http://127.0.0.1:8000
+//http://79.13.113.69:8000
+
+///api/* http://79.13.113.69:8000/:splat  200
 
 const apiList = {
   login: `${server}/auth/login/`,
@@ -20,8 +23,8 @@ const apiList = {
   setWorkerStatus: `${server}/profile_managment/setWorkerStatus/`,
   setInterviewDate: `${server}/profile_managment/setInterviewDate/`,
   getAgency: `${server}/stats/getAgency/`,
-  uploadResume: `${server}/upload/resume`,
-  uploadProfileImage: `${server}/upload/profile`,
+  uploadResume: `${server}/upload/resume/`,
+  uploadProfileImage: `${server}/upload/profile/`,
   addExLink: `${server}/stats/setStats/`,
   rating: `${server}/api/rating`,
   user: `${server}/api/user`,

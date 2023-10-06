@@ -9,6 +9,7 @@ import {
   TextField,
   MenuItem,
   Select,
+  InputLabel,
 } from "@material-ui/core";
 import axios from "axios";
 import Chip from "material-ui-chip-input";
@@ -17,6 +18,67 @@ import { SetPopupContext } from "../../App";
 
 import apiList from "../../components/apiList";
 import { HeaderAziendaWhiteLogin } from "../../components/Header";
+
+const nomiItaliani = [
+  "cellulare",
+  "buoni pasto",
+  "auto aziendale",
+  "assicurazione sanitaria",
+  "acqua gratis",
+  "caffe gratis",
+  "mensa aziendale",
+  "alloggio",
+  "stock options",
+  "car sharing",
+  "biblioteca",
+  "dog day",
+  "kids day",
+  "asilo",
+  "bonus bimbi",
+  "borse di studio",
+  "budget formazione",
+  "budget postazione lavoro agile",
+  "smart working",
+  "lavoro agile",
+  "remote working",
+  "venerdi corto (7 ore)",
+  "venerdi corto (mezza giornata)",
+  "settimana corta (venerdi off)",
+  "congedo papà",
+  "convenzioni",
+  "dichiarazione redditi",
+  "docce",
+  "lavanderia",
+  "lavaggio auto",
+  "navetta aziendale",
+  "orario flessibile",
+  "orario estivo",
+  "parcheggio gratuito",
+  "team building",
+  "volontariato",
+  "ferie illimitate",
+  "tutor in azienda",
+  "sconti dipendenti",
+  "rimborso libri scolastici",
+  "palestra",
+  "budget vacanze",
+  "budget spazio coworking",
+  "budget benessere",
+  "kit di benvenuto",
+  "laptop a scelta",
+  "donazioni benefiche a scelta",
+  "nessuno",
+  "da definire",
+];
+
+const titoliStudioItaliani = [
+  "diploma scuola secondaria",
+  "laurea triennale",
+  "laurea magistrale",
+  "dottorato",
+  "master di primo livello",
+  "master di secondo livello",
+];
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -237,6 +299,7 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid direction="row" item spacing={3}>
                     <TextField
+                        style={{width: '250px'}}
                         label="Range retributivo minimo"
                         type="number"
                         variant="outlined"
@@ -246,9 +309,9 @@ const CreaAnnuncio = (props) => {
                         }}
                         InputProps={{ inputProps: { min: 0 } }}
                         fullWidth
-                        style={{margin: "20px 0"}}
                       />
                        <TextField
+                        style={{width: '250px', marginLeft: '20px'}}
                         label="Range retributivo massimo"
                         type="number"
                         variant="outlined"
@@ -264,6 +327,7 @@ const CreaAnnuncio = (props) => {
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <Select
+                        style={{width: '250px', height: 'fit-content'}}
                         multiple
                         label="Competenze"
                         variant="outlined"
@@ -293,7 +357,6 @@ const CreaAnnuncio = (props) => {
                             competenze: competenze,
                           });
                         }}
-                        style={{ height: 'fit-content' }}
                       >
                         <MenuItem value="Gestione dello stress">Gestione dello stress</MenuItem>
                         <MenuItem value="Empatia">Empatia</MenuItem>
@@ -307,6 +370,7 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                       <TextField
+                          style={{width: '250px'}}
                           select
                           label="Turnazione"
                           variant="outlined"
@@ -326,6 +390,7 @@ const CreaAnnuncio = (props) => {
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
+                          style={{width: '250px'}}
                           label="Esperienza minima"
                           className={classes.inputBox}
                           type="number"
@@ -340,19 +405,26 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                       <TextField
-                          label="Benefit"
-                          value={jobDetails.benefit}
-                          onChange={(event) =>
-                            handleInput("benefit", event.target.value)
-                          }
-                          variant="outlined"
-                          fullWidth
-                        />
+                        select
+                        label="Benefit"
+                        value={jobDetails.benefit}
+                        onChange={(event) => handleInput("benefit", event.target.value)}
+                        variant="outlined"
+                        fullWidth
+                        style={{ width: '250px' }}
+                      >
+                        {nomiItaliani.map((benefit, index) => (
+                          <MenuItem key={index} value={benefit}>
+                            {benefit}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
+                          style={{width: '250px'}}
                           select
                           label="Categoria protetta"
                           variant="outlined"
@@ -369,6 +441,7 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                       <TextField
+                          style={{width: '250px'}}
                           select
                           label="Orari"
                           variant="outlined"
@@ -384,19 +457,26 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
-                    <Grid item>
+                  <Grid item>
                       <TextField
-                          label="Titolo di studio"
-                          value={jobDetails.studio}
-                          onChange={(event) =>
-                            handleInput("studio", event.target.value)
-                          }
-                          variant="outlined"
-                          fullWidth
-                        />
+                      style={{width: '250px'}}
+                        select
+                        label="Titolo di studio"
+                        value={jobDetails.studio}
+                        onChange={(event) => handleInput("studio", event.target.value)}
+                        variant="outlined"
+                        fullWidth
+                      >
+                        {titoliStudioItaliani.map((titolo, index) => (
+                          <MenuItem key={index} value={titolo}>
+                            {titolo}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     </Grid>
                     <Grid item>
                       <TextField
+                          style={{width: '250px'}}
                           select
                           label="Contratto"
                           variant="outlined"

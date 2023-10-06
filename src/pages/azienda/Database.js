@@ -5,6 +5,7 @@ import imageAzienda from '../../assets/images/Ellipse 3.png';
 import axios from 'axios';
 import apiList from '../../components/apiList';
 import '../../assets/stylePages/database.css';
+import toast from 'react-hot-toast';
 
 const Database = () => {
 
@@ -12,6 +13,7 @@ const Database = () => {
   const [worker, setWorker] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [premium, setPremium] = useState(false);
+  const [canceled, setCanceled] = useState(false);
 
   const handleGetAgency = () => {
     axios.post(apiList.getAgency, null, {
@@ -23,6 +25,7 @@ const Database = () => {
       const agency = response.data;
       console.log(agency);
       setPremium(agency.premium);
+      setCanceled(agency.canceled);
       setIsLoading(false);
     })
     .catch(error => {
@@ -89,6 +92,9 @@ const cancelPremium = () => {
       })
       .then(response => {
         console.log(response.data);
+        if (response.data.message == 'ok'){
+          toast.success('Abbonamento annullato');
+        }
         //window.open(response.data.payment_url);
       })
       .catch(error => {
@@ -105,8 +111,10 @@ const cancelPremium = () => {
       <HeaderAziendaWhiteLogin />
       <div className='dettagli-annuncio-container' style={{position: 'relative'}}>
             <h3>Database</h3>
-            {premium && <button onClick={cancelSub} className='cancel-sub'>Annulla iscrizione</button>}
-            <button className='cancel-sub' onClick={cancelSub}>Annulla iscrizione</button>
+            {premium && canceled == false ? 
+            <button onClick={cancelSub} className='cancel-sub'>Annulla iscrizione</button> 
+            : 
+            <button className='cancel-sub'>Abbonamento cancellato, rimarrai dentro la pagina fino alla <br />scadenza del prossimo rinnovo</button>}
             <>
             {premium == true ? (
               <div style={{display:'flex', flexDirection: 'column', gap: 30}}>
