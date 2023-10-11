@@ -14,7 +14,7 @@ const HomeAzienda = () => {
             <h1>Trovare collaboratori è un gioco!</h1>
             <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio.</p>
             <Link to={'/accediAzienda'} className='login-button'>
-                    LOG IN <FaArrowRight color='#FFFFFF' />
+                    LOG IN <span><FaArrowRight color='#FFFFFF' /></span>
             </Link>
           </div>
           <div className='right-home'>

@@ -9,7 +9,7 @@
 }
 .left-home{
     width: 60%;
-    margin: 6em 0 0 5em;
+    margin: 10em 3rem 0 10em;
 }
 .left-home > h1{
     font-style: normal;
@@ -27,6 +27,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.right-home{
+    width: 39%;
 }
 .right-home > img{
     width: 100%;
@@ -82,6 +85,14 @@
     cursor: pointer;
     text-decoration: none;
 }
+.search-button > span {
+    border-radius: 50%;
+    border: 2px solid white;
+    padding: 3.5px 4.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
 /*HOME AZIENDA*/
@@ -94,9 +105,9 @@
     font-weight: 300;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    padding: 12px 28px;
+    padding: 12px 10px;
     gap: 10px;
     background: #F75F24;
     border-radius: 70px;
@@ -106,7 +117,15 @@
     cursor: pointer;
     margin-top: 50px;
     text-decoration: none;
-    width: 68px;
+    width: 108px;
+}
+.login-button > span {
+    border-radius: 50%;
+    border: 2px solid white;
+    padding: 3.5px 4.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media screen and (min-width: 1920px) {

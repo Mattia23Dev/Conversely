@@ -56,7 +56,9 @@ const Registrati = (props) => {
     role: "worker",
   });
 
-const [numero, setPhone] = useState("")
+const [numero, setPhone] = useState("");
+const [terminiCondizioni, setTerminiCondizioni] = useState(false);
+const [marketing, setMarketing] = useState(false);
 
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
@@ -73,6 +75,18 @@ const [numero, setPhone] = useState("")
       message: "",
     },
     name: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    cognome: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    city: {
       untouched: true,
       required: true,
       error: false,
@@ -100,6 +114,10 @@ const [numero, setPhone] = useState("")
   };
 
   const handleLogin = () => {
+    if (!terminiCondizioni) {
+      alert('Devi accettare i Termini e le Condizioni.');
+      return;
+    }
     const tmpErrorHandler = {};
     Object.keys(inputErrorHandler).forEach((obj) => {
       if (inputErrorHandler[obj].required && inputErrorHandler[obj].untouched) {
@@ -171,7 +189,7 @@ const [numero, setPhone] = useState("")
       <Grid container direction="column" spacing={4} alignItems="center" className="main-registrati-azienda">
         <Grid className="auth-text">
           <h2>Crea il tuo account</h2>
-          <p>Sei già registrato? 
+          <p>Sei già registrato?&nbsp; 
             <span>
               <a href="/accedi">Log in</a>
             </span>
@@ -187,7 +205,7 @@ const [numero, setPhone] = useState("")
               helperText={inputErrorHandler.name.message}
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("name", true, "Name is required");
+                  handleInputError("name", true, "Il nome è obbligatorio");
                 } else {
                   handleInputError("name", false, "");
                 }
@@ -215,14 +233,14 @@ const [numero, setPhone] = useState("")
               value={signupDetails.cognome}
               onChange={(event) => handleInput("cognome", event.target.value)}
               className={classes.inputBox}
-              error={inputErrorHandler.name.error}
-              helperText={inputErrorHandler.name.message}
+              error={inputErrorHandler.cognome.error}
+              helperText={inputErrorHandler.cognome.message}
               variant="outlined"
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("name", true, "Name is required");
+                  handleInputError("cognome", true, "Il cognome è obbligatorio");
                 } else {
-                  handleInputError("name", false, "");
+                  handleInputError("cognome", false, "");
                 }
               }}
             
@@ -238,14 +256,13 @@ const [numero, setPhone] = useState("")
                 onChange={(numero) => setPhone(numero)}
                 error={inputErrorHandler.name.error}
                 helperText={inputErrorHandler.name.message}
+                className={classes.inputBox}
                 style={{
-                  backgroundColor: "white",
                   fontFamily: 'Comfortaa, cursive',
                   borderRadius: '15px',
                   color: 'black',
-                  border: '1 px solid white',
+                  border: '1px solid white',
                   marginBottom: '20px',
-                  width: '400px'
                 }}
               />
           </Grid>
@@ -255,13 +272,13 @@ const [numero, setPhone] = useState("")
                 value={signupDetails.city}
                 onChange={(event) => handleInput("city", event.target.value)}
                 className={classes.inputBox}
-                error={inputErrorHandler.name.error}
-                helperText={inputErrorHandler.name.message}
+                error={inputErrorHandler.city.error}
+                helperText={inputErrorHandler.city.message}
                 onBlur={(event) => {
                   if (event.target.value === "") {
-                    handleInputError("name", true, "Name is required");
+                    handleInputError("city", true, "La città è obbligatoria");
                   } else {
-                    handleInputError("name", false, "");
+                    handleInputError("city", false, "");
                   }
                 }}
                 variant="outlined"
@@ -300,7 +317,7 @@ const [numero, setPhone] = useState("")
               helperText={inputErrorHandler.password.message}
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("password", true, "Password is required");
+                  handleInputError("password", true, "la Password è obbligatoria");
                 } else {
                   handleInputError("password", false, "");
                 }
@@ -313,17 +330,36 @@ const [numero, setPhone] = useState("")
 
             </Grid>
         </Grid>
-        <Grid item>
-          <button
-            className='button'
-            onClick={() => {
-                handleLogin()
-            }}
-          >
-            Crea il mio account
-          </button>
-        </Grid>
-        <Grid item>
+        <div className="check-ok">
+          <div>
+          <label>
+              <input
+                type="checkbox"
+                checked={marketing}
+                onChange={() => setMarketing(!marketing)}
+              />
+              Resta sempre aggiornato! Ricevi Newsletter sui nuovi annunci
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                checked={terminiCondizioni}
+                onChange={() => setTerminiCondizioni(!terminiCondizioni)}
+              />
+              Accetto i Termini e Condizioni di utilizzo dei miei dati
+            </label>
+          </div>
+          <Grid item>
+            <button
+              className='button'
+              onClick={handleLogin}
+            >
+              Crea il mio account
+            </button>
+          </Grid>
+        </div>
+{/*        <Grid item>
           <a
             className='button'
             onClick={handleNext}
@@ -331,7 +367,7 @@ const [numero, setPhone] = useState("")
           >
             Vai avanti
           </a>
-        </Grid>
+          </Grid>*/}
       </Grid>
       {isRegistrationComplete && (
         <div className="popup">

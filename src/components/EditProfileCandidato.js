@@ -15,11 +15,11 @@ const saveProfileCandidato = () => {
 
 }
 
-export const EditProfileCandidato = ({setEdit}) => {
+export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
   const profileNow = JSON.parse(localStorage.getItem('profile'));
   const token = localStorage.getItem("token");
   const [addExLink, setAddExLink] = useState({
-    linkedin: profileNow.linkedin,
+    linkedin: profileNow.linkedin == "Non impostato" ? "" : profileNow.linkedin,
     esperienza: profileNow.esperienza,
     competenze: profileNow.competenze,
     cv: profileNow.cv ? profileNow.cv : false,
@@ -29,23 +29,6 @@ export const EditProfileCandidato = ({setEdit}) => {
   });
 
   const [competenze, setCompetenze] = useState([]);
-
-  const handleGetprofile = () => {
-    axios.post(apiList.getWorker, null, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-    .then(response => {
-      const profile = response.data;
-      console.log(profile);
-      localStorage.setItem("id", response.data.id);
-      localStorage.setItem("profile", JSON.stringify(profile));
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
 
   const handleInput = (key, value) => {
     setAddExLink({
@@ -63,7 +46,7 @@ export const EditProfileCandidato = ({setEdit}) => {
      })
      .then((response) => {
       handleGetprofile();
-      localStorage.setItem("profile", JSON.stringify(response));
+      //localStorage.setItem("profile", JSON.stringify(response));
       setEdit();
      })
      .catch((error) => {
@@ -102,11 +85,12 @@ export const EditProfileCandidato = ({setEdit}) => {
          <div className='profilo-item2'>
            <img src={linkedin} alt='profilo-icone' className='img-icon-profilo' />
            <div>
-             <label htmlFor='linkedin-url'>Inserisci linkedin</label>
+             <label htmlFor='linkedin-url'>Inserisci il tuo linkedin</label>
              <input 
              className='input-edit-profile'
              id='linkedin-url' 
              type='text'
+             placeholder='Non impostato'
              value={addExLink.linkedin}
              onChange={(event) => {
                handleInput("linkedin", event.target.value);
@@ -132,7 +116,7 @@ export const EditProfileCandidato = ({setEdit}) => {
     </div>
     <div className='profilo-middle-item2'>
         <div className='profilo-item2'>
-          <img src={addExLink.cvDoc} alt='profilo-icone' className='img-icon-profilo' />
+          <img src={cv} alt='profilo-icone' className='img-icon-profilo' />
           <div>
             <p>Carica il tuo cv</p>
             <input type="file" accept=".pdf" onChange={handleCVUpload} />
@@ -140,7 +124,7 @@ export const EditProfileCandidato = ({setEdit}) => {
           <a><FaArrowRight color='#ffffff' /></a>
         </div>
         <div className='profilo-item2'>
-          <img src={addExLink.portfolioDoc} alt='profilo-icone' className='img-icon-profilo' />
+          <img src={porfolio} alt='profilo-icone' className='img-icon-profilo' />
           <div>
             <p>Carica il tuo portfolio</p>
             <input type="file" accept=".pdf" onChange={handlePortfolioUpload} />
@@ -153,7 +137,7 @@ export const EditProfileCandidato = ({setEdit}) => {
           <label htmlFor='inserisci-competenze'>Inserisci le tue competenze</label>
           <input
             type="text"
-            style={{ padding: '10px 40px', width: '70%' }}
+            style={{ padding: '10px 20px', width: '90%', border: 'none', borderBottom: '1px solid rgba(0, 0, 0, 0.2)' }}
             placeholder="Inserisci una competenza e premi Invio"
             value={addExLink.newCompetenza}
             onChange={(event) => {

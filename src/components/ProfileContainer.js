@@ -159,11 +159,11 @@ const initial2 = profile.cognome.charAt(0);
                 <p>Valuta le tue soft skill</p>
                 <h4>Gioca!</h4>
             </div>
-            <a href='/'>Inizia a giocare</a>
+            <a>Inizia a giocare</a>
             </div>
         </div>
         </div> :
-     <EditProfileCandidato setEdit={handleEdit} />}
+     <EditProfileCandidato handleGetprofile={handleGetprofile} setEdit={handleEdit} />}
      </div>
     
   )

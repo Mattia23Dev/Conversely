@@ -106,7 +106,7 @@ useEffect(() => {
                   />
                 </div>
                 <a className='search-button' type="submit" onClick={handleSubmit}>
-                  TROVA LAVORO <FaArrowRight color='#FFFFFF' />
+                  TROVA LAVORO <span><FaArrowRight color='#FFFFFF' /></span>
                 </a>
               </form>
           </div>

@@ -15,7 +15,9 @@ import axios from "axios";
 import Chip from "material-ui-chip-input";
 import '../../assets/stylePages/creaAnnuncio.css'
 import { SetPopupContext } from "../../App";
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import it from 'date-fns/locale/it';
 import apiList from "../../components/apiList";
 import { HeaderAziendaWhiteLogin } from "../../components/Header";
 
@@ -139,9 +141,7 @@ const CreaAnnuncio = (props) => {
     studio: "",
     ranger: 100,
     rangel: 0,
-    durataAnnuncio: new Date(new Date())
-      .toISOString()
-      .substr(0, 16),
+    durataAnnuncio: new Date(),
     skills: [], 
   });
 
@@ -211,9 +211,25 @@ const CreaAnnuncio = (props) => {
         <hr color="#EAE9E9" fullWidth/>
         <div>
           <p>Inserisci la durata del tuo annuncio</p>
+          <CustomInput value={jobDetails.durataAnnuncio.toISOString().substr(0, 16)} />
           <Grid item style={{paddingTop:'3em'}}>
-                    <TextField
+          <DatePicker
+            value={jobDetails.durataAnnuncio}
+            onChange={(date) => {
+              handleInput("durataAnnuncio", date);
+            }}
+            selected={jobDetails.durataAnnuncio}
+            todayButton="Oggi"
+            showYearDropdown
+            showMonthDropdown
+            open={true}
+            wrapperClassName="custom-datepicker"
+            dateFormat="dd/MM/yyyy"
+            locale={it}
+          />
+                    {/*<TextField
                       label="Durata annuncio"
+                      open={true}
                       type="date"
                       value={jobDetails.durataAnnuncio}
                       onChange={(event) => {
@@ -224,7 +240,7 @@ const CreaAnnuncio = (props) => {
                       }}
                       variant="outlined"
                       fullWidth
-                    />
+                    />*/}
         </Grid>
         </div>
       </div>
@@ -255,7 +271,7 @@ const CreaAnnuncio = (props) => {
                   spacing={3}
                 >
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
-                    <Grid item>
+                    <Grid item >
                       <TextField
                         label="Titolo"
                         value={jobDetails.titolo}
@@ -532,5 +548,13 @@ const CreaAnnuncio = (props) => {
     </>
   );
 };
+
+function CustomInput({ value }) {
+  return (
+    <button style={{width: '200px', padding: '4px 10px', marginTop: '50px'}} className="custom-input">
+      {value}
+    </button>
+  );
+}
 
 export default CreaAnnuncio;

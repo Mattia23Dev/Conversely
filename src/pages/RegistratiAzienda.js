@@ -81,6 +81,18 @@ const RegistratiAzienda = (props) => {
       error: false,
       message: "",
     },
+    cognome: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    city: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
   });
 
   const handleInput = (key, value) => {
@@ -173,6 +185,8 @@ const RegistratiAzienda = (props) => {
     }
   };
 
+  const [ricordami, setRic] = useState(false);
+
   const handleNext = (e) => {
     e.preventDefault();
     setIsRegistrationComplete(true);
@@ -186,7 +200,7 @@ const RegistratiAzienda = (props) => {
       <Grid container direction="column" spacing={4} alignItems="center" className="main-registrati-azienda">
         <Grid className="auth-text">
           <h2>Crea il tuo account</h2>
-          <p>Sei già registrato? 
+          <p>Sei già registrato?&nbsp;  
             <span>
               <a href="/accediAzienda">Log in</a>
             </span>
@@ -230,13 +244,13 @@ const RegistratiAzienda = (props) => {
               value={signupDetails.cognome}
               onChange={(event) => handleInput("cognome", event.target.value)}
               className={classes.inputBox}
-              error={inputErrorHandler.name.error}
-              helperText={inputErrorHandler.name.message}
+              error={inputErrorHandler.cognome.error}
+              helperText={inputErrorHandler.cognome.message}
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("surname", true, "Il cognome è obbligatorio");
+                  handleInputError("cognome", true, "Il cognome è obbligatorio");
                 } else {
-                  handleInputError("surname", false, "");
+                  handleInputError("cognome", false, "");
                 }
               }}
               variant="outlined"
@@ -268,8 +282,8 @@ const RegistratiAzienda = (props) => {
                 value={signupDetails.city}
                 onChange={(event) => handleInput("city", event.target.value)}
                 className={classes.inputBox}
-                error={inputErrorHandler.name.error}
-                helperText={inputErrorHandler.name.message}
+                error={inputErrorHandler.city.error}
+                helperText={inputErrorHandler.city.message}
                 onBlur={(event) => {
                   if (event.target.value === "") {
                     handleInputError("city", true, "Inserisci la città");
@@ -313,7 +327,7 @@ const RegistratiAzienda = (props) => {
               helperText={inputErrorHandler.password.message}
               onBlur={(event) => {
                 if (event.target.value === "") {
-                  handleInputError("password", true, "Password is required");
+                  handleInputError("password", true, "Password obbligatoria");
                 } else {
                   handleInputError("password", false, "");
                 }
@@ -326,6 +340,14 @@ const RegistratiAzienda = (props) => {
 
             </Grid>
         </Grid>
+          <label>
+              <input
+                type="checkbox"
+                checked={ricordami}
+                onChange={() => setRic(!ricordami)}
+              />
+              Ricordami
+            </label>
         <Grid item>
           <button
             className='button'
@@ -336,7 +358,7 @@ const RegistratiAzienda = (props) => {
             Crea il mio account
           </button>
         </Grid>
-        <Grid item>
+{/*        <Grid item>
           <a         
             className='button'
             onClick={handleNext}
@@ -344,7 +366,7 @@ const RegistratiAzienda = (props) => {
           >
             Vai avanti
           </a>
-        </Grid>
+          </Grid>*/}
       </Grid>
       {isRegistrationComplete && (
         <div className="popup">

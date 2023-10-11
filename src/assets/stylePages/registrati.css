@@ -24,6 +24,17 @@
     font-weight: 300;
     text-align: center;
 }
+.check-ok {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 45%;
+    align-items: center;
+}
+.check-ok label, .check-ok input {
+    color: #BFBEBE;
+    font-size: 14px;
+}
 .registrati-input-container{
     display: flex;
     justify-content: center;
