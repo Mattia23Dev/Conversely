@@ -8,6 +8,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import it from 'date-fns/locale/it';
 import toast from 'react-hot-toast';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const GestioneProfili = () => {
     const token = localStorage.getItem("token");
@@ -130,18 +132,12 @@ const GestioneProfili = () => {
         </div>
         </div>
         <div className='right-gestione-profili' style={{position: 'relative'}}>
-          <DatePicker
-            selected={selectedDate}
-            onChange={handleDateChange}
-            todayButton="Oggi"
-            showYearDropdown
-            showMonthDropdown
-            customInput={<CustomInput handleSelectWork={handleSelectWork} />}
-            open={true}
-            wrapperClassName="custom-datepicker"
-            dateFormat="dd/MM/yyyy"
-            locale={it}
-          />
+        <CustomInput handleSelectWork={handleSelectWork} value={selectedDate.toISOString().substr(0, 16)} />
+            <Calendar 
+                onChange={(date) => {
+                  handleDateChange(date);
+            }} 
+            value={selectedDate} />
           {selectWork && (
             <div className='select-users'>
               <select onChange={(e) => handleSetDate(e.target.value)}>
@@ -165,7 +161,7 @@ const GestioneProfili = () => {
 
 function CustomInput({ value, handleSelectWork }) {
   return (
-    <button className="custom-input" onClick={handleSelectWork}>
+    <button style={{marginTop: '50px'}} className="custom-input" onClick={handleSelectWork}>
       {value}
     </button>
   );

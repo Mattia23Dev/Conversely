@@ -114,7 +114,11 @@ const cancelPremium = () => {
             {premium && canceled == false ? 
             <button onClick={cancelSub} className='cancel-sub'>Annulla iscrizione</button> 
             : 
-            <button className='cancel-sub'>Abbonamento cancellato, rimarrai dentro la pagina fino alla <br />scadenza del prossimo rinnovo</button>}
+            premium && canceled == true ?
+            <button className='cancel-sub'>Abbonamento cancellato, rimarrai dentro la pagina fino alla <br />scadenza del prossimo rinnovo</button>
+            : 
+            null
+          }
             <>
             {premium == true ? (
               <div style={{display:'flex', flexDirection: 'column', gap: 30}}>

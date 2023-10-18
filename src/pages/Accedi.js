@@ -96,7 +96,7 @@ const Accedi = (props) => {
         <h2>Bentornato!</h2>
         <p>Effettua il login</p>
       </Grid>
-      <Grid item>
+      <Grid style={{marginBottom: '20px'}} item>
         <EmailInput
           label="Email"
           value={loginDetails.email}

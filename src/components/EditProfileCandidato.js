@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import linkedin from '../assets/images/linkedin-icon.png'
 import esperienza from '../assets/images/esperienza-icon.png'
 import gioca from '../assets/images/gioca-icon.png';
@@ -10,10 +10,11 @@ import axios from 'axios';
 import { TextField } from '@material-ui/core';
 import ChipInput from 'material-ui-chip-input';
 import { Autocomplete } from '@material-ui/lab';
-
-const saveProfileCandidato = () => {
-
-}
+import toast from 'react-hot-toast';
+import * as XLSX from 'xlsx';
+import file from './tag_competenze.xlsx';
+import readXlsxFile from 'read-excel-file';
+import { competenzeArray } from './competenzeArray';
 
 export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
   const profileNow = JSON.parse(localStorage.getItem('profile'));
@@ -22,14 +23,15 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
     linkedin: profileNow.linkedin == "Non impostato" ? "" : profileNow.linkedin,
     esperienza: profileNow.esperienza,
     competenze: profileNow.competenze,
-    cv: profileNow.cv ? profileNow.cv : false,
+    cv: false,
     cvDoc: {},
-    portfolio: profileNow.portfolio ? profileNow.portfolio : false,
+    portfolio: false,
     portfolioDoc: {}, 
   });
 
-  const [competenze, setCompetenze] = useState([]);
+  const formData = new FormData();
 
+  const [competenze, setCompetenze] = useState([]);
   const handleInput = (key, value) => {
     setAddExLink({
       ...addExLink,
@@ -38,29 +40,44 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
   };
 
   const handleAddExLink = () => {
+    formData.append('cvDoc', addExLink.cvDoc);
+    formData.append('portfolioDoc', addExLink.portfolioDoc);
+    
+    const jsonData = {
+      cv: addExLink.cv,
+      portfolio: addExLink.portfolio,
+      competenze: addExLink.competenze,
+      esperienza: Number(addExLink.esperienza),
+      linkedin: addExLink.linkedin,
+    };
+    
+    formData.append('data', JSON.stringify(jsonData));
     axios
-     .post(apiList.addExLink, addExLink, {
+     .post(apiList.addExLink, formData, {
       headers: {
         Authorization: `Token ${token}`,
-      }
+        //'Content-Type': 'multipart/form-data',
+      }, 
      })
      .then((response) => {
       handleGetprofile();
       //localStorage.setItem("profile", JSON.stringify(response));
       setEdit();
+      toast.success('Profilo aggiornato');
      })
      .catch((error) => {
       console.log(error)
      })
-  }
+  };
 
   const handleCVUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      formData.append('cvDoc', file);
       console.log('File selezionato:', file);
       setAddExLink({
         ...addExLink,
-        cvDoc: file,
+        cvDoc: file, //file
         cv: true,
       });
     }
@@ -70,13 +87,47 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
     const file = e.target.files[0];
     if (file) {
       console.log('File selezionato:', file);
+      formData.append('portfolioDoc', file);
       setAddExLink({
         ...addExLink,
-        porffolioDoc: file,
-        portfolioDoc: true,
+        portfolioDoc: file, 
+        portfolio: true,
       });
     }
   };
+
+  const [inputValue, setInputValue] = useState('');
+  const [competenzeFiltrate, setCompetenzeFiltrate] = useState([]);
+
+  useEffect(() => {
+    const inputValueLowerCase = inputValue.toLowerCase();
+    const filteredCompetenze = competenzeArray.filter(competenza =>
+      competenza.toLowerCase().startsWith(inputValueLowerCase)
+    );
+
+    setCompetenzeFiltrate(filteredCompetenze.slice(0, 10));
+  }, [inputValue, competenzeArray]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleCompetenzaClick = (competenza) => {
+    if (addExLink.competenze.includes(competenza)) {
+      setAddExLink({
+        ...addExLink,
+        competenze: addExLink.competenze.filter(item => item !== competenza),
+      });
+    } else {
+      setAddExLink({
+        ...addExLink,
+        competenze: [...addExLink.competenze, competenza],
+        newCompetenza: '',
+      });
+    }
+  };
+
+  console.log(addExLink.competenze);
 
   return (
     <>
@@ -135,7 +186,7 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
    <div className='profilo-bottom-item-edit'>
         <div className='profilo-item-competenze'>
           <label htmlFor='inserisci-competenze'>Inserisci le tue competenze</label>
-          <input
+          {/*<input
             type="text"
             style={{ padding: '10px 20px', width: '90%', border: 'none', borderBottom: '1px solid rgba(0, 0, 0, 0.2)' }}
             placeholder="Inserisci una competenza e premi Invio"
@@ -158,12 +209,35 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
                 }
               }
             }}
-          />
+          />*/}
+              <input
+                type="text"
+                style={{ padding: '10px 20px', width: '90%', border: 'none', borderBottom: '1px solid rgba(0, 0, 0, 0.2)' }}
+                placeholder="Inserisci una competenza"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', justifyContent: 'start', flexWrap: 'wrap' }}>
+                {competenzeFiltrate.map((competenza, index) => (
+                  <div className={addExLink.competenze.includes(competenza) ? 'competenze-suggerimento selected' : 'competenze-suggerimento'} onClick={() => handleCompetenzaClick(competenza)} key={index}>
+                    <p>{competenza}</p>
+                  </div>
+                ))}
+              </div>
+{/*          <div>
+            {filteredCompetenze.map((competenza, index) => (
+              <div key={index}>
+                <p style={{ margin: '5px 40px 0 40px' }}>{competenza}</p>
+              </div>
+            ))}
+            </div>
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center'}}>
             {addExLink.competenze.map((competenza, index) => (
               <div key={index}><p style={{margin: '5px 40px 0 40px'}}>{competenza}</p></div>
             ))}
           </div>
+          */}
         </div>
         <div className='profilo-item-play'>
           <img src={gioca} alt='profilo-icone' className='img-icon-profilo' />

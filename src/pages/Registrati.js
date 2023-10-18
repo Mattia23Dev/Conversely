@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
                 fontFamily: 'Comfortaa, cursive',
                 borderRadius: '15px',
                 color: 'black',
-                border: 'none',
+                //border: '1px solid rgb(233, 233, 233)',
                 marginBottom: '20px',
   },
 }));
@@ -199,6 +199,7 @@ const [marketing, setMarketing] = useState(false);
           <Grid item>
             <TextField
               label="Nome"
+              variant="standard"
               value={signupDetails.nome}
               onChange={(event) => handleInput("nome", event.target.value)}
               error={inputErrorHandler.name.error}
@@ -210,20 +211,27 @@ const [marketing, setMarketing] = useState(false);
                   handleInputError("name", false, "");
                 }
               }}
-              variant="outlined"
               style={{
                 backgroundColor: "white",
                 fontFamily: 'Comfortaa, cursive',
-                borderRadius: '15px',
+                borderRadius: '5px',
                 color: 'black',
-                border: 'none',
+                border: '1px solid rgb(233, 233, 233)',
+                //border: '1px solid rgba(0, 0, 0, 0.2)', // Stile del bordo
+                //borderRadius: '15px',
                 marginBottom: '20px',
                 width: '400px'
               }}
               InputProps={{
                   style: {
-                      color: "black"
-                  }
+                      color: "black",
+                      //borderRadius: '15px',
+                      fontFamily: 'Comfortaa, cursive',
+                      padding: '2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                  },
+                  disableUnderline: true,
               }}
             />
           </Grid>
@@ -235,7 +243,7 @@ const [marketing, setMarketing] = useState(false);
               className={classes.inputBox}
               error={inputErrorHandler.cognome.error}
               helperText={inputErrorHandler.cognome.message}
-              variant="outlined"
+              variant="standard"
               onBlur={(event) => {
                 if (event.target.value === "") {
                   handleInputError("cognome", true, "Il cognome è obbligatorio");
@@ -243,6 +251,24 @@ const [marketing, setMarketing] = useState(false);
                   handleInputError("cognome", false, "");
                 }
               }}
+              style={{
+                backgroundColor: "white",
+                fontFamily: 'Comfortaa, cursive',
+                borderRadius: '5px',
+                color: 'black',
+                border: '1px solid rgb(233, 233, 233)',
+              }}
+              InputProps={{
+                style: {
+                    color: "black",
+                    //borderRadius: '15px',
+                    fontFamily: 'Comfortaa, cursive',
+                    padding: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                },
+                disableUnderline: true,
+            }}
             
             />
           </Grid>
@@ -261,8 +287,11 @@ const [marketing, setMarketing] = useState(false);
                   fontFamily: 'Comfortaa, cursive',
                   borderRadius: '15px',
                   color: 'black',
-                  border: '1px solid white',
                   marginBottom: '20px',
+                }}
+                inputStyle={{
+                  width: '100%',
+                  border: "1px solid rgb(233, 233, 233)"
                 }}
               />
           </Grid>
@@ -281,16 +310,25 @@ const [marketing, setMarketing] = useState(false);
                     handleInputError("city", false, "");
                   }
                 }}
-                variant="outlined"
+                variant="standard"
                 style={{
                   backgroundColor: "white",
                   fontFamily: 'Comfortaa, cursive',
-                  borderRadius: '15px',
+                  borderRadius: '5px',
                   color: 'black',
-                  border: 'none',
-                  marginBottom: '20px',
-                  width: '400px'
+                  border: '1px solid rgb(233, 233, 233)',
                 }}
+                InputProps={{
+                  style: {
+                      color: "black",
+                      //borderRadius: '15px',
+                      fontFamily: 'Comfortaa, cursive',
+                      padding: '2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                  },
+                  disableUnderline: true,
+              }}
               />
           </Grid>
         </Grid> 
@@ -330,7 +368,7 @@ const [marketing, setMarketing] = useState(false);
 
             </Grid>
         </Grid>
-        <div className="check-ok">
+        <div className="check-ok" style={{marginTop: '20px'}}>
           <div>
           <label>
               <input

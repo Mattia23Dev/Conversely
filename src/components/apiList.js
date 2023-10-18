@@ -1,5 +1,5 @@
-//export const server = process.env.SERVER_URL || "https://converselybackend-production.up.railway.app";
-export const server = process.env.SERVER_URL || "http://127.0.0.1:8000";
+export const server = process.env.SERVER_URL || "https://converselybackend-production.up.railway.app";
+//export const server = process.env.SERVER_URL || "http://127.0.0.1:8000";
 //https://hr-production-d58f.up.railway.app
 //http://82.55.115.103:8001
 //http://127.0.0.1:8000

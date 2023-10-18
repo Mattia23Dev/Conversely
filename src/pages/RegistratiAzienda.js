@@ -221,20 +221,28 @@ const RegistratiAzienda = (props) => {
                   handleInputError("name", false, "");
                 }
               }}
-              variant="outlined"
+              variant="standard"
               style={{
                 backgroundColor: "white",
                 fontFamily: 'Comfortaa, cursive',
-                borderRadius: '15px',
+                borderRadius: '5px',
                 color: 'black',
-                border: 'none',
+                border: '1px solid rgb(233, 233, 233)',
+                //border: '1px solid rgba(0, 0, 0, 0.2)', // Stile del bordo
+                //borderRadius: '15px',
                 marginBottom: '20px',
                 width: '400px'
               }}
               InputProps={{
                   style: {
-                      color: "black"
-                  }
+                      color: "black",
+                      //borderRadius: '15px',
+                      fontFamily: 'Comfortaa, cursive',
+                      padding: '2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                  },
+                  disableUnderline: true,
               }}
             />
           </Grid>
@@ -253,8 +261,27 @@ const RegistratiAzienda = (props) => {
                   handleInputError("cognome", false, "");
                 }
               }}
-              variant="outlined"
-            
+              variant="standard"
+              style={{
+                backgroundColor: "white",
+                fontFamily: 'Comfortaa, cursive',
+                borderRadius: '5px',
+                color: 'black',
+                border: '1px solid rgb(233, 233, 233)',
+                marginBottom: '20px',
+                width: '400px'
+              }}
+              InputProps={{
+                  style: {
+                      color: "black",
+                      //borderRadius: '15px',
+                      fontFamily: 'Comfortaa, cursive',
+                      padding: '2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                  },
+                  disableUnderline: true,
+              }}            
             />
           </Grid>
         </Grid>
@@ -274,6 +301,10 @@ const RegistratiAzienda = (props) => {
                   marginBottom: '20px',
                   width: '400px'
                 }}
+                inputStyle={{
+                  width: '100%',
+                  border: "1px solid rgb(233, 233, 233)"
+                }}
               />
           </Grid>
           <Grid item>
@@ -291,15 +322,28 @@ const RegistratiAzienda = (props) => {
                     handleInputError("city", false, "");
                   }
                 }}
-                variant="outlined"
+                variant="standard"
                 style={{
                   backgroundColor: "white",
                   fontFamily: 'Comfortaa, cursive',
-                  borderRadius: '15px',
+                  borderRadius: '5px',
                   color: 'black',
-                  border: 'none',
+                  border: '1px solid rgb(233, 233, 233)',
+                  //border: '1px solid rgba(0, 0, 0, 0.2)', // Stile del bordo
+                  //borderRadius: '15px',
                   marginBottom: '20px',
                   width: '400px'
+                }}
+                InputProps={{
+                    style: {
+                        color: "black",
+                        //borderRadius: '15px',
+                        fontFamily: 'Comfortaa, cursive',
+                        padding: '2px',
+                        display: 'flex',
+                        alignItems: 'center',
+                    },
+                    disableUnderline: true,
                 }}
               />
           </Grid>
@@ -340,7 +384,7 @@ const RegistratiAzienda = (props) => {
 
             </Grid>
         </Grid>
-          <label>
+          <label style={{marginTop: '20px'}}>
               <input
                 type="checkbox"
                 checked={ricordami}

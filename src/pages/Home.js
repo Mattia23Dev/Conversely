@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
-import {HeaderCandidato} from '../components/Header';
+import {HeaderCandidato, HeaderCandidatoWhite} from '../components/Header';
 import '../assets/stylePages/home.css';
 import fotoHome from '../assets/images/visual 1.png';
 import { FaSearch, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
 import axios from 'axios';
 import apiList from '../components/apiList';
 import { Navigate } from 'react-router-dom';
+import isAuth from '../components/isAuth';
 
 const Home = () => {
 
@@ -13,6 +14,7 @@ const Home = () => {
   const [city, setJobLocation] = useState("");
   const token = localStorage.getItem("token");
   const [shouldNavigate, setShouldNavigate] = useState(false);
+  const [loggedin, setLoggedin] = useState(isAuth());
 
   const handleJobTitleChange = (event) => {
     setJobTitle(event.target.value);

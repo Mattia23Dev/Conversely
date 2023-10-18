@@ -97,7 +97,7 @@ const AccediAzienda = (props) => {
         <h2>Bentornato!</h2>
         <p>Effettua il login</p>
       </Grid>
-      <Grid item>
+      <Grid item style={{marginBottom: '20px'}}>
         <EmailInput
           label="Email"
           value={loginDetails.email}

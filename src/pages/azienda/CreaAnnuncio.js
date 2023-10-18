@@ -16,6 +16,8 @@ import Chip from "material-ui-chip-input";
 import '../../assets/stylePages/creaAnnuncio.css'
 import { SetPopupContext } from "../../App";
 import DatePicker from 'react-datepicker';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import it from 'date-fns/locale/it';
 import apiList from "../../components/apiList";
@@ -130,14 +132,14 @@ const CreaAnnuncio = (props) => {
     titolo: "",
     city: "",
     descrizione: "",
-    contratto: "Determinato",
-    competenze: ["Organizzazione",],
-    turnazione: "Orario notturno",
+    contratto: "",
+    competenze: [],
+    turnazione: "",
     esperienza: 1,
     mansioni: "",
-    benefit: "",
+    benefit: [],
     protetto: false,
-    tempoLavoro: "Full-time",
+    tempoLavoro: "",
     studio: "",
     ranger: 100,
     rangel: 0,
@@ -172,14 +174,14 @@ const CreaAnnuncio = (props) => {
         titolo: "",
         city: "",
         descrizione: "",
-        contratto: "Determinato",
-        competenze: ["Organizzazione",],
-        turnazione: "Orario notturno",
+        contratto: "",
+        competenze: [],
+        turnazione: "",
         esperienza: 1,
         mansioni: "",
-        benefit: "",
+        benefit: [],
         protetto: false,
-        tempoLavoro: "Full-time",
+        tempoLavoro: "",
         studio: "",
         ranger: 100,
         rangel: 0,
@@ -212,21 +214,14 @@ const CreaAnnuncio = (props) => {
         <div>
           <p>Inserisci la durata del tuo annuncio</p>
           <CustomInput value={jobDetails.durataAnnuncio.toISOString().substr(0, 16)} />
-          <Grid item style={{paddingTop:'3em'}}>
-          <DatePicker
-            value={jobDetails.durataAnnuncio}
-            onChange={(date) => {
-              handleInput("durataAnnuncio", date);
-            }}
-            selected={jobDetails.durataAnnuncio}
-            todayButton="Oggi"
-            showYearDropdown
-            showMonthDropdown
-            open={true}
-            wrapperClassName="custom-datepicker"
-            dateFormat="dd/MM/yyyy"
-            locale={it}
-          />
+          <Grid item style={{paddingTop:'0em'}}>
+              <div className='calendar-container'>
+                <Calendar 
+                onChange={(date) => {
+                  handleInput("durataAnnuncio", date);
+                }} 
+                value={jobDetails.durataAnnuncio} />
+              </div>
                     {/*<TextField
                       label="Durata annuncio"
                       open={true}
@@ -352,13 +347,6 @@ const CreaAnnuncio = (props) => {
                           handleInput("competenze", event.target.value);
                         }}
                         fullWidth
-                        renderValue={(selected) => (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', maxHeight: '180px', overflow: 'hidden' }}>
-                          {selected.map((value) => (
-                            <Chip key={value} label={value} style={{ margin: '2px' }} />
-                          ))}
-                        </div>
-                        )}
                         onAdd={(chip) =>
                           setJobDetails({
                             ...jobDetails,
@@ -420,21 +408,36 @@ const CreaAnnuncio = (props) => {
                         />
                     </Grid>
                     <Grid item>
-                      <TextField
+                      <Select
                         select
                         label="Benefit"
-                        value={jobDetails.benefit}
+                        multiple
+                        value={jobDetails.benefit || []}
                         onChange={(event) => handleInput("benefit", event.target.value)}
                         variant="outlined"
                         fullWidth
                         style={{ width: '250px' }}
+                        onAdd={(chip) =>
+                          setJobDetails({
+                            ...jobDetails,
+                            benefit: [...jobDetails.benefit, chip],
+                          })
+                        }
+                        onDelete={(chip, index) => {
+                          let benefit = jobDetails.benefit;
+                          benefit.splice(index, 1);
+                          setJobDetails({
+                            ...jobDetails,
+                            benefit: benefit,
+                          });
+                        }}
                       >
                         {nomiItaliani.map((benefit, index) => (
                           <MenuItem key={index} value={benefit}>
                             {benefit}
                           </MenuItem>
                         ))}
-                      </TextField>
+                      </Select>
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>

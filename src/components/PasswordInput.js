@@ -46,20 +46,26 @@ const PasswordInput = (props) => {
           onChange={(event) => props.onChange(event)}
           labelWidth={props.labelWidth ? props.labelWidth : 70}
           onBlur={props.onBlur ? props.onBlur : null}
+          variant="standard"
           style={{
             backgroundColor: "white",
             fontFamily: 'Comfortaa, cursive',
-            boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.04)',
-            borderRadius: '15px',
+            borderRadius: '5px',
             color: 'black',
-            border: 'none',
-            width: '400px'
+            border: '1px solid rgb(233, 233, 233)',
+            width: '400px',
           }}
           InputProps={{
-              style: {
-                  color: "black"
-              }
-          }}
+            style: {
+                color: "black",
+                //borderRadius: '15px',
+                fontFamily: 'Comfortaa, cursive',
+                padding: '2px',
+                display: 'flex',
+                alignItems: 'center',
+            },
+            disableUnderline: true,
+        }}
         />
         {props.helperText ? (
           <FormHelperText>{props.helperText}</FormHelperText>

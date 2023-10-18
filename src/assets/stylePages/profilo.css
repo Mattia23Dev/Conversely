@@ -200,10 +200,36 @@
     width: 90%;
 }
 .profilo-item-competenze > div > div{
-    width: 29px;
-    height: 29px;
-    background: conic-gradient(from 180deg at 50% 50%, #F75F24 0deg, #FF285C 360deg);
-    border-radius: 50%;
+    background: #F75F24;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+    color: white;
+    font-size: 12px;
+    padding: 0px 12px;
+    cursor: pointer;
+    margin: 0px;
+}
+.competenze-suggerimento{
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+    font-size: 12px;
+    padding: 0px 12px;
+    cursor: pointer;
+    margin: 0px;
+}
+.competenze-suggerimento{
+    background-color: #F75F243B !important;
+    color: #F75F24 !important;
+}
+.selected{
+    background: #F75F24 !important;
+    color: white !important;
 }
 .profilo-item-play{
     color: white;
@@ -268,7 +294,9 @@
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.286);
 }
-
+.competenze-suggerimento{
+    background-color: #EB291C;
+}
 /*PROFILO CANDIDATO DALL'AZIENDA*/
 .round-top-a{
     border-radius: 50%;
