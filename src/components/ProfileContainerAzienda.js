@@ -4,7 +4,6 @@ import document from '../assets/images/document-icon.png'
 import candidatura from '../assets/images/candidature-icon.png'
 import gioca from '../assets/images/gioca-icon.png';
 import scarica from '../assets/images/download-icon.png';
-import pdf from 'file:///C:/Users/matti/Downloads/2023%20-%20sistema%20di%20prenotazione%20(1).pdf'
 import { useParams } from 'react-router-dom';
 import apiList from './apiList';
 import axios from 'axios';
@@ -25,8 +24,6 @@ const dataProfilo = {
       'Adobe Premiere',
       'Adobe Premiere'
     ],
-    curriculum: pdf ,
-    portfolio: pdf ,
     votoEmpatia: 'A-',
     votoStress: 'B',
     votoProblem: 'C',
@@ -71,7 +68,8 @@ const ProfileContainerAzienda = () => {
     })
   .then(response => {
     console.log(response);
-    toast.success('Hai cambiato lo stato in:', status)
+    toast.success('Hai cambiato lo stato in:  '+ status);
+    window.alert('Hai cambiato lo stato in:  '+ status);
   })
   .catch(error => {
     console.log(error);
@@ -107,7 +105,7 @@ const ProfileContainerAzienda = () => {
          <div className='profilo-middle-item'>
            <div className='profilo-item'>
              <img src={scarica} alt='profilo-icone' className='img-icon-profilo' />
-               <a href={dataProfilo.curriculum} className='pdf-download'>
+               <a href={profile.cv !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profile.cv : null} className='pdf-download'>
                 <div>
                     <p>Download</p>
                     <p>Curricula</p>
@@ -122,7 +120,7 @@ const ProfileContainerAzienda = () => {
                 <p>Portfolio</p>
             </div>
              ) : (
-             <a href={profile.portfolio} className='pdf-download'>
+             <a href={profile.portfolio !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profile.portfolio : null} className='pdf-download'>
                 <div>
                     <p>Download</p>
                     <p>Portfolio</p>

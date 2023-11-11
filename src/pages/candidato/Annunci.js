@@ -99,12 +99,13 @@ const Annunci = () => {
                     <Link to={`/dettagli-annuncio/${annunci.id}`} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
                     <AnnunciContainer
                     key={annunci.id}
-                    img={annunci.azienda.logo}
+                    img={'https://converselybackend-production.up.railway.app'+annunci.azienda.logo}
                     nomeAzienda={annunci.azienda.nome}
                     città={annunci.city}
                     ruolo={annunci.titolo}
-                    desc={annunci.desccrizione}
+                    desc={annunci.descrizione}
                     salario={annunci.ranger}
+                    salarioMin={annunci.rangel}
                     tempistica={annunci.tempoLavoro}
                     quando={formattedDate}
                      />

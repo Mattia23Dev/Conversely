@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 import {
   FormControl,
   InputLabel,
@@ -6,6 +7,8 @@ import {
   InputAdornment,
   IconButton,
   FormHelperText,
+  TextField,
+  StandardProps
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -25,29 +28,17 @@ const PasswordInput = (props) => {
   return (
     <>
       <FormControl variant="outlined" error={props.error ? props.error : null}>
-        <InputLabel htmlFor="outlined-adornment-password">
-          {props.label}
-        </InputLabel>
-        <OutlinedInput
+        <TextField
+         label='Password'
           id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
           value={props.value}
           onChange={(event) => props.onChange(event)}
           labelWidth={props.labelWidth ? props.labelWidth : 70}
           onBlur={props.onBlur ? props.onBlur : null}
           variant="standard"
           style={{
+            height: '100%',
             backgroundColor: "white",
             fontFamily: 'Comfortaa, cursive',
             borderRadius: '5px',
@@ -65,6 +56,17 @@ const PasswordInput = (props) => {
                 alignItems: 'center',
             },
             disableUnderline: true,
+            endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )
         }}
         />
         {props.helperText ? (

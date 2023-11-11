@@ -67,3 +67,16 @@
     padding: 10px 20px;
     z-index: 10;
 }
+
+@media screen and (max-width: 600px){
+    .gestione-profili-container{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .left-gestione-profili{
+        width: 90%;
+    }
+    .right-gestione-profili{
+        width: 90%;
+    }
+}

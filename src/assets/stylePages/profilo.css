@@ -227,6 +227,33 @@
     background-color: #F75F243B !important;
     color: #F75F24 !important;
 }
+.openPdf{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.openPdf > a {
+    background-color: #F75F24;
+    color: white;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin: 0 0px;
+    text-align: center;
+}
+.ball{
+   border-radius: 50%;
+   background-color:#F75F24; 
+   width: 20px;
+   height: 24px;
+   margin: 0 40px 0 0;
+}
+.profile-scroll{
+    overflow-y: auto;
+    max-height: 60vh;
+}
 .selected{
     background: #F75F24 !important;
     color: white !important;

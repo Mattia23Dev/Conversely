@@ -82,9 +82,9 @@ export const HeaderCandidato = () => {
             <Link to={'/'}>
                 <img className='icon-home' alt='icon-home' src={homeIcon} />
             </Link>
-            <Link to={'/homeAzienda'} className='azienda-button'>
+            {/*<Link to={'/homeAzienda'} className='azienda-button'>
                       Sei un azienda?
-            </Link>
+  </Link>*/}
             </>
            }
         </div>
@@ -309,7 +309,7 @@ export const HeaderCandidatoWhite = () => {
   }
     return (
       <div className='header-white'>
-          <div className='left-header-white-azienda'>
+          <div className='left-header-white-azienda mobile-head-az'>
               <img alt='logo-conversely' src={logo3} />
               <Link to={'/dashboard'} className='link-header-azienda'>
                 Dashboard
@@ -321,7 +321,7 @@ export const HeaderCandidatoWhite = () => {
                 Gestione profili
               </Link>
           </div>
-          <div className='right-header-white-azienda'>
+          <div className='right-header-white-azienda mobile-head-az'>
               <a href='/creaAnnuncio' className='button header-button'>Crea annuncio</a>             
               <Link to={'/homeAzienda'}>
                   <img className='icon-home' alt='icon-home' src={homeIconBlue} />

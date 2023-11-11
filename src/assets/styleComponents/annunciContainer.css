@@ -207,7 +207,7 @@
     padding: 10px 20px 10px 10px;
     gap: 15px;
     position: absolute;
-    bottom: 15px;
+    bottom: 0px;
 }
 hr{
     width: 98%;

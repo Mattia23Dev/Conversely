@@ -48,6 +48,9 @@ const DettagliAnnuncio = () => {
   const daysAgo = now.diff(createdAt, 'days');
   const formattedDate = `${daysAgo} giorni fa`;
 
+  const stringaBenefit = annuncioCliccato.benefits.join(', ');
+  const stringaCompetenze = annuncioCliccato.skills.join(', ');
+
   const handleCandidate = () => {
     const token = localStorage.getItem("token");
     const idRequest = {id: id}
@@ -72,6 +75,7 @@ const DettagliAnnuncio = () => {
           severity: "error",
           message: err.response.data.message,
         });
+        window.alert('Ti sei candidato con successo');
         console.log(err.response);
       });
   };
@@ -93,6 +97,7 @@ const DettagliAnnuncio = () => {
         message: response.data.message,
       });
       setColorSave("#F75F24");
+      window.alert('Annuncio salvato');
      })
      .catch((err) => {
       setPopup({
@@ -112,17 +117,18 @@ const DettagliAnnuncio = () => {
             <div className='dettagli-annunci'>
                 <DettagliAnnunciContainer
                         id={annuncioCliccato.id}
-                        img={annuncioCliccato.azienda.logo}
+                        img={'https://converselybackend-production.up.railway.app'+annuncioCliccato.azienda.logo}
                         nomeAzienda={annuncioCliccato.azienda.nome}
                         città={annuncioCliccato.city}
                         ruolo={annuncioCliccato.titolo}
                         desc={annuncioCliccato.descrizione}
                         salario={annuncioCliccato.ranger}
+                        salarioMin={annuncioCliccato.rangel}
                         tempistica={annuncioCliccato.tempoLavoro}
                         quando={formattedDate}
-                        benefit={annuncioCliccato.benefit}
+                        benefit={stringaBenefit && stringaBenefit}
                         mansioni={annuncioCliccato.mansioni}
-                        competenze={annuncioCliccato.competenze}
+                        competenze={stringaCompetenze && stringaCompetenze}
                         esperienza={annuncioCliccato.esperienza}
                         titoloStudio={annuncioCliccato.studio}
                         contratto={annuncioCliccato.contratto}

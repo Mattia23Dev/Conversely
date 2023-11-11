@@ -156,6 +156,10 @@
         margin-right: 20px;
     }
 
+    .mobile-head-az a{
+        font-size: 12px;
+    }
+
     /*WHITE CANDIDATO*/
     .left-header-white > img{
         width: 62%;
@@ -182,8 +186,9 @@
     }
     .header-button{
         margin-top: 0;
-        padding: 10px 8px;
-        font-size: 14px;
+        padding: 4px 6px;
+        font-size: 12px;
+        text-align: center;
     }
 }
 

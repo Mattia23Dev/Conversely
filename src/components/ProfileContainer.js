@@ -8,6 +8,7 @@ import gioca from '../assets/images/gioca-icon.png';
 import {EditProfileCandidato} from './EditProfileCandidato'
 import axios from 'axios'
 import apiList from './apiList'
+import '../assets/stylePages/profilo.css';
 
 const dataProfilo = {
     nomeUtente:'Lucia Frinzi',
@@ -82,6 +83,15 @@ const initial2 = profile.cognome.charAt(0);
     }
 
     const [edit, setEdit] = useState(true);
+    const [openPdf, setOpenPdf] = useState(false);
+
+    const handleOpenPdf = () => {
+      if (openPdf == true) {
+        setOpenPdf(false);
+      } else {
+        setOpenPdf(true);
+      }
+    }
 
   return (
     <div>
@@ -117,12 +127,20 @@ const initial2 = profile.cognome.charAt(0);
                <p>{profile.candidature}</p>
              </div>
            </div>
-           <div className='profilo-item'>
+           <div style={{cursor: 'pointer'}} className='profilo-item'>
              <img src={document} alt='profilo-icone' className='img-icon-profilo' />
-             <div>
+             <div onClick={() => handleOpenPdf()}>
                <p>Documenti caricati</p>
+               <p style={{fontSize: '13px'}}>Clicca per vedere i documenti che hai caricato</p>
                <p>{profile.allegati}</p>
              </div>
+             {openPdf && (
+              <div className='openPdf'>
+                <a target='_blank' href={profile.cv !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profile.cv : null}>CV</a>
+                <a target='_blank' href={profile.portfolio !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profile.portfolio : null}>Portfolio</a>
+              </div>
+             )}
+
            </div>
          </div>
         {edit ? 
@@ -144,11 +162,11 @@ const initial2 = profile.cognome.charAt(0);
             </div>
         </div>
         <div className='profilo-bottom-item'>
-            <div className='profilo-item-competenze'>
+            <div className='profilo-item-competenze profile-scroll'>
             <h4>Competenze</h4>
             {profile.competenze.map((competenza) => (
                 <div>
-                    <div></div>  
+                    <div className='ball'></div>  
                     <p>{competenza}</p>
                 </div>
             ))}

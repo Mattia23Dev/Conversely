@@ -106,17 +106,19 @@ const TuoiAnnunci = () => {
                     <AnnunciContainerAzienda
                     key={annunci.id}
                     id={annunci.id}
-                    imgAzienda={annunci.azienda.logo}
+                    imgAzienda={'https://converselybackend-production.up.railway.app'+annunci.azienda.logo}
                     nomeAzienda={annunci.azienda.nome}
-                    città={annunci.città}
-                    ruolo={annunci.ruolo}
-                    desc={annunci.desc}
-                    salario={annunci.salario}
-                    tempistica={annunci.tempistica}
+                    città={annunci.city}
+                    ruolo={annunci.titolo}
+                    desc={annunci.descrizione}
+                    salario={annunci.ranger}
+                    salarioMin={annunci.rangel}
+                    tempistica={annunci.tempoLavoro}
                     quando={annunci.quando}
                     views={annunci.views}
                     candidati={annunci.candidati}
                     link={`/dashboard/${annunci.id}/candidati`}
+                    oggetto={annunci}
                      />
                      </>
                 ))}

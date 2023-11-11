@@ -3,6 +3,8 @@ import { HeaderAziendaWhiteLogin } from '../../components/Header'
 import '../../assets/stylePages/cerca.css';
 import {DettagliAnnunciContainerAzienda} from '../../components/DettagliAnnunciContainer';
 import imageAzienda from '../../assets/images/Ellipse 1.png';
+import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 const dettagliAnnuncio =
   {
@@ -25,29 +27,42 @@ const dettagliAnnuncio =
 
 
 const DettagliAnnunciTuoi = () => {
+  const location = useLocation();
+  const {dettagliAnnuncio} = location.state;
+  console.log(dettagliAnnuncio);
+
+  const createdAt = dettagliAnnuncio.creatoIl;
+  const now = moment();
+  const daysAgo = now.diff(createdAt, 'days');
+  const formattedDate = `${daysAgo} giorni fa`;
+
+  const stringaBenefit = dettagliAnnuncio.benefits.join(', ');
+  const stringaCompetenze = dettagliAnnuncio.skills.join(', ');
   return (
     <div className='dettagli-annuncio'>
         <HeaderAziendaWhiteLogin />
         <div className='dettagli-annuncio-container'>
             <h3>Dettagli della posizione</h3>
             <div className='dettagli-annunci'>
+                {dettagliAnnuncio && 
                 <DettagliAnnunciContainerAzienda
-                        id={dettagliAnnuncio.id}
-                        img={dettagliAnnuncio.imgAziendale}
-                        nomeAzienda={dettagliAnnuncio.azienda}
-                        città={dettagliAnnuncio.città}
-                        ruolo={dettagliAnnuncio.ruolo}
-                        desc={dettagliAnnuncio.desc}
-                        salario={dettagliAnnuncio.salario}
-                        tempistica={dettagliAnnuncio.tempistica}
-                        quando={dettagliAnnuncio.quando}
-                        benefit={dettagliAnnuncio.benefit}
-                        mansioni={dettagliAnnuncio.mansioni}
-                        competenze={dettagliAnnuncio.competenze}
-                        esperienza={dettagliAnnuncio.esperienza}
-                        titoloStudio={dettagliAnnuncio.titoloStudio}
-                        contratto={dettagliAnnuncio.contratto}
-                 />
+                        id={dettagliAnnuncio?.id}
+                        img={'https://converselybackend-production.up.railway.app'+dettagliAnnuncio?.azienda?.logo}
+                        nomeAzienda={dettagliAnnuncio?.azienda.nome}
+                        città={dettagliAnnuncio?.city}
+                        ruolo={dettagliAnnuncio?.titolo}
+                        desc={dettagliAnnuncio?.descrizione}
+                        salario={dettagliAnnuncio?.ranger}
+                        salarioMin={dettagliAnnuncio?.rangel}
+                        tempistica={dettagliAnnuncio?.tempoLavoro}
+                        quando={formattedDate && formattedDate}
+                        benefit={stringaBenefit && stringaBenefit}
+                        mansioni={dettagliAnnuncio?.mansioni}
+                        competenze={stringaCompetenze && stringaCompetenze}
+                        esperienza={dettagliAnnuncio?.esperienza}
+                        titoloStudio={dettagliAnnuncio?.studio}
+                        contratto={dettagliAnnuncio?.contratto}
+                 />}
             </div>
         </div>
     </div>

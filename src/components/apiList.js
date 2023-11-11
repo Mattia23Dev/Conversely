@@ -32,6 +32,7 @@ const apiList = {
   applicants: `${server}/api/applicants`,
   subscribe: `${server}/payments/subscribePremium/`,
   cancelSubscribe: `${server}/payments/cancelPremium/`,
+  deleteAnnuncio: `${server}/offer/deleteOffer/`,
 };
 
 export default apiList;

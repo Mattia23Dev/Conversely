@@ -28,3 +28,10 @@
     top: -20px;
     right: 6rem;
 }
+
+@media screen and (max-width: 600px) {
+    .cancel-sub{
+        top: 40px;
+        z-index: 10;
+    }
+}

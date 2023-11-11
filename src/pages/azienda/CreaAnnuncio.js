@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   Button,
   Grid,
@@ -135,14 +136,14 @@ const CreaAnnuncio = (props) => {
     contratto: "",
     competenze: [],
     turnazione: "",
-    esperienza: 1,
+    esperienza: Number,
     mansioni: "",
-    benefit: [],
-    protetto: false,
+    benefits: [],
+    protetto: Boolean,
     tempoLavoro: "",
     studio: "",
-    ranger: 100,
-    rangel: 0,
+    ranger: Number,
+    rangel: Number,
     durataAnnuncio: new Date(),
     skills: [], 
   });
@@ -158,6 +159,15 @@ const CreaAnnuncio = (props) => {
     console.log(jobDetails);
     const token = localStorage.getItem("token");
     console.log(token);
+    if (jobDetails.titolo == "" || jobDetails.descrizione == "" || jobDetails.city == "" || jobDetails.benefits == [] || jobDetails.skills == []
+    || jobDetails.contratto == "" || jobDetails.turnazione == "" || jobDetails.studio == ""){
+      alert('Tutti i campi sono obbligatori');
+      return
+    } else if (jobDetails.durataAnnuncio == new Date()){
+      alert('Inserire una data valida per la fine dell\'annuncio')
+      return;
+    }
+    
     axios
       .post(apiList.jobs, jobDetails, {
         headers: {
@@ -179,7 +189,7 @@ const CreaAnnuncio = (props) => {
         turnazione: "",
         esperienza: 1,
         mansioni: "",
-        benefit: [],
+        benefits: [],
         protetto: false,
         tempoLavoro: "",
         studio: "",
@@ -188,7 +198,7 @@ const CreaAnnuncio = (props) => {
         durataAnnuncio: new Date(new Date())
           .toISOString()
           .substr(0, 16),
-        skills: ["skill1","skill2"], 
+        skills: [], 
       }) 
       })
       .catch((err) => {
@@ -213,7 +223,7 @@ const CreaAnnuncio = (props) => {
         <hr color="#EAE9E9" fullWidth/>
         <div>
           <p>Inserisci la durata del tuo annuncio</p>
-          <CustomInput value={jobDetails.durataAnnuncio.toISOString().substr(0, 16)} />
+          {/*<CustomInput value={jobDetails.durataAnnuncio.toISOString().substr(0, 16)} />*/}
           <Grid item style={{paddingTop:'0em'}}>
               <div className='calendar-container'>
                 <Calendar 
@@ -273,8 +283,25 @@ const CreaAnnuncio = (props) => {
                         onChange={(event) =>
                           handleInput("titolo", event.target.value)
                         }
-                        variant="outlined"
+                        variant="standard"
                         fullWidth
+                        style={{
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       />
                     </Grid>
                     <Grid item>
@@ -283,16 +310,26 @@ const CreaAnnuncio = (props) => {
                         value={jobDetails.city}
                         onChange={(event) => handleInput("city", event.target.value)}
                         className={classes.inputBox}
-                        variant="outlined"
+                        variant="standard"
+                        fullWidth
                         style={{
-                          backgroundColor: "white",
-                          fontFamily: 'Comfortaa, cursive',
-                          borderRadius: '15px',
-                          color: 'black',
-                          border: 'none',
-                          marginBottom: '20px',
-                          width: '400px'
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px',
+                          marginLeft: '30px,'
                         }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       />
                     </Grid>
                   </Grid>
@@ -304,155 +341,308 @@ const CreaAnnuncio = (props) => {
                           onChange={(event) =>
                             handleInput("mansioni", event.target.value)
                           }
-                          variant="outlined"
+                          variant="standard"
                           fullWidth
+                          style={{
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
                         />
                     </Grid>
-                    <Grid direction="row" item spacing={3}>
+                    <Grid item>
                     <TextField
-                        style={{width: '250px'}}
                         label="Range retributivo minimo"
                         type="number"
-                        variant="outlined"
                         value={jobDetails.rangel}
                         onChange={(event) => {
                           handleInput("rangel", parseInt(event.target.value));
                         }}
-                        InputProps={{ inputProps: { min: 0 } }}
                         fullWidth
+                        className={classes.inputBox}
+                        variant="standard"
+                        style={{
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px',
+                          marginRight: '30px,'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       />
+                      </Grid>
+                      <Grid direction="row" item spacing={3}>
                        <TextField
-                        style={{width: '250px', marginLeft: '20px'}}
                         label="Range retributivo massimo"
                         type="number"
-                        variant="outlined"
                         value={jobDetails.ranger}
                         onChange={(event) => {
                           handleInput("ranger", parseInt(event.target.value));
                         }}
-                        InputProps={{ inputProps: { min: 1 } }}
+                        className={classes.inputBox}
                         fullWidth
+                        variant="standard"
+                        style={{
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px',
+                          marginLeft: '30px,'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       />
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
-                      <Select
-                        style={{width: '250px', height: 'fit-content'}}
+                      <TextField
+                        select
                         multiple
                         label="Competenze"
-                        variant="outlined"
-                        value={jobDetails.competenze || []}
+                        value={jobDetails.skills || []}
+                        className={classes.inputBox}
                         onChange={(event) => {
-                          handleInput("competenze", event.target.value);
+                          handleInput("skills", event.target.value);
                         }}
-                        fullWidth
                         onAdd={(chip) =>
                           setJobDetails({
                             ...jobDetails,
-                            competenze: [...jobDetails.competenze, chip],
+                            skills: [...jobDetails.skills, chip],
                           })
                         }
                         onDelete={(chip, index) => {
-                          let competenze = jobDetails.competenze;
-                          competenze.splice(index, 1);
+                          let skills = jobDetails.skills;
+                          skills.splice(index, 1);
                           setJobDetails({
                             ...jobDetails,
-                            competenze: competenze,
+                            skills: skills,
                           });
                         }}
+                        SelectProps={{
+                          multiple: true,
+                          value: jobDetails.skills || [],
+                          onChange: (event) => handleInput("skills", event.target.value),
+                        }}
+                        variant="standard"
+                        fullWidth
+                        style={{
+                          height: '100%',
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px',
+                          marginLeft: '30px,'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       >
-                        <MenuItem value="Gestione dello stress">Gestione dello stress</MenuItem>
-                        <MenuItem value="Empatia">Empatia</MenuItem>
-                        <MenuItem value="Organizzazione">Organizzazione</MenuItem>
-                        <MenuItem value="Proattività">Proattività</MenuItem>
-                        <MenuItem value="Team work">Team work</MenuItem>
-                        <MenuItem value="Creatività">Creatività</MenuItem>
-                        <MenuItem value="Ascolto">Ascolto</MenuItem>
-                        <MenuItem value="Apprendimento">Apprendimento</MenuItem>
-                      </Select>
+                        <MenuItem value="gestione dello stress">Gestione dello stress</MenuItem>
+                        <MenuItem value="empatia">Empatia</MenuItem>
+                        <MenuItem value="organizzazione">Organizzazione</MenuItem>
+                        <MenuItem value="proattività">Proattività</MenuItem>
+                        <MenuItem value="team work">Team work</MenuItem>
+                        <MenuItem value="creatività">Creatività</MenuItem>
+                        <MenuItem value="ascolto">Ascolto</MenuItem>
+                        <MenuItem value="apprendimento">Apprendimento</MenuItem>
+                      </TextField>
                     </Grid>
                     <Grid item>
                       <TextField
-                          style={{width: '250px'}}
                           select
                           label="Turnazione"
-                          variant="outlined"
                           value={jobDetails.turnazione}
                           className={classes.inputBox}
                           onChange={(event) => {
                             handleInput("turnazione", event.target.value);
                           }}
+                          variant="standard"
                           fullWidth
+                          style={{
+                            height: 'fit-content',
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
                         >
-                          <MenuItem value="Orario notturno">Orario Notturno</MenuItem>
-                          <MenuItem value="Turni nel weekend">Turni nel Weekend</MenuItem>
-                          <MenuItem value="Normale">Turno Normale</MenuItem>
+                          <MenuItem value="orario notturno">Orario Notturno</MenuItem>
+                          <MenuItem value="turni nel weekend">Turni nel Weekend</MenuItem>
+                          <MenuItem value="normale">Turno Normale</MenuItem>
                         </TextField>
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
-                    <Grid item>
+                  <Grid item>
                       <TextField
-                          style={{width: '250px'}}
-                          label="Esperienza minima"
-                          className={classes.inputBox}
-                          type="number"
-                          variant="outlined"
-                          value={jobDetails.esperienza}
-                          onChange={(event) => {
-                            handleInput("esperienza", parseInt(event.target.value));
-                          }}
-                          InputProps={{ inputProps: { min: 0 } }}
-                          fullWidth
-                        />
-                    </Grid>
-                    <Grid item>
-                      <Select
                         select
-                        label="Benefit"
                         multiple
-                        value={jobDetails.benefit || []}
-                        onChange={(event) => handleInput("benefit", event.target.value)}
-                        variant="outlined"
-                        fullWidth
-                        style={{ width: '250px' }}
+                        value={jobDetails.benefits || []}
+                        onChange={(event) => handleInput("benefits", event.target.value)}
+                        SelectProps={{
+                          multiple: true,
+                          value: jobDetails.benefits || [],
+                          onChange: (event) => handleInput("benefits", event.target.value),
+                        }}
                         onAdd={(chip) =>
                           setJobDetails({
                             ...jobDetails,
-                            benefit: [...jobDetails.benefit, chip],
+                            benefits: [...jobDetails.benefits, chip],
                           })
                         }
                         onDelete={(chip, index) => {
-                          let benefit = jobDetails.benefit;
-                          benefit.splice(index, 1);
+                          let benefits = jobDetails.benefits;
+                          benefits.splice(index, 1);
                           setJobDetails({
                             ...jobDetails,
-                            benefit: benefit,
+                            benefits: benefits,
                           });
                         }}
+                        variant="standard"
+                        fullWidth
+                        style={{
+                          height: '100%',
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
+                      label="Benefits"
                       >
                         {nomiItaliani.map((benefit, index) => (
                           <MenuItem key={index} value={benefit}>
                             {benefit}
                           </MenuItem>
                         ))}
-                      </Select>
+                      </TextField>
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                          label="Esperienza minima"
+                          className={classes.inputBox}
+                          type="number"
+                          value={jobDetails.esperienza}
+                          onChange={(event) => {
+                            handleInput("esperienza", parseInt(event.target.value));
+                          }}
+                          variant="standard"
+                          fullWidth
+                          style={{
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginRight: '0px'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
+                        />
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
                       <TextField
-                          style={{width: '250px'}}
                           select
                           label="Categoria protetta"
-                          variant="outlined"
                           value={jobDetails.protetto}
                           className={classes.inputBox}
                           onChange={(event) => {
                             handleInput("protetto", event.target.value);
                           }}
+                          variant="standard"
                           fullWidth
+                          style={{
+                            height: 'fit-content',
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
                         >
                           <MenuItem value={false}>NO</MenuItem>
                           <MenuItem value={true}>SI</MenuItem>
@@ -460,31 +650,67 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                       <TextField
-                          style={{width: '250px'}}
                           select
                           label="Orari"
-                          variant="outlined"
                           value={jobDetails.tempoLavoro}
                           onChange={(event) => {
                             handleInput("tempoLavoro", event.target.value);
                           }}
+                          variant="standard"
                           fullWidth
+                          style={{
+                            height: 'fit-content',
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
                         >
-                          <MenuItem value="Full-time">Full-time</MenuItem>
-                          <MenuItem value="Part-time">Part-time</MenuItem>
+                          <MenuItem value="full-time">Full-time</MenuItem>
+                          <MenuItem value="part-time">Part-time</MenuItem>
                         </TextField>
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                   <Grid item>
                       <TextField
-                      style={{width: '250px'}}
                         select
                         label="Titolo di studio"
                         value={jobDetails.studio}
                         onChange={(event) => handleInput("studio", event.target.value)}
-                        variant="outlined"
+                        variant="standard"
                         fullWidth
+                        style={{
+                          height: 'fit-content',
+                          borderRadius: '5px',
+                          width: '250px',
+                          border: '1px solid rgb(233, 233, 233)',
+                          padding: '0 20px',
+                          marginLeft: '30px,'
+                        }}
+                        InputProps={{
+                          style: {
+                              color: "black",
+                              //borderRadius: '15px',
+                              fontFamily: 'Comfortaa, cursive',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                          },
+                          disableUnderline: true,
+                      }}
                       >
                         {titoliStudioItaliani.map((titolo, index) => (
                           <MenuItem key={index} value={titolo}>
@@ -495,20 +721,38 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                       <TextField
-                          style={{width: '250px'}}
                           select
                           label="Contratto"
-                          variant="outlined"
                           value={jobDetails.contratto}
                           onChange={(event) => {
                             handleInput("contratto", event.target.value);
                           }}
+                          variant="standard"
                           fullWidth
+                          style={{
+                            height: 'fit-content',
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}s
                         >
-                          <MenuItem value="Determinato">Determinato</MenuItem>
-                          <MenuItem value="Indeterminato">Indeterminato</MenuItem>
-                          <MenuItem value="Stage">Stage</MenuItem>
-                          <MenuItem value="Apprendistato">Apprendistato</MenuItem>
+                          <MenuItem value="determinato">Determinato</MenuItem>
+                          <MenuItem value="indeterminato">Indeterminato</MenuItem>
+                          <MenuItem value="stage">Stage</MenuItem>
+                          <MenuItem value="apprendistato">Apprendistato</MenuItem>
                         </TextField>
                     </Grid>
                   </Grid>
@@ -517,8 +761,6 @@ const CreaAnnuncio = (props) => {
                       label="Descrizione (max 500 caratteri)"
                       multiline
                       rows={8}
-                      style={{ width: "100%" }}
-                      variant="outlined"
                       value={jobDetails.descrizione}
                       onChange={(event) => {
                         if (
@@ -529,6 +771,26 @@ const CreaAnnuncio = (props) => {
                           handleInput("descrizione", event.target.value);
                         }
                       }}
+                      variant="standard"
+                      fullWidth
+                      style={{
+                        borderRadius: '5px',
+                        width: '90%',
+                        border: '1px solid rgb(233, 233, 233)',
+                        padding: '0 20px',
+                        marginRight: '0px'
+                      }}
+                      InputProps={{
+                        style: {
+                            color: "black",
+                            //borderRadius: '15px',
+                            fontFamily: 'Comfortaa, cursive',
+                            padding: '2px',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        disableUnderline: true,
+                    }}
                     />
                   </Grid>
                 </Grid>

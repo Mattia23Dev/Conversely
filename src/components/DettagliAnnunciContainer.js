@@ -7,6 +7,8 @@ import { FaArrowRight, FaHeart } from 'react-icons/fa';
 import {AiFillDelete} from 'react-icons/ai';
 import {BsFillPencilFill} from 'react-icons/bs';
 import deleteImage from '../assets/images/delete-icon.png';
+import apiList from './apiList';
+import axios from 'axios';
 
 const DettagliAnnunciContainer = (props) => {
     const {
@@ -27,13 +29,14 @@ const DettagliAnnunciContainer = (props) => {
         contratto,
         handleCandidate,
         handleSave,
-        colorSave
+        colorSave,
+        salarioMin,
     } = props
   return (
     <div className='dettagli-annunci-container' key={id}>
         <div className='dettagli-annuncio-top'>
             <div className='top1'>
-                <img alt='immagine azienda' src={img} />
+                <img alt='immagine azienda' src={img} width={60} />
                 <div className='top-text'>
                     <h4>{nomeAzienda}</h4>
                     <p>{città}</p>
@@ -59,7 +62,7 @@ const DettagliAnnunciContainer = (props) => {
             </div>
             <div>
                 <h5>Range salariale</h5>
-                <p>{salario}</p>
+                <p>{salarioMin && salario && salarioMin + '€ - ' + salario + '€'}</p>
             </div>
             <div>
                 <h5>Benefit</h5>
@@ -98,6 +101,7 @@ export default DettagliAnnunciContainer
 export const DettagliAnnunciContainerAzienda = (props) => {
     const [isDeleteComplete, setIsDeleteComplete] = useState(false);
     const [sureDelete, setSureDelete] = useState(false);
+    const token = localStorage.getItem("token");
 
     const handleDelete = (e) => {
         e.preventDefault();
@@ -106,7 +110,18 @@ export const DettagliAnnunciContainerAzienda = (props) => {
 
       const handleSure = (e) => {
         e.preventDefault();
-        setSureDelete(true);
+        try {
+           axios.post(apiList.deleteAnnuncio, {id: id}, {
+            headers: {
+                Authorization: `Token ${token}`,
+              },
+           }).then((res) => {
+            console.log(res)
+            setSureDelete(true);
+           }) 
+        } catch (error) {
+            console.error(error);
+        }
       }
     const {
         id,
@@ -123,22 +138,23 @@ export const DettagliAnnunciContainerAzienda = (props) => {
         competenze,
         esperienza,
         titoloStudio,
-        contratto
+        contratto,
+        salarioMin,
     } = props
   return (
     <>
     <div className='dettagli-annunci-container' key={id}>
         <div className='dettagli-annuncio-top'>
             <div className='top1'>
-                <img alt='immagine azienda' src={img} />
+                <img alt='immagine azienda' src={img} width={60} />
                 <div className='top-text'>
                     <h4>{nomeAzienda}</h4>
                     <p>{città}</p>
                 </div>
             </div>
             <div className='top2-azienda'>
-                <a>Modifica <BsFillPencilFill color='#F75F24' /></a>
-                <a onClick={handleDelete}>Elimina <AiFillDelete color='#F75F24'  /></a>
+                {/*<a>Modifica <BsFillPencilFill color='#F75F24' /></a>*/}
+                <a style={{cursor: 'pointer'}} onClick={handleDelete}>Elimina <AiFillDelete color='#F75F24'  /></a>
             </div>
         </div>
         <div className='dettagli-annuncio-middle1'>
@@ -156,7 +172,7 @@ export const DettagliAnnunciContainerAzienda = (props) => {
             </div>
             <div>
                 <h5>Range salariale</h5>
-                <p>{salario}</p>
+                <p>{salarioMin + '€ - ' + salario + '€' }</p>
             </div>
             <div>
                 <h5>Benefit</h5>
@@ -195,7 +211,7 @@ export const DettagliAnnunciContainerAzienda = (props) => {
                   </div>
                   <div className='link-delete'>
                     <a className="button" href="/profilo">NO</a>
-                    <a onClick={handleSure} >Si</a>
+                    <a style={{cursor: 'pointer'}} onClick={handleSure} >Si</a>
                   </div>
                 </div>
               )}
@@ -205,7 +221,7 @@ export const DettagliAnnunciContainerAzienda = (props) => {
                   <div className="popup-text">
                     <h3>Il tuo annuncio è stato eliminato con successo</h3>
                   </div>
-                  <a href='/dashboard' >Torna agli annunci</a>
+                  <a style={{cursor: 'pointer'}} href='/dashboard' >Torna agli annunci</a>
                 </div>
               )}
        </>       
