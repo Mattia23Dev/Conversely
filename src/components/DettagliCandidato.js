@@ -101,7 +101,7 @@ export const DatabaseContainer = (props) => {
             </div>
 
         <span><AiFillLock fontSize='large' /></span>
-        <a href={null} className='button' style={{marginTop: '-5px'}}>
+        <a href={link} className='button' style={{marginTop: '-5px'}}>
             Dettagli candidato
         </a>
     </div>

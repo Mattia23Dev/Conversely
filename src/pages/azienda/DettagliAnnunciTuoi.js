@@ -37,7 +37,7 @@ const DettagliAnnunciTuoi = () => {
   const formattedDate = `${daysAgo} giorni fa`;
 
   const stringaBenefit = dettagliAnnuncio.benefits.join(', ');
-  const stringaCompetenze = dettagliAnnuncio.skills.join(', ');
+  const stringaCompetenze = dettagliAnnuncio?.competenze ? dettagliAnnuncio?.competenze?.join(', ') : dettagliAnnuncio.skills?.join(', ') ;
   return (
     <div className='dettagli-annuncio'>
         <HeaderAziendaWhiteLogin />

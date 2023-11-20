@@ -7,16 +7,13 @@ import porfolio from '../assets/images/porfolio-icon.png';
 import { FaArrowRight } from "react-icons/fa";
 import apiList from './apiList';
 import axios from 'axios';
-import { TextField } from '@material-ui/core';
-import ChipInput from 'material-ui-chip-input';
-import { Autocomplete } from '@material-ui/lab';
+import cuore from '../assets/images/heart-icon.png'
+import document from '../assets/images/document-icon.png'
 import toast from 'react-hot-toast';
-import * as XLSX from 'xlsx';
-import file from './tag_competenze.xlsx';
-import readXlsxFile from 'read-excel-file';
+import candidatura from '../assets/images/candidature-icon.png'
 import { competenzeArray } from './competenzeArray';
 
-export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
+export const EditProfileCandidato = ({savedJob, edit, setEdit, handleGetprofile}) => {
   const profileNow = JSON.parse(localStorage.getItem('profile'));
   const token = localStorage.getItem("token");
   const [addExLink, setAddExLink] = useState({
@@ -27,7 +24,22 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
     cvDoc: {},
     portfolio: false,
     portfolioDoc: {}, 
+    lavoro: profileNow.lavoro ? profileNow.lavoro : '',
   });
+
+  const [openPdf, setOpenPdf] = useState(false);
+
+  const handleEdit = () => {
+    setEdit(!edit);
+}
+
+  const handleOpenPdf = () => {
+    if (openPdf == true) {
+      setOpenPdf(false);
+    } else {
+      setOpenPdf(true);
+    }
+  }
 
   const formData = new FormData();
 
@@ -40,6 +52,7 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
   };
 
   const handleAddExLink = () => {
+    console.log(addExLink);
     formData.append('cvDoc', addExLink.cvDoc);
     formData.append('portfolioDoc', addExLink.portfolioDoc);
     
@@ -49,6 +62,7 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
       competenze: addExLink.competenze,
       esperienza: Number(addExLink.esperienza),
       linkedin: addExLink.linkedin,
+      lavoro: addExLink.lavoro,
     };
     
     formData.append('data', JSON.stringify(jsonData));
@@ -127,10 +141,68 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
     }
   };
 
-  console.log(addExLink.competenze);
+  const initial1 = profileNow.nome.charAt(0);
+  const initial2 = profileNow.cognome.charAt(0);
 
   return (
-    <>
+    <div>
+        <div className='profilo-top-item'>
+           <div className='left-top'>
+             <div className='round-top'>
+               <p>{initial1 + initial2}</p>
+             </div>
+             <div className='name-top'>
+               <h4>{profileNow.nome + " " + profileNow.cognome}</h4>
+               <p>
+               <input 
+               type='text' 
+               className='input-edit-ruolo'
+               placeholder='Imposta il ruolo'
+               value={addExLink.lavoro}
+               onChange={(event) => {
+               handleInput("lavoro", event.target.value);
+             }} />
+             </p>
+               <p>{profileNow.city}</p>
+             </div>
+           </div>
+           <div>
+             <a className='button' onClick={handleEdit}>Modifica</a>
+           </div>
+         </div>
+         <div className='profilo-middle-item'>
+           <div className='profilo-item'>
+             <a href='/offerte-salvate'>
+             <img src={cuore} alt='profilo-icone' className='img-icon-profilo' />
+             </a>
+             <div>
+               <p>Offerte di lavoro salvate</p>
+               <p>{savedJob && savedJob}</p>
+             </div>
+           </div>
+           <div className='profilo-item'>
+             <img src={candidatura} alt='profilo-icone' className='img-icon-profilo' />
+             <div>
+               <p>Candidature inoltrate</p>
+               <p>{profileNow.candidature}</p>
+             </div>
+           </div>
+           <div style={{cursor: 'pointer'}} className='profilo-item'>
+             <img src={document} alt='profilo-icone' className='img-icon-profilo' />
+             <div onClick={() => handleOpenPdf()}>
+               <p>Documenti caricati</p>
+               <p style={{fontSize: '13px'}}>Clicca per vedere i documenti che hai caricato</p>
+               <p>{profileNow.allegati}</p>
+             </div>
+             {openPdf && (
+              <div className='openPdf'>
+                <a target='_blank' href={profileNow.cv !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profileNow.cv : null}>CV</a>
+                <a target='_blank' href={profileNow.portfolio !== "Non caricato" ? 'https://converselybackend-production.up.railway.app'+profileNow.portfolio : null}>Portfolio</a>
+              </div>
+             )}
+
+           </div>
+         </div>
     <form>
     <div className='profilo-middle-item2'>
          <div className='profilo-item2'>
@@ -250,6 +322,6 @@ export const EditProfileCandidato = ({setEdit, handleGetprofile}) => {
     </div>
    </form>
   <button className='button-save' style={{cursor:'pointer'}} onClick={handleAddExLink}>Salva</button>
-  </>
+  </div>
   )
 }

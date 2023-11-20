@@ -138,7 +138,7 @@ const ProfileContainerAzienda = () => {
            </div>
          </div>
         <div className='profilo-bottom-item'>
-            <div className='profilo-item-competenze-a'>
+            <div className='profilo-item-competenze-a profile-scroll'>
             <h4>Competenze</h4>
             {profile.competenze && profile.competenze.length ? profile.competenze.map((competenza) => (
                 <div>

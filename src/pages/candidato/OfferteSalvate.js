@@ -32,10 +32,6 @@ const OfferteSalvate = () => {
     useEffect(() => {
       handleGetSavedJob();
     }, [])
-    const createdAt = annunciSalvati.creatoIl;
-    const now = moment();
-    const daysAgo = now.diff(createdAt, 'days');
-    const formattedDate = `${daysAgo} giorni fa`;
 
   return (
     <div className='profilo'>
@@ -43,21 +39,27 @@ const OfferteSalvate = () => {
         <div className='cerca-container'>
             <h3>Ecco i tuoi annunci salvati</h3>
             <div className='annunci'>
-                {annunciSalvati && annunciSalvati.map((annunci) => (
+                {annunciSalvati && annunciSalvati.map((annunci) => {
+                  const createdAt = annunci.creatoIl;
+                  const now = moment();
+                  const daysAgo = now.diff(createdAt, 'days');
+                  const formattedDate = `${daysAgo} giorni fa`;
+                return (
                     <Link to={`/dettagli-annuncio/${annunci.id}`} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
                     <AnnunciContainer
                     key={annunci.id}
-                    img={annunci.azienda.logo}
+                    img={'https://converselybackend-production.up.railway.app'+annunci.azienda.logo}
                     nomeAzienda={annunci.azienda.nome}
                     città={annunci.city}
                     ruolo={annunci.titolo}
-                    desc={annunci.desccrizione}
+                    desc={annunci.descrizione}
                     salario={annunci.ranger}
+                    salarioMin={annunci.rangel}
                     tempistica={annunci.tempoLavoro}
                     quando={formattedDate}
                      />
                      </Link>
-                ))}
+                )})}
             </div>
         </div>
     </div>

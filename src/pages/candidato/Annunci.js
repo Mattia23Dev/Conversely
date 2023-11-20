@@ -5,78 +5,11 @@ import imageAzienda from '../../assets/images/Ellipse 1.png';
 import AnnunciContainer from '../../components/AnnunciContainer';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-
-const dataAnnuncio = [
-    {
-        id: 1,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    },
-    {
-        id: 2,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    },
-    {
-        id: 3,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    },
-    {
-        id: 4,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    },
-    {
-        id: 5,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    },
-    {
-        id: 6,
-        imgAziendale: imageAzienda ,
-        azienda: 'Prima azienda',
-        città: 'Roma',
-        ruolo: 'Startup business manager',
-        desc: 'Translating startup concepts into brand new product design',
-        salario: '800-1000$',
-        tempistica: 'full-time',
-        quando: '2 giorni fa',
-    }
-]
+import isAuth from '../../components/isAuth';
 
 const Annunci = () => {
     const [annunciCercati, setAnnunciCercati] = useState([]);
+    const userRole = localStorage.getItem("role");
     useEffect(() => {
         const annunci = JSON.parse(localStorage.getItem('annunci'));
         setAnnunciCercati(annunci);
@@ -96,7 +29,8 @@ const Annunci = () => {
                     const daysAgo = now.diff(createdAt, 'days');
                     const formattedDate = `${daysAgo} giorni fa`;
                     return (
-                    <Link to={`/dettagli-annuncio/${annunci.id}`} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
+                    <Link 
+                    to={isAuth() ? `/dettagli-annuncio/${annunci.id}` : '/registrati'} style={{textDecoration: 'none', color: 'black'}} onClick={() => localStorage.setItem('idCliccato', annunci.id )}>
                     <AnnunciContainer
                     key={annunci.id}
                     img={'https://converselybackend-production.up.railway.app'+annunci.azienda.logo}

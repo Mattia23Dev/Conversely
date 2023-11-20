@@ -134,7 +134,7 @@ const cancelPremium = () => {
                     competenze={candidato.competenze}
                     titoloStudio={candidato.titoloStudio ? candidato.titoloStudio : ''}
                     allegati={candidato.allegati}
-                    link={candidato.link ? candidato.link : null}
+                    link={`/database/candidati/${candidato.id}`}
             />
                 ))}
               </div>

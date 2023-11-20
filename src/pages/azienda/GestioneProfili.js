@@ -10,6 +10,7 @@ import it from 'date-fns/locale/it';
 import toast from 'react-hot-toast';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import moment from 'moment';
 
 const GestioneProfili = () => {
     const token = localStorage.getItem("token");
@@ -132,11 +133,12 @@ const GestioneProfili = () => {
         </div>
         </div>
         <div className='right-gestione-profili' style={{position: 'relative'}}>
-        <CustomInput handleSelectWork={handleSelectWork} value={selectedDate.toISOString().substr(0, 16)} />
+        <CustomInput handleSelectWork={handleSelectWork} value={moment(selectedDate).format('YYYY-MM-GG')} />
             <Calendar 
                 onChange={(date) => {
                   handleDateChange(date);
             }} 
+            className="custom-calendar" 
             value={selectedDate} />
           {selectWork && (
             <div className='select-users'>
@@ -161,9 +163,13 @@ const GestioneProfili = () => {
 
 function CustomInput({ value, handleSelectWork }) {
   return (
+    <>
+    <h3>Clicca sul bottone per scegliere l'utente da colloquiare in questa data</h3>
     <button style={{marginTop: '50px'}} className="custom-input" onClick={handleSelectWork}>
       {value}
     </button>
+    </>
+
   );
 }
 

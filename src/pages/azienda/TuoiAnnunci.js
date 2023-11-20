@@ -115,8 +115,8 @@ const TuoiAnnunci = () => {
                     salarioMin={annunci.rangel}
                     tempistica={annunci.tempoLavoro}
                     quando={annunci.quando}
-                    views={annunci.views}
-                    candidati={annunci.candidati}
+                    views={annunci.salvati}
+                    candidati={annunci.candidature}
                     link={`/dashboard/${annunci.id}/candidati`}
                     oggetto={annunci}
                      />

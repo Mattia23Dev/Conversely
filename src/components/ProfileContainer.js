@@ -10,24 +10,6 @@ import axios from 'axios'
 import apiList from './apiList'
 import '../assets/stylePages/profilo.css';
 
-const dataProfilo = {
-    nomeUtente:'Lucia Frinzi',
-    ruoloUtente: 'project manager',
-    città: 'Milano, italia',
-    offerteSalvate: '12',
-    candidatureInoltrate:'5',
-    documentiCaricati: '3',
-    linkedinUrl: 'linkedin.com/in/luciaFrinzi',
-    anniEsperienza: '3',
-    competenze: [
-      'Adobe Premiere',
-      'Adobe Premiere',
-      'Adobe Premiere',
-      'Adobe Premiere'
-    ],
-}
-
-
 const ProfileContainer = () => {
   const token = localStorage.getItem("token")
   const [profile, setProfile] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -95,6 +77,8 @@ const initial2 = profile.cognome.charAt(0);
 
   return (
     <div>
+      {edit ? 
+      <>
         <div className='profilo-top-item'>
            <div className='left-top'>
              <div className='round-top'>
@@ -102,7 +86,7 @@ const initial2 = profile.cognome.charAt(0);
              </div>
              <div className='name-top'>
                <h4>{profile.nome + " " + profile.cognome}</h4>
-               <p>{dataProfilo.ruoloUtente}</p>
+               <p>{profile?.lavoro ? profile.lavoro : 'Imposta il ruolo'}</p>
                <p>{profile.city}</p>
              </div>
            </div>
@@ -143,7 +127,6 @@ const initial2 = profile.cognome.charAt(0);
 
            </div>
          </div>
-        {edit ? 
         <div>
           <div className='profilo-middle-item2'>
             <div className='profilo-item2'>
@@ -180,8 +163,9 @@ const initial2 = profile.cognome.charAt(0);
             <a>Inizia a giocare</a>
             </div>
         </div>
-        </div> :
-     <EditProfileCandidato handleGetprofile={handleGetprofile} setEdit={handleEdit} />}
+        </div>
+        </> :
+     <EditProfileCandidato handleGetprofile={handleGetprofile} setEdit={handleEdit} edit={edit} savedJob={savedJob} />}
      </div>
     
   )

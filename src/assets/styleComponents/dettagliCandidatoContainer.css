@@ -40,6 +40,13 @@
     color: #C4C4C4;
     font-size: 13px;
 }
+.input-edit-ruolo{
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.479);
+    padding: 5px 10px;
+    font-family: 'Comfortaa', cursive;
+    margin-top: 0;
+}
 
 @media screen and (max-width: 600px) {
     .candidato-container{

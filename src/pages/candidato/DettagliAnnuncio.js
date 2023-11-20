@@ -43,13 +43,13 @@ const DettagliAnnuncio = () => {
   
   const annuncioCliccato = getAnnuncioById(id);
 
-  const createdAt = annuncioCliccato.creatoIl;
+  const createdAt = annuncioCliccato?.creatoIl;
   const now = moment();
   const daysAgo = now.diff(createdAt, 'days');
   const formattedDate = `${daysAgo} giorni fa`;
 
-  const stringaBenefit = annuncioCliccato.benefits.join(', ');
-  const stringaCompetenze = annuncioCliccato.skills.join(', ');
+  const stringaBenefit = annuncioCliccato?.benefits.join(', ');
+  const stringaCompetenze = annuncioCliccato?.competenze?.join(', ');
 
   const handleCandidate = () => {
     const token = localStorage.getItem("token");

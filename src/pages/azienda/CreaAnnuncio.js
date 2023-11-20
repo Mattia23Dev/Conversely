@@ -23,6 +23,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import it from 'date-fns/locale/it';
 import apiList from "../../components/apiList";
 import { HeaderAziendaWhiteLogin } from "../../components/Header";
+import { competenzeArray } from "../../components/competenzeArray";
 
 const nomiItaliani = [
   "cellulare",
@@ -159,13 +160,16 @@ const CreaAnnuncio = (props) => {
     console.log(jobDetails);
     const token = localStorage.getItem("token");
     console.log(token);
-    if (jobDetails.titolo == "" || jobDetails.descrizione == "" || jobDetails.city == "" || jobDetails.benefits == [] || jobDetails.skills == []
-    || jobDetails.contratto == "" || jobDetails.turnazione == "" || jobDetails.studio == ""){
+    if (jobDetails.titolo == "" || jobDetails.descrizione == "" || jobDetails.city == "" || jobDetails.benefits == [] || jobDetails.competenze == []
+    || jobDetails.contratto == "" || jobDetails.turnazione == "" || jobDetails.studio == "" || jobDetails.rangel == 0 || jobDetails.ranger == 0){
       alert('Tutti i campi sono obbligatori');
       return
     } else if (jobDetails.durataAnnuncio == new Date()){
       alert('Inserire una data valida per la fine dell\'annuncio')
       return;
+    } else if (jobDetails.rangel < 10000 || jobDetails.ranger < 10000) {
+      alert('Il range annuale deve essere maggiore di 10.000');
+      return
     }
     
     axios
@@ -210,6 +214,38 @@ const CreaAnnuncio = (props) => {
         console.log(err.response);
       });
   };
+
+  const [competenzeFiltrate, setCompetenzeFiltrate] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  useEffect(() => {
+    const inputValueLowerCase = inputValue.toLowerCase();
+    const filteredCompetenze = competenzeArray.filter(competenza =>
+      competenza.toLowerCase().startsWith(inputValueLowerCase)
+    );
+
+    setCompetenzeFiltrate(filteredCompetenze.slice(0, 10));
+  }, [inputValue, competenzeArray]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleCompetenzaClick = (competenza) => {
+    if (jobDetails.competenze.includes(competenza)) {
+      setJobDetails({
+        ...jobDetails,
+        competenze: jobDetails.competenze.filter(item => item !== competenza),
+      });
+    } else {
+      setJobDetails({
+        ...jobDetails,
+        competenze: [...jobDetails.competenze, competenza],
+        newCompetenza: '',
+      });
+    }
+  };
+
+  console.log(jobDetails.competenze);
 
   return (
     <>
@@ -365,7 +401,7 @@ const CreaAnnuncio = (props) => {
                     </Grid>
                     <Grid item>
                     <TextField
-                        label="Range retributivo minimo"
+                        label="Range retributivo minimo annuale"
                         type="number"
                         value={jobDetails.rangel}
                         onChange={(event) => {
@@ -391,12 +427,17 @@ const CreaAnnuncio = (props) => {
                               alignItems: 'center',
                           },
                           disableUnderline: true,
+                          inputProps: {
+                            min: 10000, // Imposta il valore minimo a 5 cifre
+                          },
                       }}
                       />
                       </Grid>
-                      <Grid direction="row" item spacing={3}>
+                  </Grid>
+                  <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
+                  <Grid direction="row" item spacing={3}>
                        <TextField
-                        label="Range retributivo massimo"
+                        label="Range retributivo massimo annuale"
                         type="number"
                         value={jobDetails.ranger}
                         onChange={(event) => {
@@ -422,13 +463,48 @@ const CreaAnnuncio = (props) => {
                               alignItems: 'center',
                           },
                           disableUnderline: true,
+                          inputProps: {
+                            min: 10000, // Imposta il valore minimo a 5 cifre
+                          },
                       }}
                       />
                     </Grid>
-                  </Grid>
-                  <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
                     <Grid item>
-                      <TextField
+                    <TextField
+                          select
+                          label="Turnazione"
+                          value={jobDetails.turnazione}
+                          className={classes.inputBox}
+                          onChange={(event) => {
+                            handleInput("turnazione", event.target.value);
+                          }}
+                          variant="standard"
+                          fullWidth
+                          style={{
+                            height: 'fit-content',
+                            borderRadius: '5px',
+                            width: '250px',
+                            border: '1px solid rgb(233, 233, 233)',
+                            padding: '0 20px',
+                            marginLeft: '30px,'
+                          }}
+                          InputProps={{
+                            style: {
+                                color: "black",
+                                //borderRadius: '15px',
+                                fontFamily: 'Comfortaa, cursive',
+                                padding: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                            },
+                            disableUnderline: true,
+                        }}
+                        >
+                          <MenuItem value="orario notturno">Orario Notturno</MenuItem>
+                          <MenuItem value="turni nel weekend">Turni nel Weekend</MenuItem>
+                          <MenuItem value="normale">Turno Normale</MenuItem>
+                        </TextField>
+                      {/*<TextField
                         select
                         multiple
                         label="Competenze"
@@ -486,43 +562,7 @@ const CreaAnnuncio = (props) => {
                         <MenuItem value="creatività">Creatività</MenuItem>
                         <MenuItem value="ascolto">Ascolto</MenuItem>
                         <MenuItem value="apprendimento">Apprendimento</MenuItem>
-                      </TextField>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                          select
-                          label="Turnazione"
-                          value={jobDetails.turnazione}
-                          className={classes.inputBox}
-                          onChange={(event) => {
-                            handleInput("turnazione", event.target.value);
-                          }}
-                          variant="standard"
-                          fullWidth
-                          style={{
-                            height: 'fit-content',
-                            borderRadius: '5px',
-                            width: '250px',
-                            border: '1px solid rgb(233, 233, 233)',
-                            padding: '0 20px',
-                            marginLeft: '30px,'
-                          }}
-                          InputProps={{
-                            style: {
-                                color: "black",
-                                //borderRadius: '15px',
-                                fontFamily: 'Comfortaa, cursive',
-                                padding: '2px',
-                                display: 'flex',
-                                alignItems: 'center',
-                            },
-                            disableUnderline: true,
-                        }}
-                        >
-                          <MenuItem value="orario notturno">Orario Notturno</MenuItem>
-                          <MenuItem value="turni nel weekend">Turni nel Weekend</MenuItem>
-                          <MenuItem value="normale">Turno Normale</MenuItem>
-                        </TextField>
+                      </TextField>*/}
                     </Grid>
                   </Grid>
                   <Grid direction="row" container spacing={3} fullWidth style={{padding:'15px'}}>
@@ -755,6 +795,28 @@ const CreaAnnuncio = (props) => {
                           <MenuItem value="apprendistato">Apprendistato</MenuItem>
                         </TextField>
                     </Grid>
+                  </Grid>
+                  <Grid item style={{
+                    width: '90%',
+                    borderRadius: '5px',
+                    border: '1px solid rgb(233, 233, 233)',
+                    margin: '0 17px'
+                    }}>
+                    <input
+                      type="text"
+                      style={{ padding: '10px 20px', width: '90%', border: 'none', borderBottom: '1px solid rgba(0, 0, 0, 0.2)', fontFamily: 'Comfortaa, cursive', margin: '10px 0' }}
+                      placeholder="Inserisci una o più competenze"
+                      value={inputValue}
+                      onChange={handleInputChange}
+                    />
+
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', justifyContent: 'start', flexWrap: 'wrap', padding: '20px' }}>
+                      {competenzeFiltrate.map((competenza, index) => (
+                        <div style={{margin: '5px 5px'}} className={jobDetails.competenze.includes(competenza) ? 'competenze-suggerimento selected' : 'competenze-suggerimento'} onClick={() => handleCompetenzaClick(competenza)} key={index}>
+                          <p>{competenza}</p>
+                        </div>
+                      ))}
+                    </div>
                   </Grid>
                   <Grid item style={{ width: "100%" }}>
                     <TextField
